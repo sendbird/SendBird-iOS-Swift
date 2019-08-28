@@ -19,27 +19,15 @@ class CreateGroupChannelViewControllerB: UIViewController, UIImagePickerControll
     @IBOutlet weak var profileImageView: ProfileImageView!
     
     @IBOutlet weak var channelNameTextField: UITextField!
-    
-    @IBOutlet weak var publicChannelSwitch: UISwitch!
     @IBOutlet weak var loadingIndicatorView: CustomActivityIndicatorView!
-    
-    @IBOutlet weak var accessCodeSwitch: UISwitch!
-    @IBOutlet weak var accessCodeTextField: UITextField!
-    
-    @IBOutlet weak var accessCodeSwitchContainerView: UIView!
-    @IBOutlet weak var accessCodeTextFieldContainerView: UIView!
-    @IBOutlet weak var accessCodeSwitchContainerConstraint: NSLayoutConstraint!
-    @IBOutlet weak var accessCodeTextFieldContainerConstraint: NSLayoutConstraint!
-    
+
     var coverImageData: Data?
     var createButtonItem: UIBarButtonItem?
     
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         self.title = "Create Group Channel"
-        
         self.navigationItem.largeTitleDisplayMode = .never
 
         self.createButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(CreateGroupChannelViewControllerB.clickCreateGroupChannel(_ :)))
@@ -70,45 +58,11 @@ class CreateGroupChannelViewControllerB: UIViewController, UIImagePickerControll
         
         self.profileImageView.users = members
         self.profileImageView.makeCircularWithSpacing(spacing: 1)
-        
-        accessCodeSwitchContainerConstraint.constant = -48
-        accessCodeTextFieldContainerConstraint.constant = -48
-    }
-
-    
-    @IBAction func togglePublicSwitch(_ sender: Any) {
-        guard let toggle = sender as? UISwitch else { return }
-        if toggle.isOn {
-            accessCodeSwitchContainerConstraint.constant = 0
-        } else {
-            accessCodeSwitchContainerConstraint.constant = -48
-            accessCodeTextFieldContainerConstraint.constant = -48
-            accessCodeSwitch.setOn(false, animated: false)
-        }
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.25, animations: {
-                self.view.layoutIfNeeded()
-            })
-        }
     }
     
-    @IBAction func togglePasswordSwitch(_ sender: Any) {
-        guard let toggle = sender as? UISwitch else { return }
-        if toggle.isOn {
-            accessCodeTextFieldContainerConstraint.constant = 0
-        } else {
-            accessCodeTextFieldContainerConstraint.constant = -48
-        }
-        DispatchQueue.main.async {
-            UIView.animate(withDuration: 0.25, animations: {
-                self.view.layoutIfNeeded()
-            })
-        }
-    }
-
     @objc func clickCoverImage(_ sender: AnyObject) {
-        let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let actionTakePhoto = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
+        
+        let actionPhoto = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.camera
@@ -119,7 +73,7 @@ class CreateGroupChannelViewControllerB: UIViewController, UIImagePickerControll
             }
         }
         
-        let actionChooseFromLibrary = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
+        let actionLibrary = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.photoLibrary
@@ -130,47 +84,33 @@ class CreateGroupChannelViewControllerB: UIViewController, UIImagePickerControll
             }
         }
         
-        let actionClose = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+        let actionCancel = UIAlertAction(title: "Close", style: .cancel, handler: nil)
         
-        alertController.addAction(actionTakePhoto)
-        alertController.addAction(actionChooseFromLibrary)
-        alertController.addAction(actionClose)
+        Utils.showAlertControllerWithActions([actionPhoto, actionLibrary, actionCancel],
+                                             title: nil,
+                                             frame: CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0),
+                                             viewController: self)
         
-        self.present(alertController, animated: true, completion: nil)
     }
     
     @objc func clickCreateGroupChannel(_ sender: AnyObject) {
         self.showLoadingIndicatorView()
-        let channelName = self.channelNameTextField.text
+        
+        let channelName = self.channelNameTextField.text != "" ? self.channelNameTextField.text : self.channelNameTextField.placeholder
         
         let params = SBDGroupChannelParams()
         params.coverImage = self.coverImageData
-        
-        if publicChannelSwitch.isOn {
-            params.isDistinct = false
-            params.isPublic = true
-            if accessCodeSwitch.isOn {
-                if accessCodeTextField.text != nil {
-                    params.accessCode = accessCodeTextField.text
-                } else {
-                    return
-                }
-            }
-        } else {
-            let isDistinct = UserDefaults.standard.object(forKey: Constants.ID_CREATE_DISTINCT_CHANNEL) as? Bool
-            params.isDistinct = isDistinct ?? true
-        }
-        
         params.add(self.members)
         params.name = channelName
+        
         
         SBDGroupChannel.createChannel(with: params) { (channel, error) in
             self.hideLoadingIndicatorView()
             
             if let error = error {
                 let alertController = UIAlertController(title: "Error", message: error.domain, preferredStyle: .alert)
-                let actionClose = UIAlertAction(title: "Close", style: .cancel, handler: nil)
-                alertController.addAction(actionClose)
+                let actionCancel = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+                alertController.addAction(actionCancel)
                 DispatchQueue.main.async {
                     self.present(alertController, animated: true, completion: nil)
                 }
@@ -181,7 +121,7 @@ class CreateGroupChannelViewControllerB: UIViewController, UIImagePickerControll
 
             if let navigationController = self.navigationController as? CreateGroupChannelNavigationController{
                 if (navigationController.channelCreationDelegate?.responds(to: #selector(CreateGroupChannelNavigationController.didChangeValue(forKey:))))! {
-                    navigationController.channelCreationDelegate?.didCreateGroupChannel!(channel!)
+                    navigationController.channelCreationDelegate?.didCreateGroupChannel(channel!)
                 }
                 self.navigationController?.dismiss(animated: true, completion: nil)
             }

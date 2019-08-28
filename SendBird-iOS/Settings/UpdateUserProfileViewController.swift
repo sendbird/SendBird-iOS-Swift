@@ -54,16 +54,6 @@ class UpdateUserProfileViewController: UIViewController, UIImagePickerController
             ])
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
-    
     @objc func clickDoneButton(_ sender: AnyObject) {
         self.updateUserProfile()
     }
@@ -122,9 +112,8 @@ class UpdateUserProfileViewController: UIViewController, UIImagePickerController
         // Use when `applyMaskToCroppedImage` set to true
     }
     
-    @objc func clickProfileImage() {
-        let vc = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let takePhotoAction = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
+    @objc func clickProfileImage(_ sender: AnyObject) {
+       let actionPhoto = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.camera
@@ -135,7 +124,7 @@ class UpdateUserProfileViewController: UIViewController, UIImagePickerController
             }
         }
         
-        let chooseFromLibraryAction = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
+        let actionLibrary = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.photoLibrary
@@ -146,13 +135,13 @@ class UpdateUserProfileViewController: UIViewController, UIImagePickerController
             }
         }
         
-        let closeAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+        let actionCancel = UIAlertAction(title: "Close", style: .cancel, handler: nil)
         
-        vc.addAction(takePhotoAction)
-        vc.addAction(chooseFromLibraryAction)
-        vc.addAction(closeAction)
-        
-        self.present(vc, animated: true, completion: nil)
+        Utils.showAlertControllerWithActions([actionPhoto, actionLibrary, actionCancel],
+                                             title: nil,
+                                             frame: CGRect(x: self.view.bounds.minX, y: self.profileImageView.bounds.maxY + self.profileImageView.frame.height * 1.5, width: 0, height: 0),
+                                             viewController: self
+        )
     }
 
     func updateUserProfile() {

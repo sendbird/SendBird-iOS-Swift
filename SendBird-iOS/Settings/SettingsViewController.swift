@@ -52,7 +52,7 @@ class SettingsViewController: UITableViewController, SettingsTableViewCellDelega
             self.createDistinctChannel = createDistinctChannel
         }
     }
-
+    
     // MARK: - Navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "UpdateUserProfile", let destination = segue.destination as? UpdateUserProfileViewController{
@@ -87,11 +87,15 @@ class SettingsViewController: UITableViewController, SettingsTableViewCellDelega
             performSegue(withIdentifier: "ShowBlockedList", sender: nil)
         }
         else if indexPath.section == 4 {
-            let ac = UIAlertController(title: "Sign Out", message: "Do you want to sign out?", preferredStyle: .alert)
-            let actionConfirmSignOut = UIAlertAction(title: "OK", style: .default) { (action) in
-                SBDMain.unregisterPushToken(SBDMain.getPendingPushToken()!, completionHandler: { (response, error) in
-                    
-                })
+            let alert = UIAlertController(title: "Sign Out", message: "Do you want to sign out?", preferredStyle: .alert)
+            let actionConfirm = UIAlertAction(title: "OK", style: .default) { (action) in
+                
+                if let pushToken = SBDMain.getPendingPushToken() {
+                    SBDMain.unregisterPushToken(pushToken, completionHandler: { (response, error) in
+                        /// Fixed Optional Problem(.getPendingPushToken()! -> pushToken)
+                    })
+                }
+                
                 
                 SBDMain.disconnect(completionHandler: {
                     self.dismiss(animated: true, completion: {
@@ -107,12 +111,12 @@ class SettingsViewController: UITableViewController, SettingsTableViewCellDelega
                     })
                 })
             }
-            let actionCancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
-            ac.addAction(actionConfirmSignOut)
-            ac.addAction(actionCancelAction)
+            alert.addAction(actionConfirm)
+            alert.addAction(actionCancel)
             
-            self.present(ac, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
     }
     

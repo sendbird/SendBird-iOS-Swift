@@ -8,6 +8,6 @@
 
 import Foundation
 
-@objc protocol GroupChannelInviteMemberDelegate: NSObjectProtocol {
-    @objc optional func didInviteMembers()
+protocol GroupChannelInviteMemberDelegate: NSObjectProtocol {
+    func didInviteMembers()
 }

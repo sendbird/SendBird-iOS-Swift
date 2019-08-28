@@ -131,8 +131,9 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
     }
     
     @objc func clickCoverImage() {
-        let vc = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let takePhotoAction = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.modalPresentationStyle = .popover
+        let actionPhoto = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.camera
@@ -143,7 +144,7 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
             }
         }
         
-        let chooseFromLibraryAction = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
+        let actionLibrary = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.photoLibrary
@@ -154,16 +155,24 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
             }
         }
         
-        let closeAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+        let actionCancel = UIAlertAction(title: "Close", style: .cancel, handler: nil)
         
-        vc.addAction(takePhotoAction)
-        vc.addAction(chooseFromLibraryAction)
-        vc.addAction(closeAction)
+        alert.addAction(actionPhoto)
+        alert.addAction(actionLibrary)
+        alert.addAction(actionCancel)
         
-        self.present(vc, animated: true, completion: nil)
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.view
+            presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+            presenter.permittedArrowDirections = []
+        }
+        
+        self.present(alert, animated: true, completion: nil)
     }
 
     func updateChannelInfo() {
+        self.loadingIndicatorView.superViewSize = self.view.frame.size
+        self.loadingIndicatorView.updateFrame()
         self.loadingIndicatorView.isHidden = false
         self.loadingIndicatorView.startAnimating()
         
@@ -188,9 +197,7 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
                 }
                 
                 if let delegate = self.delegate {
-                    if delegate.responds(to: #selector(GroupChannelCoverImageNameSettingDelegate.didUpdateGroupChannel)) {
-                        delegate.didUpdateGroupChannel!()
-                    }
+                    delegate.didUpdateGroupChannel()
                 }
                 
                 self.navigationController?.popViewController(animated: true)

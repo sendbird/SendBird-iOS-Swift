@@ -29,7 +29,7 @@ class OpenChannelsViewController: UIViewController, UITableViewDelegate, UITable
         self.title = "Open Channels"
         self.navigationItem.largeTitleDisplayMode = .automatic
         
-        self.createChannelBarButton = UIBarButtonItem(image: UIImage(named: "img_btn_create_open_channel"), style: .plain, target: self, action: #selector(OpenChannelsViewController.clickCreateOpenChannel(_:)))
+        self.createChannelBarButton = UIBarButtonItem(image: UIImage(named: "img_btn_create_public_group_channel_blue"), style: .plain, target: self, action: #selector(OpenChannelsViewController.clickCreateOpenChannel(_:)))
         self.navigationItem.rightBarButtonItem = self.createChannelBarButton
         
         self.openChannelsTableView.delegate = self
@@ -55,7 +55,7 @@ class OpenChannelsViewController: UIViewController, UITableViewDelegate, UITable
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        if segue.identifier == "ShowOpenChat", let destination = segue.destination as? OpenChannelChatViewController, let selectedChannel = sender as? SBDOpenChannel{
+        if segue.identifier == "ShowOpenChat", let navigation = segue.destination as? UINavigationController, let destination = navigation.children.first as? OpenChannelChatViewController, let selectedChannel = sender as? SBDOpenChannel{
             destination.channel = selectedChannel
             destination.hidesBottomBarWhenPushed = true
             destination.delegate = self
@@ -163,6 +163,9 @@ class OpenChannelsViewController: UIViewController, UITableViewDelegate, UITable
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let selectedChannel = self.channels[indexPath.row]
+        if self.splitViewController?.displayMode == UISplitViewController.DisplayMode.allVisible {
+            
+        }
         self.loadingIndicatorView.isHidden = false
         self.loadingIndicatorView.startAnimating()
         selectedChannel.enter { (error) in

@@ -32,9 +32,7 @@ class GroupChannelSettingsChannelCoverNameTableViewCell: UITableViewCell {
     
     @IBAction func clickEnableEditButton(_ sender: Any) {
         if let delegate = self.delegate {
-            if delegate.responds(to: #selector(GroupChannelSettingsTableViewCellDelegate.willUpdateChannelNameAndCoverImage)) {
-                delegate.willUpdateChannelNameAndCoverImage!()
-            }
+            delegate.willUpdateChannelNameAndCoverImage()
         }
     }
 }

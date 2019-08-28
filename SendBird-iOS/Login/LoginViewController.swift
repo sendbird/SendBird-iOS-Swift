@@ -11,22 +11,23 @@ import SendBirdSDK
 import Photos
 
 class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticateDelegate, NotificationDelegate {
-
+    
     private var keyboardShown: Bool = false
     private var logoChanged: Bool = false
+    private var logoInvisble: Bool = false
     
     @IBOutlet weak var connectButton: CustomButton!
     @IBOutlet weak var contentView: UIView!
     @IBOutlet weak var nicknameTextField: CustomTextField!
     @IBOutlet weak var scrollViewBottom: NSLayoutConstraint!
-    @IBOutlet weak var sendbirdTextLogoImageView: UIImageView!
     @IBOutlet weak var userIdLabelTop: NSLayoutConstraint!
     @IBOutlet weak var userIdTextField: CustomTextField!
     @IBOutlet weak var versionInfoLabel: UILabel!
     
+    // MARK: - Override
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         SBDConnectionManager.setAuthenticateDelegate(self)
         
@@ -37,22 +38,24 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
         self.contentView.isUserInteractionEnabled = true
         self.contentView.addGestureRecognizer(contentViewTapRecognizer)
         
-        self.connectButton.addTarget(self, action: #selector(clickConnectButton(_ :)), for: .touchUpInside)
-        
         self.userIdTextField.delegate = self
         self.nicknameTextField.delegate = self
         
+        self.setupUI()
+    }
+    
+    func setupUI() {
         if let userId = UserDefaults.standard.object(forKey: "sendbird_user_id") as? String {
             self.userIdTextField.text = userId
         }
         if let nickname = UserDefaults.standard.object(forKey: "sendbird_user_nickname") as? String {
             self.nicknameTextField.text = nickname
         }
-
+        
         // Version
         if let path = Bundle.main.path(forResource: "Info", ofType: "plist"){
             if let infoDict = NSDictionary.init(contentsOfFile: path), let sampleUIVersion = infoDict["CFBundleShortVersionString"] as? String {
-                let version = String(format: "Sample UI v%@ / SDK v%@", sampleUIVersion, SBDMain.getSDKVersion())
+                let version = "Sample UI v\(sampleUIVersion) / SDK v\(SBDMain.getSDKVersion())"
                 self.versionInfoLabel.text = version
             }
         }
@@ -70,44 +73,56 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
         }
     }
     
+    // MARK: - Keyboard
+    // Show
     @objc func keyboardWillShow(_ notification: Notification) {
         guard let keyboardFrameBegin = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else  { return }
         let keyboardFrameBeginRect = keyboardFrameBegin.cgRectValue
-        if self.logoChanged == false && self.keyboardShown == false {
-            self.view.layoutIfNeeded()
-            
-            self.scrollViewBottom.constant = keyboardFrameBeginRect.size.height
-            
-            let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
-                self.userIdLabelTop.constant = 23
-                self.sendbirdTextLogoImageView.alpha = 0
-                self.view.layoutIfNeeded()
-            }
-            animator.startAnimation()
-            
-            self.logoChanged = true
-        }
-        else if self.logoChanged == true && self.keyboardShown == false {
-            self.scrollViewBottom.constant = keyboardFrameBeginRect.size.height
-        }
         
+        if !self.keyboardShown {
+            let distanceFromBottom = self.view.frame.height - self.connectButton.frame.maxY
+            if distanceFromBottom <= keyboardFrameBeginRect.size.height + 90 {
+                animateUI(keyboardFrameBeginRect.size.height)
+            }
+        }
         self.keyboardShown = true
     }
     
+    // Hide
     @objc func keyboardWillHide(_ notification: Notification) {
+        if self.keyboardShown && logoInvisble {
+            animateUI(0)
+        }
         self.keyboardShown = false
-        self.scrollViewBottom.constant = 0
     }
     
+    // Disable
     @objc func tapContentView() {
         if self.keyboardShown == true {
             self.view.endEditing(true)
         }
     }
     
-    @objc func clickConnectButton(_ sender: Any) {
+    // MARK: - IBAction
+    @IBAction func didTapConnectButton() {
         self.connect()
     }
+    
+    // MARK: - Functions
+    // Animation during showing / hiding keyboard
+    func animateUI(_ scrollValue: CGFloat) {
+        self.view.layoutIfNeeded()
+        self.scrollViewBottom.constant = scrollValue
+        
+        let animator = UIViewPropertyAnimator(duration: 0.3, curve: .easeOut) {
+            self.userIdLabelTop.constant = !self.keyboardShown ? 23 : 56
+            self.view.layoutIfNeeded()
+            self.versionInfoLabel.alpha = self.keyboardShown ? 1 : 0
+        }
+        animator.startAnimation()
+        logoInvisble = !logoInvisble
+    }
+    
     
     func connect() {
         self.view.endEditing(true)
@@ -131,7 +146,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
             let userDefault = UserDefaults.standard
             userDefault.setValue(userId, forKey: "sendbird_user_id")
             userDefault.setValue(nickname, forKey: "sendbird_user_nickname")
-            userDefault.synchronize()
             
             self.setUIsWhileConnecting()
             
@@ -139,14 +153,13 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
             SBDConnectionManager.authenticate()
         }
     }
-
+    
     // MARK: - UITextFieldDelegate
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         if textField == self.userIdTextField {
             textField.resignFirstResponder()
             self.nicknameTextField.becomeFirstResponder()
-        }
-        else if textField == self.nicknameTextField {
+        } else {
             self.connect()
         }
         
@@ -170,7 +183,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
         }
         
         UserDefaults.standard.setValue(true, forKey: "sendbird_auto_login")
-        UserDefaults.standard.synchronize()
         
         DispatchQueue.main.async {
             self.setUIsForDefault()
@@ -203,7 +215,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
             }
         }
         
-        if let nickname = UserDefaults.standard.object(forKey: "sendbird_user_nickname") as? String, nickname != SBDMain.getCurrentUser()?.nickname{
+        if let nickname = UserDefaults.standard.object(forKey: "sendbird_user_nickname") as? String, nickname != SBDMain.getCurrentUser()?.nickname {
             SBDMain.updateCurrentUserInfo(withNickname: nickname, profileUrl: nil) { (error) in
                 if error != nil {
                     SBDMain.disconnect(completionHandler: {

@@ -41,6 +41,8 @@ class GroupChannelSettingsViewController: UIViewController, UITableViewDelegate,
         self.rearrangeMembers()
         
         self.settingsTableView.reloadData()
+        
+        print("viewDidLoad \(self.view.frame.size.width)")
     }
     
     private func rearrangeMembers() {
@@ -135,17 +137,7 @@ class GroupChannelSettingsViewController: UIViewController, UITableViewDelegate,
         case 1:
             guard let notiCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsNotificationsTableViewCell", for: indexPath) as? GroupChannelSettingsNotificationsTableViewCell else { return UITableViewCell() }
             
-            let pushOption = channel.myPushTriggerOption
-            
-            switch pushOption {
-            case .all, .default, .mentionOnly:
-                notiCell.notificationSwitch.isOn = true
-                break
-            case .off:
-                notiCell.notificationSwitch.isOn = false
-                break
-            }
-
+            notiCell.notificationSwitch.isOn = self.channel?.myPushTriggerOption == .off ? false : true
             notiCell.delegate = self
             
             return notiCell
@@ -225,13 +217,38 @@ class GroupChannelSettingsViewController: UIViewController, UITableViewDelegate,
                 guard error == nil else { return }
                 
                 DispatchQueue.main.async {
-                    self.navigationController?.popViewController(animated: false)
-                    if self.delegate?.responds(to: #selector(GroupChannelSettingsDelegate.didLeaveChannel)) ?? false{
-                        self.delegate?.didLeaveChannel!()
+                    if self.splitViewController?.displayMode == UISplitViewController.DisplayMode.allVisible {
+                        if let delegate = self.delegate {
+                            delegate.didLeaveChannel()
+                        }
+                    } else {
+                        self.dismiss(animated: true, completion: {
+                            if let delegate = self.delegate {
+                                delegate.didLeaveChannel()
+                            }
+                        })
                     }
                 }
             }
         }
+    }
+    
+    func tableView(_ tableView: UITableView, leadingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.section != 2 || indexPath.row == 0 { return nil }
+        let currentMember = self.members[indexPath.row - 1]
+        if !currentMember.isBlockedByMe { return nil }
+        
+        let unblockAction = UIContextualAction(style: .normal, title: "Unblock") { (action, sourceView, completionHandler) in
+            SBDMain.unblockUserId(currentMember.userId, completionHandler: { error in })
+            let currentCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsMemberTableViewCell", for: indexPath) as! GroupChannelSettingsMemberTableViewCell
+            currentCell.blockedUserCoverImageView.isHidden = true
+            currentCell.statusLabel.isHidden = true
+            currentCell.statusLabel.text = ""
+            tableView.reloadData()
+        }
+        
+        unblockAction.backgroundColor = UIColor(named: "color_leave_group_channel_bg")
+        return UISwipeActionsConfiguration(actions: [unblockAction])
     }
     
     // MARK: - GroupChannelInviteMemberDelegate
@@ -247,18 +264,19 @@ class GroupChannelSettingsViewController: UIViewController, UITableViewDelegate,
     
     func didChangeNotificationSwitchButton(isOn: Bool) {
         guard let channel = self.channel else { return }
+        self.loadingIndicatorView.superViewSize = self.view.frame.size
+        self.loadingIndicatorView.updateFrame()
         
         DispatchQueue.main.async {
             self.loadingIndicatorView.isHidden = false
             self.loadingIndicatorView.startAnimating()
         }
         
-        channel.setPushPreferenceWithPushOn(isOn) { (error) in
+        let pushOption:SBDGroupChannelPushTriggerOption = isOn ? .all : .off
+        channel.setMyPushTriggerOption(pushOption) { (error) in
             DispatchQueue.main.async {
                 self.loadingIndicatorView.isHidden = true
                 self.loadingIndicatorView.stopAnimating()
-                
-                self.settingsTableView.reloadData()
             }
         }
     }
@@ -303,6 +321,9 @@ class GroupChannelSettingsViewController: UIViewController, UITableViewDelegate,
     
     // MARK: - Utilities
     private func showLoadingIndicatorView() {
+        self.loadingIndicatorView.superViewSize = self.view.frame.size
+        self.loadingIndicatorView.updateFrame()
+        
         DispatchQueue.main.async {
             self.loadingIndicatorView.isHidden = false
             self.loadingIndicatorView.startAnimating()

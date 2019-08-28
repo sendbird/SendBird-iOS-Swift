@@ -156,13 +156,12 @@ class OpenChannelUserListViewController: UIViewController, UITableViewDelegate, 
         case .banned:
             let bannedUser = self.users[indexPath.row]
             
-            let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let actionSeeProfile = UIAlertAction(title: "See profile", style: .default) { (action) in
-                let vc = UserProfileViewController.init(nibName: "UserProfileViewController", bundle: nil)
-                vc.user = bannedUser
+                let userProfileVC = UserProfileViewController.init(nibName: "UserProfileViewController", bundle: nil)
+                userProfileVC.user = bannedUser
                 DispatchQueue.main.async {
                     guard let navigationController = self.navigationController else { return }
-                    navigationController.pushViewController(vc, animated: true)
+                    navigationController.pushViewController(userProfileVC, animated: true)
                 }
             }
             
@@ -182,21 +181,19 @@ class OpenChannelUserListViewController: UIViewController, UITableViewDelegate, 
             
             let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
-            ac.addAction(actionSeeProfile)
-            ac.addAction(actionUnbanUser)
-            ac.addAction(actionCancel)
+            Utils.showAlertControllerWithActions([actionSeeProfile, actionUnbanUser, actionCancel],
+                                                 title: nil,
+                                                 frame: CGRect(x: self.view.bounds.minX, y: self.view.bounds.maxY,width: 0, height: 0),
+                                                 viewController: self
+            )
             
-            DispatchQueue.main.async {
-                self.present(ac, animated: true, completion: nil)
-            }
         case .muted:
-            let ac = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
             let actionSeeProfile = UIAlertAction(title: "See profile", style: .default) { (action) in
-                let vc = UserProfileViewController.init(nibName: "UserProfileViewController", bundle: nil)
-                vc.user = user
+                let userProfileVC = UserProfileViewController.init(nibName: "UserProfileViewController", bundle: nil)
+                userProfileVC.user = user
                 DispatchQueue.main.async {
                     guard let navigationController = self.navigationController else { return }
-                    navigationController.pushViewController(vc, animated: true)
+                    navigationController.pushViewController(userProfileVC, animated: true)
                 }
             }
             
@@ -216,20 +213,19 @@ class OpenChannelUserListViewController: UIViewController, UITableViewDelegate, 
             
             let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
-            ac.addAction(actionSeeProfile)
-            ac.addAction(actionUnmuteUser)
-            ac.addAction(actionCancel)
+            Utils.showAlertControllerWithActions([actionSeeProfile, actionUnmuteUser, actionCancel],
+                                                 title: nil,
+                                                 frame: CGRect(x: self.view.bounds.minX, y: self.view.bounds.maxY, width: 0, height: 0),
+                                                 viewController: self
+            )
             
-            DispatchQueue.main.async {
-                self.present(ac, animated: true, completion: nil)
-            }
         case .participant:
             let participant = self.users[indexPath.row]
-            let vc = UserProfileViewController.init(nibName: "UserProfileViewController", bundle: nil)
-            vc.user = participant
+            let userProfileVC = UserProfileViewController.init(nibName: "UserProfileViewController", bundle: nil)
+            userProfileVC.user = participant
             DispatchQueue.main.async {
                 guard let navigationController = self.navigationController else { return }
-                navigationController.pushViewController(vc, animated: true)
+                navigationController.pushViewController(userProfileVC, animated: true)
             }
         }
         

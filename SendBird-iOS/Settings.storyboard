@@ -221,16 +221,25 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Do Not Disturb" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xZC-HO-geI" userLabel="Setting Label">
-                                                    <rect key="frame" x="16" y="11.5" width="114" height="21"/>
+                                                    <rect key="frame" x="61" y="11.5" width="114" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.21176470589999999" green="0.1764705882" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="doNotDisturb" translatesAutoresizingMaskIntoConstraints="NO" id="TeV-j5-BE8">
+                                                    <rect key="frame" x="16" y="7.5" width="29" height="29"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="width" constant="29" id="J8N-b1-gHJ"/>
+                                                        <constraint firstAttribute="height" constant="29" id="feM-go-zv5"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="xZC-HO-geI" firstAttribute="leading" secondItem="Fpe-CD-HfS" secondAttribute="leading" constant="16" id="1wd-9F-ebS"/>
+                                                <constraint firstItem="TeV-j5-BE8" firstAttribute="centerY" secondItem="xZC-HO-geI" secondAttribute="centerY" id="EBH-dL-MZa"/>
                                                 <constraint firstItem="xZC-HO-geI" firstAttribute="centerY" secondItem="Fpe-CD-HfS" secondAttribute="centerY" id="OqE-1Q-elU"/>
                                                 <constraint firstAttribute="bottom" secondItem="qWM-Of-z3R" secondAttribute="bottom" id="h4l-ZS-Acg"/>
+                                                <constraint firstItem="TeV-j5-BE8" firstAttribute="leading" secondItem="Fpe-CD-HfS" secondAttribute="leading" constant="16" id="h7n-eJ-aGH"/>
+                                                <constraint firstItem="xZC-HO-geI" firstAttribute="leading" secondItem="TeV-j5-BE8" secondAttribute="trailing" constant="16" id="nht-kk-R8K"/>
                                                 <constraint firstItem="qWM-Of-z3R" firstAttribute="leading" secondItem="Fpe-CD-HfS" secondAttribute="leading" constant="16" id="zfh-BS-fSC"/>
                                             </constraints>
                                         </tableViewCellContentView>
@@ -307,15 +316,24 @@
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Blocked Users" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Xnh-He-PWs" userLabel="Setting Label">
-                                                    <rect key="frame" x="16" y="11.5" width="110.5" height="21"/>
+                                                    <rect key="frame" x="61" y="11.5" width="110.5" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.21176470589999999" green="0.1764705882" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
+                                                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="blockedMembers" translatesAutoresizingMaskIntoConstraints="NO" id="GOU-YS-L7s">
+                                                    <rect key="frame" x="16" y="7.5" width="29" height="29"/>
+                                                    <constraints>
+                                                        <constraint firstAttribute="height" constant="29" id="b3b-ZG-GpH"/>
+                                                        <constraint firstAttribute="width" constant="29" id="cJv-GE-uxt"/>
+                                                    </constraints>
+                                                </imageView>
                                             </subviews>
                                             <constraints>
-                                                <constraint firstItem="Xnh-He-PWs" firstAttribute="leading" secondItem="oaT-SA-BkY" secondAttribute="leading" constant="16" id="Byk-4e-5Pv"/>
                                                 <constraint firstItem="Xnh-He-PWs" firstAttribute="centerY" secondItem="oaT-SA-BkY" secondAttribute="centerY" id="JOQ-HY-Hov"/>
+                                                <constraint firstItem="Xnh-He-PWs" firstAttribute="leading" secondItem="GOU-YS-L7s" secondAttribute="trailing" constant="16" id="RFz-66-VP0"/>
+                                                <constraint firstItem="GOU-YS-L7s" firstAttribute="centerY" secondItem="Xnh-He-PWs" secondAttribute="centerY" id="es0-w7-zD7"/>
+                                                <constraint firstItem="GOU-YS-L7s" firstAttribute="leading" secondItem="oaT-SA-BkY" secondAttribute="leading" constant="16" id="jV6-5d-mEy"/>
                                             </constraints>
                                         </tableViewCellContentView>
                                         <viewLayoutGuide key="safeArea" id="67P-sA-73w"/>
@@ -365,7 +383,7 @@
                 </tableViewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="XED-y1-NDN" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="2810" y="2366"/>
+            <point key="canvasLocation" x="2808.6956521739135" y="2365.8482142857142"/>
         </scene>
         <!--Settings Time View Controller-->
         <scene sceneID="jCq-3Y-z9r">
@@ -641,6 +659,8 @@
         </scene>
     </scenes>
     <resources>
+        <image name="blockedMembers" width="29" height="29"/>
+        <image name="doNotDisturb" width="29" height="29"/>
         <image name="img_cover_image_placeholder_1" width="100" height="100"/>
         <image name="img_icon_edit_camera" width="30" height="30"/>
         <namedColor name="color_channel_settings_bg">

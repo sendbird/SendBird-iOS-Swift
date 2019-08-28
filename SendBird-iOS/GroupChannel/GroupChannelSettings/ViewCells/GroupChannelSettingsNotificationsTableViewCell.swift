@@ -9,10 +9,9 @@
 import UIKit
 
 class GroupChannelSettingsNotificationsTableViewCell: UITableViewCell {
-    weak var delegate: GroupChannelSettingsTableViewCellDelegate?
-    
     @IBOutlet weak var notificationSwitch: UISwitch!
     
+    weak var delegate: GroupChannelSettingsTableViewCellDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -26,11 +25,9 @@ class GroupChannelSettingsNotificationsTableViewCell: UITableViewCell {
     }
     
     @IBAction func clickSwitch(_ sender: Any) {
-        guard let sw = sender as? UISwitch else { return }
+        guard let sw = self.notificationSwitch else { return }
         if let delegate = self.delegate {
-            if delegate.responds(to: #selector(GroupChannelSettingsTableViewCellDelegate.didChangeNotificationSwitchButton(isOn:))) {
-                delegate.didChangeNotificationSwitchButton!(isOn: sw.isOn)
-            }
+            delegate.didChangeNotificationSwitchButton(isOn: sw.isOn)
         }
     }
 }

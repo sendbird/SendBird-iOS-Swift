@@ -50,6 +50,9 @@ class CreateOpenChannelViewControllerB: UIViewController, SelectOperatorsDelegat
     }
     
     @objc func clickDoneButton(_ sender: AnyObject) {
+        self.activityIndicatorView.superViewSize = self.view.frame.size
+        self.activityIndicatorView.updateFrame()
+        
         self.activityIndicatorView.isHidden = false
         self.activityIndicatorView.startAnimating()
         var operatorIds: [String] = []

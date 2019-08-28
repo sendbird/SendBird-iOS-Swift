@@ -9,7 +9,7 @@
 import Foundation
 import SendBirdSDK
 
-@objc protocol GroupChannelSettingsTableViewCellDelegate: NSObjectProtocol {
-    @objc optional func willUpdateChannelNameAndCoverImage()
-    @objc optional func didChangeNotificationSwitchButton(isOn: Bool)
+protocol GroupChannelSettingsTableViewCellDelegate: NSObjectProtocol {
+    func willUpdateChannelNameAndCoverImage()
+    func didChangeNotificationSwitchButton(isOn: Bool)
 }

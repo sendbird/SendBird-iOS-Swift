@@ -25,7 +25,7 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        self.title = "Create Group Channel"
+        self.title = "Choose Member"
         
         self.navigationItem.largeTitleDisplayMode = .never
         
@@ -178,7 +178,7 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
             self.selectedUsers[self.users[indexPath.row].userId] = self.users[indexPath.row]
         }
         
-        self.okButtonItem?.title = String(format: "OK(%d)", Int(self.selectedUsers.count))
+        self.okButtonItem?.title = String(format: "OK\(Int(self.selectedUsers.count))")
         
         if self.selectedUsers.count == 0 {
             self.okButtonItem?.isEnabled = false

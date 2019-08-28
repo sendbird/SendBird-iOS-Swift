@@ -34,6 +34,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
     @IBOutlet weak var typingIndicatorContainerViewHeight: NSLayoutConstraint!
     
     var settingBarButton: UIBarButtonItem?
+    var backButton: UIBarButtonItem?
     
     weak var delegate: GroupChannelsUpdateListDelegate?
     var channel: SBDGroupChannel?
@@ -76,11 +77,16 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         self.navigationItem.largeTitleDisplayMode = .never
         self.settingBarButton = UIBarButtonItem(image: UIImage(named: "img_btn_channel_settings"), style: .plain, target: self, action: #selector(GroupChannelChatViewController.clickSettingBarButton(_:)))
+        
         self.navigationItem.rightBarButtonItem = self.settingBarButton
- 
+        
+        if self.splitViewController?.displayMode != UISplitViewController.DisplayMode.allVisible {
+            self.backButton = UIBarButtonItem(barButtonSystemItem: .cancel, target: self, action: #selector(self.clickBackButton(_:)))
+            self.navigationItem.leftBarButtonItem = self.backButton
+        }
+        
         SBDMain.add(self as SBDChannelDelegate, identifier: self.description)
         SBDMain.add(self as SBDConnectionDelegate, identifier: self.description)
         
@@ -195,6 +201,11 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
         performSegue(withIdentifier: "ShowGroupChannelSettings", sender: self)
     }
     
+    @objc func clickBackButton(_ sender: AnyObject) {
+        if self.splitViewController?.displayMode == UISplitViewController.DisplayMode.allVisible { return }
+        self.dismiss(animated: true, completion: nil)
+    }
+    
     @objc func hideTypingIndicator(_ timer: Timer) {
         self.typingIndicatorTimer?.invalidate()
         DispatchQueue.main.async {
@@ -210,10 +221,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func loadPreviousMessages(initial: Bool) {
-        if self.isLoading {
-            return
-        }
-        
+        if self.isLoading { return }
         self.isLoading = true
         
         var timestamp: Int64 = 0
@@ -225,9 +233,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
             timestamp = self.minMessageTimestamp
         }
         
-        if self.hasPrevious == false {
-            return
-        }
+        if self.hasPrevious == false { return }
         
         guard let channel = self.channel else { return }
         channel.getPreviousMessages(byTimestamp: timestamp, limit: 30, reverse: !initial, messageType: .all, customType: nil) { (msgs, error) in
@@ -439,8 +445,8 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     @IBAction func clickSendFileMessageButton(_ sender: Any) {
-        let vc = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let takePhotoAction = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
+        
+        let actionPhoto = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.camera
@@ -451,7 +457,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
             }
         }
         
-        let takeVideoAction = UIAlertAction(title: "Take Video...", style: .default) { (action) in
+        let actionVideo = UIAlertAction(title: "Take Video...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.camera
@@ -462,7 +468,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
             }
         }
         
-        let browseDocumentsAction = UIAlertAction(title: "Browse Files...", style: .default) { (action) in
+        let actionFile = UIAlertAction(title: "Browse Files...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let documentPicker = UIDocumentPickerViewController(documentTypes: ["public.data"], in: UIDocumentPickerMode.import)
                 documentPicker.allowsMultipleSelection = false
@@ -471,7 +477,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
             }
         }
         
-        let chooseFromLibraryAction = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
+        let actionLibrary = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.photoLibrary
@@ -482,15 +488,14 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
             }
         }
         
-        let closeAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+        let actionCancel = UIAlertAction(title: "Close", style: .cancel, handler: nil)
         
-        vc.addAction(takePhotoAction)
-        vc.addAction(takeVideoAction)
-        vc.addAction(browseDocumentsAction)
-        vc.addAction(chooseFromLibraryAction)
-        vc.addAction(closeAction)
+        Utils.showAlertControllerWithActions([actionPhoto, actionVideo, actionFile, actionLibrary, actionCancel],
+                                             title: nil,
+                                             frame: CGRect(x: self.view.bounds.minX, y: self.view.bounds.maxY, width: 0, height: 0),
+                                             viewController: self
+        )
         
-        self.present(vc, animated: true, completion: nil)
     }
     
     // MARK: - Scroll
@@ -1197,14 +1202,14 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func channelWasDeleted(_ channelUrl: String, channelType: SBDChannelType) {
-        let vc = UIAlertController(title: "Channel has been deleted.", message: "This channel has been deleted. It will be closed.", preferredStyle: .alert)
-        let actionClose = UIAlertAction(title: "Close", style: .cancel) { (action) in
+        let alert = UIAlertController(title: "Channel has been deleted.", message: "This channel has been deleted. It will be closed.", preferredStyle: .alert)
+        let actionCancel = UIAlertAction(title: "Close", style: .cancel) { (action) in
             self.navigationController?.popViewController(animated: true)
         }
-        vc.addAction(actionClose)
+        alert.addAction(actionCancel)
         
         DispatchQueue.main.async {
-            self.present(vc, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -1339,8 +1344,10 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
     
     // MARK - GroupChannelMessageTableViewCellDelegate
     func didLongClickAdminMessage(_ message: SBDAdminMessage) {
-        let vc = UIAlertController(title: message.message, message: nil, preferredStyle: .actionSheet)
-        let actionCopyMessage = UIAlertAction(title: "Copy message", style: .default) { (action) in
+        let alert = UIAlertController(title: message.message, message: nil, preferredStyle: .actionSheet)
+        alert.modalPresentationStyle = .popover
+        
+        let actionCopy = UIAlertAction(title: "Copy message", style: .default) { (action) in
             let pasteboard = UIPasteboard.general
             pasteboard.string = message.message
             
@@ -1349,32 +1356,49 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
         
         let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        vc.addAction(actionCopyMessage)
-        vc.addAction(actionCancel)
+        alert.addAction(actionCopy)
+        alert.addAction(actionCancel)
+        
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.view
+            presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+            presenter.permittedArrowDirections = []
+        }
         
         DispatchQueue.main.async {
-            self.present(vc, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
     func didLongClickUserMessage(_ message: SBDUserMessage) {
-        let vc = UIAlertController(title: message.message, message: nil, preferredStyle: .actionSheet)
-        var actionDeleteMessage: UIAlertAction?
+        let alert = UIAlertController(title: message.message, message: nil, preferredStyle: .actionSheet)
+        alert.modalPresentationStyle = .popover
+        
+        var actionDelete: UIAlertAction?
         guard let channel = self.channel else { return }
         guard let sender = message.sender else { return }
         guard let currentUser = SBDMain.getCurrentUser() else { return }
         
         if sender.userId == currentUser.userId {
-            actionDeleteMessage = UIAlertAction(title: "Delete message", style: .destructive, handler: { (action) in
-                let subVc = UIAlertController(title: "Are you sure you want to delete this message?", message: nil, preferredStyle: .actionSheet)
-                let subActionDeleteMessage = UIAlertAction(title: "Yes. Delete the message", style: .default, handler: { (action) in
+            actionDelete = UIAlertAction(title: "Delete message", style: .destructive, handler: { (action) in
+                let subAlert = UIAlertController(title: "Are you sure you want to delete this message?", message: nil, preferredStyle: .actionSheet)
+                subAlert.modalPresentationStyle = .popover
+                
+                let subActionDelete = UIAlertAction(title: "Yes. Delete the message", style: .default, handler: { (action) in
                     channel.delete(message, completionHandler: { (error) in
                         if error != nil {
-                            let vc = UIAlertController(title: "Error", message: error!.domain, preferredStyle: .alert)
-                            let actionClose = UIAlertAction(title: "Close", style: .cancel, handler: nil)
-                            vc.addAction(actionClose)
+                            let alert = UIAlertController(title: "Error", message: error!.domain, preferredStyle: .alert)
+                            let actionCancel = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+                            alert.addAction(actionCancel)
+                            
+                            if let presenter = alert.popoverPresentationController {
+                                presenter.sourceView = self.view
+                                presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+                                presenter.permittedArrowDirections = []
+                            }
+                            
                             DispatchQueue.main.async {
-                                self.present(vc, animated: true, completion: nil)
+                                self.present(alert, animated: true, completion: nil)
                             }
                             
                             return
@@ -1387,30 +1411,45 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
                 })
                 let subActionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                 
-                subVc.addAction(subActionDeleteMessage)
-                subVc.addAction(subActionCancel)
+                subAlert.addAction(subActionDelete)
+                subAlert.addAction(subActionCancel)
+                
+                if let presenter = subAlert.popoverPresentationController {
+                    presenter.sourceView = self.view
+                    presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+                    presenter.permittedArrowDirections = []
+                }
+                
                 DispatchQueue.main.async {
-                    self.present(subVc, animated: true, completion: nil)
+                    self.present(subAlert, animated: true, completion: nil)
                 }
             })
         }
         
-        let actionCopyMessage = UIAlertAction(title: "Copy message", style: .default) { (action) in
+        let actionCopy = UIAlertAction(title: "Copy message", style: .default) { (action) in
             let pasteboard = UIPasteboard.general
             pasteboard.string = message.message
             
             self.showToast("Copied")
         }
+        
         let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        vc.addAction(actionCopyMessage)
-        if actionDeleteMessage != nil {
-            vc.addAction(actionDeleteMessage!)
+        
+        alert.addAction(actionCopy)
+        alert.addAction(actionCancel)
+        
+        if actionDelete != nil {
+            alert.addAction(actionDelete!)
         }
         
-        vc.addAction(actionCancel)
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.view
+            presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+            presenter.permittedArrowDirections = []
+        }
         
         DispatchQueue.main.async {
-            self.present(vc, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -1437,23 +1476,32 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
         guard let currentUser = SBDMain.getCurrentUser() else { return }
         guard let channel = self.channel else { return }
         if self.resendableFileData[requestId] == nil {
-            let vc = UIAlertController(title: "General file", message: nil, preferredStyle: .actionSheet)
-            let actionSaveFile = UIAlertAction(title: "Save File", style: .default) { (action) in
+            let alert = UIAlertController(title: "General file", message: nil, preferredStyle: .actionSheet)
+            let actionSave = UIAlertAction(title: "Save File", style: .default) { (action) in
                 DownloadManager.download(url: url, filename: message.name, mimeType: message.type, addToMediaLibrary: false)
             }
             var actionDelete: UIAlertAction?
             
+            alert.modalPresentationStyle = .popover
+            
             if sender.userId == currentUser.userId {
                 actionDelete = UIAlertAction(title: "Delete", style: .destructive, handler: { (action) in
-                    let subVc = UIAlertController(title: "Are you sure you want to delete this message?", message: nil, preferredStyle: .actionSheet)
-                    let subActionDeleteMessage = UIAlertAction(title: "Yes. Delete the message", style: .default, handler: { (action) in
+                    let subAlert = UIAlertController(title: "Are you sure you want to delete this message?", message: nil, preferredStyle: .actionSheet)
+                    let subActionDelete = UIAlertAction(title: "Yes. Delete the message", style: .default, handler: { (action) in
                         channel.delete(message, completionHandler: { (error) in
                             if error != nil {
-                                let vc = UIAlertController(title: "Error", message: error!.domain, preferredStyle: .alert)
-                                let actionClose = UIAlertAction(title: "Close", style: .cancel, handler: nil)
-                                vc.addAction(actionClose)
+                                let alert = UIAlertController(title: "Error", message: error!.domain, preferredStyle: .alert)
+                                let actionCancel = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+                                alert.addAction(actionCancel)
+                                
+                                if let presenter = alert.popoverPresentationController {
+                                    presenter.sourceView = self.view
+                                    presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+                                    presenter.permittedArrowDirections = []
+                                }
+                                
                                 DispatchQueue.main.async {
-                                    self.present(vc, animated: true, completion: nil)
+                                    self.present(alert, animated: true, completion: nil)
                                 }
                                 
                                 return
@@ -1466,24 +1514,31 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
                     })
                     let subActionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                     
-                    subVc.addAction(subActionDeleteMessage)
-                    subVc.addAction(subActionCancel)
+                    subAlert.addAction(subActionDelete)
+                    subAlert.addAction(subActionCancel)
+                    
+                    if let presenter = subAlert.popoverPresentationController {
+                        presenter.sourceView = self.view
+                        presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+                        presenter.permittedArrowDirections = []
+                    }
+                    
                     DispatchQueue.main.async {
-                        self.present(subVc, animated: true, completion: nil)
+                        self.present(subAlert, animated: true, completion: nil)
                     }
                 })
             }
             
             let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
-            vc.addAction(actionSaveFile)
+            alert.addAction(actionSave)
             if actionDelete != nil {
-                vc.addAction(actionDelete!)
+                alert.addAction(actionDelete!)
             }
-            vc.addAction(actionCancel)
+            alert.addAction(actionCancel)
             
             DispatchQueue.main.async {
-                self.present(vc, animated: true, completion: nil)
+                self.present(alert, animated: true, completion: nil)
             }
         }
     }
@@ -1538,7 +1593,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
             return
         }
         
-        let vc = UIAlertController(title: user.nickname, message: nil, preferredStyle: .actionSheet)
+        let alert = UIAlertController(title: user.nickname, message: nil, preferredStyle: .actionSheet)
         let actionBlockUser = UIAlertAction(title: "Block user", style: .default) { (action) in
             SBDMain.blockUser(user, completionHandler: { (blockedUser, error) in
                 
@@ -1546,44 +1601,53 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
         }
         let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        vc.addAction(actionBlockUser)
-        vc.addAction(actionCancel)
+        alert.modalPresentationStyle = .popover
+        alert.addAction(actionBlockUser)
+        alert.addAction(actionCancel)
 
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.view
+            presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+            presenter.permittedArrowDirections = []
+        }
+        
         DispatchQueue.main.async {
-            self.present(vc, animated: true, completion: nil)
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
     func didLongClickImageVideoFileMessage(_ message: SBDFileMessage) {
         guard let messageRequestId = message.requestId else { return }
         if self.resendableFileData[messageRequestId] == nil {
-            var vc: UIAlertController?
+            var alert: UIAlertController?
             var deleteMessageActionTitle: String?
             var saveImageVideoActionTitle: String?
             var deleteMessageSubAlertTitle: String?
             var deleteMessageSubActionTitle: String?
             if message.type.hasPrefix("image") {
-                vc = UIAlertController(title: "Image", message: nil, preferredStyle: .actionSheet)
+                alert = UIAlertController(title: "Image", message: nil, preferredStyle: .actionSheet)
+                alert?.modalPresentationStyle = .popover
                 deleteMessageActionTitle = "Delete image"
                 saveImageVideoActionTitle = "Save image to media library"
                 deleteMessageSubAlertTitle = "Are you sure you want to delete this image?"
                 deleteMessageSubActionTitle = "Yes. Delete the image"
             }
             else {
-                vc = UIAlertController(title: "Video", message: nil, preferredStyle: .actionSheet)
+                alert = UIAlertController(title: "Video", message: nil, preferredStyle: .actionSheet)
+                alert?.modalPresentationStyle = .popover
                 deleteMessageActionTitle = "Delete video"
                 saveImageVideoActionTitle = "Save video to media library"
                 deleteMessageSubAlertTitle = "Are you sure you want to delete this video?"
                 deleteMessageSubActionTitle = "Yes. Delete the video"
             }
             
-            var actionDeleteMessage: UIAlertAction?
+            var actionDelete: UIAlertAction?
             guard let sender = message.sender else { return }
             guard let currentUser = SBDMain.getCurrentUser() else { return }
             if sender.userId == currentUser.userId {
-                actionDeleteMessage = UIAlertAction(title: deleteMessageActionTitle, style: .destructive, handler: { (action) in
-                    let subVc = UIAlertController(title: deleteMessageSubAlertTitle, message: nil, preferredStyle: .actionSheet)
-                    let subActionDeleteMessage = UIAlertAction(title: deleteMessageSubActionTitle, style: .default, handler: { (action) in
+                actionDelete = UIAlertAction(title: deleteMessageActionTitle, style: .destructive, handler: { (action) in
+                    let subAlert = UIAlertController(title: deleteMessageSubAlertTitle, message: nil, preferredStyle: .actionSheet)
+                    let subActionDelete = UIAlertAction(title: deleteMessageSubActionTitle, style: .default, handler: { (action) in
                         guard let channel = self.channel else { return }
                         channel.delete(message, completionHandler: { (error) in
                             if error != nil {
@@ -1595,10 +1659,17 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
                     })
                     let subActionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                     
-                    subVc.addAction(subActionDeleteMessage)
-                    subVc.addAction(subActionCancel)
+                    subAlert.addAction(subActionDelete)
+                    subAlert.addAction(subActionCancel)
+                    
+                    if let presenter = subAlert.popoverPresentationController {
+                        presenter.sourceView = self.view
+                        presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+                        presenter.permittedArrowDirections = []
+                    }
+                    
                     DispatchQueue.main.async {
-                        self.present(subVc, animated: true, completion: nil)
+                        self.present(subAlert, animated: true, completion: nil)
                     }
                 })
             }
@@ -1610,15 +1681,21 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
             }
             let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
-            if vc != nil {
-                vc?.addAction(actionSaveImageVideo)
-                if actionDeleteMessage != nil {
-                    vc?.addAction(actionDeleteMessage!)
+            if alert != nil {
+                alert?.addAction(actionSaveImageVideo)
+                if actionDelete != nil {
+                    alert?.addAction(actionDelete!)
                 }
-                vc?.addAction(actionCancel)
+                alert?.addAction(actionCancel)
+                
+                if let presenter = alert?.popoverPresentationController {
+                    presenter.sourceView = self.view
+                    presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+                    presenter.permittedArrowDirections = []
+                }
                 
                 DispatchQueue.main.async {
-                    self.present(vc!, animated: true, completion: nil)
+                    self.present(alert!, animated: true, completion: nil)
                 }
             }
         }
@@ -1666,9 +1743,9 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
                     return
                 }
                 let player = AVPlayer(url: url)
-                let vc = AVPlayerViewController()
-                vc.player = player
-                self.present(vc, animated: true) {
+                let playerVC = AVPlayerViewController()
+                playerVC.player = player
+                self.present(playerVC, animated: true) {
                     player.play()
                 }
             }

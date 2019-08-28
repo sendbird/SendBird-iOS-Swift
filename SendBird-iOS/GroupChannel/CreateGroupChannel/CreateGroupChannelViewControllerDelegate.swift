@@ -9,6 +9,6 @@
 import Foundation
 import SendBirdSDK
 
- @objc protocol CreateGroupChannelViewControllerDelegate: NSObjectProtocol {
-    @objc optional func didCreateGroupChannel(_ channel: SBDGroupChannel)
+protocol CreateGroupChannelViewControllerDelegate: NSObjectProtocol {
+    func didCreateGroupChannel(_ channel: SBDGroupChannel)
 }

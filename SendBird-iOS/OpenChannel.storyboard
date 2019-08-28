@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YxL-Kp-KCL">
-    <device id="retina6_1" orientation="portrait">
+    <device id="ipad11_0rounded" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,24 +15,24 @@
             <objects>
                 <viewController storyboardIdentifier="OpenChannelsViewController" id="YxL-Kp-KCL" customClass="OpenChannelsViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="efT-c8-IJ1">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no open channels" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="A52-uj-hxU" userLabel="Empty Label">
-                                <rect key="frame" x="109.5" y="444" width="195" height="18"/>
+                                <rect key="frame" x="319.5" y="590" width="195" height="18"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <color key="textColor" name="color_empty_list_label"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bzG-Qy-SeE" userLabel="Open Channels Table View">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="OpenChannelTableViewCell" rowHeight="84" id="QTf-wu-F7B" customClass="OpenChannelTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="84"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="OpenChannelTableViewCell" rowHeight="84" id="QTf-wu-F7B" customClass="OpenChannelTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="834" height="84"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QTf-wu-F7B" id="pOh-GI-oXV">
-                                            <rect key="frame" x="0.0" y="0.0" width="376" height="84"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="801" height="84"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_operator" translatesAutoresizingMaskIntoConstraints="NO" id="FNE-eg-xrV" userLabel="Opearator Mark Image View">
@@ -49,13 +49,13 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 Participant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDw-vV-aDE" userLabel="Participant Count Label">
-                                                    <rect key="frame" x="72" y="42" width="283" height="18"/>
+                                                    <rect key="frame" x="72" y="42" width="708" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="color_open_channel_participants_count_label"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="12r-6K-vSt" userLabel="Divider View">
-                                                    <rect key="frame" x="73.5" y="83.5" width="340.5" height="0.5"/>
+                                                    <rect key="frame" x="73.5" y="83.5" width="760.5" height="0.5"/>
                                                     <color key="backgroundColor" name="color_open_channel_list_divider"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="0.5" id="Cfv-Hn-Rh5"/>
@@ -103,7 +103,7 @@
                                 </prototypes>
                             </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="VFC-ri-NII" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -126,8 +126,8 @@
                         <outlet property="emptyLabel" destination="A52-uj-hxU" id="1yf-Sn-nuR"/>
                         <outlet property="loadingIndicatorView" destination="VFC-ri-NII" id="pPI-5v-Ftv"/>
                         <outlet property="openChannelsTableView" destination="bzG-Qy-SeE" id="5DE-Sq-os0"/>
-                        <segue destination="T6M-vb-pdo" kind="show" identifier="ShowOpenChat" id="sEO-ed-aUU"/>
-                        <segue destination="dle-0C-8Zz" kind="show" identifier="CreateOpenChannel" id="gfl-tS-q2R"/>
+                        <segue destination="JXT-n3-1vX" kind="showDetail" identifier="ShowOpenChat" id="sEO-ed-aUU"/>
+                        <segue destination="dle-0C-8Zz" kind="presentation" identifier="CreateOpenChannel" modalPresentationStyle="formSheet" id="gfl-tS-q2R"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Qjo-4P-eFq" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -139,18 +139,18 @@
             <objects>
                 <viewController id="T6M-vb-pdo" customClass="OpenChannelChatViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="wwn-Fi-Mxi">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="lsQ-FF-wFS" userLabel="Message Table View">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="807"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1119"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="xSX-A8-aAZ" userLabel="Input Message Container View">
-                                <rect key="frame" x="0.0" y="807" width="414" height="89"/>
+                                <rect key="frame" x="0.0" y="1119" width="834" height="75"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nNM-Q0-PE0" userLabel="Input Message Inner Container View">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="55"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="834" height="55"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="HY6-1J-Olt" userLabel="Send File Message Button">
                                                 <rect key="frame" x="10" y="10.5" width="34" height="34"/>
@@ -163,11 +163,11 @@
                                                 <state key="selected" image="img_btn_send_file_msg_pressed"/>
                                                 <state key="highlighted" image="img_btn_send_file_msg_pressed"/>
                                                 <connections>
-                                                    <action selector="clickSendFileMessageButton:" destination="T6M-vb-pdo" eventType="touchUpInside" id="4TC-2k-Fq4"/>
+                                                    <action selector="clickSendFileMessageButton:" destination="T6M-vb-pdo" eventType="touchUpInside" id="aNO-Od-xZC"/>
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="f5j-uf-mu2" userLabel="Send User Message Button">
-                                                <rect key="frame" x="377" y="15" width="25" height="25"/>
+                                                <rect key="frame" x="797" y="15" width="25" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="25" id="Jwu-fQ-bkk"/>
                                                     <constraint firstAttribute="width" constant="25" id="w7G-sd-8XG"/>
@@ -181,10 +181,10 @@
                                                 </connections>
                                             </button>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="x73-eK-VOL" userLabel="Input Message Text Field Container View">
-                                                <rect key="frame" x="52" y="6.5" width="314" height="42"/>
+                                                <rect key="frame" x="52" y="6.5" width="734" height="42"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type a message.." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="93a-uX-WxZ">
-                                                        <rect key="frame" x="1" y="1" width="312" height="40"/>
+                                                        <rect key="frame" x="1" y="1" width="732" height="40"/>
                                                         <color key="backgroundColor" name="color_message_input_textfiled_bg"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="mpi-As-QQb"/>
@@ -231,7 +231,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0lw-mR-wEd" userLabel="Divider View">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="0.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="834" height="0.5"/>
                                         <color key="backgroundColor" name="color_message_input_view_top_border"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="0.5" id="usN-BL-lUF"/>
@@ -247,10 +247,10 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="xQK-ac-MJ0" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                             </activityIndicatorView>
                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3AF-YR-dMa" userLabel="Toast View">
-                                <rect key="frame" x="147" y="392.5" width="120" height="111"/>
+                                <rect key="frame" x="357" y="541.5" width="120" height="111"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_toast_check" translatesAutoresizingMaskIntoConstraints="NO" id="6tZ-09-hkn" userLabel="Toast Check Image View">
                                         <rect key="frame" x="40" y="33" width="40" height="32"/>
@@ -303,6 +303,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="w74-1p-Bk9"/>
                     </view>
+                    <navigationItem key="navigationItem" id="xh6-OV-3s9"/>
                     <connections>
                         <outlet property="inputMessageInnerContainerViewBottomMargin" destination="agY-Od-4Qd" id="7h4-vb-UCb"/>
                         <outlet property="inputMessageTextField" destination="93a-uX-WxZ" id="upW-G2-E44"/>
@@ -317,28 +318,28 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ylE-Ui-0pT" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="73" y="2866"/>
+            <point key="canvasLocation" x="826.61870503597129" y="2865.8291457286432"/>
         </scene>
         <!--Create Open Channel View ControllerA-->
         <scene sceneID="knp-5c-5OI">
             <objects>
                 <viewController id="bzC-kj-O4L" customClass="CreateOpenChannelViewControllerA" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Za1-1N-pk5">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="moe-Sp-lKq" userLabel="Divider View">
-                                <rect key="frame" x="0.0" y="208" width="414" height="0.5"/>
+                                <rect key="frame" x="0.0" y="170" width="540" height="0.5"/>
                                 <color key="backgroundColor" name="color_settings_border"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="0.5" id="XFk-ox-PVi"/>
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Run-Sr-ppP" userLabel="Description Container View">
-                                <rect key="frame" x="0.0" y="208.5" width="414" height="687.5"/>
+                                <rect key="frame" x="0.0" y="170.5" width="540" height="449.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sIR-hV-aNg" userLabel="Description A Label">
-                                        <rect key="frame" x="16" y="28" width="414" height="67"/>
+                                        <rect key="frame" x="16" y="28" width="540" height="50.5"/>
                                         <attributedString key="attributedText">
                                             <fragment>
                                                 <string key="content">Open Channel is a public chat. In this channel type, anyone can enter and participate in the chat without permission. A single channel can handle thousands of simultaneous users like Twitch-style public chat.</string>
@@ -357,7 +358,7 @@
                                 </constraints>
                             </view>
                             <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="ljo-IV-3m3" userLabel="Channel Cover Image View">
-                                <rect key="frame" x="15" y="98" width="100" height="100"/>
+                                <rect key="frame" x="15" y="60" width="100" height="100"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="100" id="skg-Ok-YDx"/>
                                     <constraint firstAttribute="width" constant="100" id="uAL-R5-Nrn"/>
@@ -370,14 +371,14 @@
                                 </userDefinedRuntimeAttributes>
                             </imageView>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_edit_camera" translatesAutoresizingMaskIntoConstraints="NO" id="Fyi-Lb-Lhh" userLabel="Camera Icon Image View">
-                                <rect key="frame" x="85" y="168" width="30" height="30"/>
+                                <rect key="frame" x="85" y="130" width="30" height="30"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="30" id="F5q-Gi-SHG"/>
                                     <constraint firstAttribute="width" constant="30" id="gT4-Up-AUT"/>
                                 </constraints>
                             </imageView>
                             <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Open Channel Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="bmp-rS-zB9" userLabel="Channel Name Text Field">
-                                <rect key="frame" x="131" y="134" width="268" height="28"/>
+                                <rect key="frame" x="131" y="96" width="394" height="28"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="28" id="LKb-X5-k8a"/>
                                 </constraints>
@@ -423,11 +424,11 @@
             <objects>
                 <viewController id="jKm-Sy-A6a" customClass="OpenChannelCoverImageNameSettingViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="6sl-qw-b7G">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MRA-Vx-Cdl" userLabel="Container View">
-                                <rect key="frame" x="0.0" y="44" width="414" height="120"/>
+                                <rect key="frame" x="0.0" y="74" width="834" height="120"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="y7S-f3-V91" userLabel="Cover Image Container View">
                                         <rect key="frame" x="15" y="10" width="100" height="100"/>
@@ -480,7 +481,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="mLo-Mo-mPV" userLabel="Divider View">
-                                        <rect key="frame" x="0.0" y="119" width="414" height="1"/>
+                                        <rect key="frame" x="0.0" y="119" width="834" height="1"/>
                                         <color key="backgroundColor" red="0.73725490199999999" green="0.73333333329999995" blue="0.75686274509999996" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="iHQ-Jd-OPJ"/>
@@ -501,7 +502,7 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="npm-02-gtJ" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" name="color_channel_settings_bg"/>
@@ -534,25 +535,25 @@
             <objects>
                 <viewController id="mfb-aV-Ie5" customClass="CreateOpenChannelViewControllerB" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="0so-mh-D7C">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="v60-Wl-YH1" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                             </activityIndicatorView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" sectionIndexMinimumDisplayRowCount="2" rowHeight="44" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="hxe-5M-KZA">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CreateOpenChannelChannelUrlTableViewCell" rowHeight="44" id="0xM-Dl-YRq" customClass="CreateOpenChannelChannelUrlTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="540" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0xM-Dl-YRq" id="HbN-F9-4wr">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="540" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Channel URL" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="aoQ-Qa-2DS" userLabel="Channel URL Text Field">
-                                                    <rect key="frame" x="11" y="11.5" width="392" height="21"/>
+                                                    <rect key="frame" x="11" y="11.5" width="518" height="21"/>
                                                     <color key="textColor" red="0.20392156859999999" green="0.21960784310000001" blue="0.25098039220000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <textInputTraits key="textInputTraits"/>
@@ -570,10 +571,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CreateOpenChannelAddOperatorTableViewCell" id="Eo1-5Y-9aJ" customClass="CreateOpenChannelAddOperatorTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="99.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="99.5" width="540" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Eo1-5Y-9aJ" id="APh-nl-zwg">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="540" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_add_operator" translatesAutoresizingMaskIntoConstraints="NO" id="Qnb-gv-gsH">
@@ -584,7 +585,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Add an operator" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0NG-y0-il2" userLabel="Add operator Label">
-                                                    <rect key="frame" x="68" y="11.5" width="326" height="21"/>
+                                                    <rect key="frame" x="68" y="11.5" width="452" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.47450980390000003" green="0.31372549020000001" blue="0.94901960780000005" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -601,10 +602,10 @@
                                         <viewLayoutGuide key="safeArea" id="BXa-H6-Jvp"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="CreateOpenChannelUserTableViewCell" rowHeight="50" id="xax-zL-W6T" customClass="CreateOpenChannelUserTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="143.5" width="414" height="50"/>
+                                        <rect key="frame" x="0.0" y="143.5" width="540" height="50"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="xax-zL-W6T" id="wvN-lt-IUV">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="49.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="540" height="49.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="tM1-Kv-Km7" userLabel="Current User Profile Image View">
@@ -635,7 +636,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Zrz-3A-NeG" userLabel="Current User Name Label">
-                                                    <rect key="frame" x="68" y="14.5" width="326" height="21"/>
+                                                    <rect key="frame" x="68" y="14.5" width="452" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <color key="textColor" red="0.21176470589999999" green="0.1764705882" blue="0.36470588240000001" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -696,11 +697,11 @@
             <objects>
                 <viewController id="Sgh-zm-VIi" customClass="SelectOperatorsViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="COt-Al-Zs1">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8Bz-uS-K6P">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -726,18 +727,18 @@
             <objects>
                 <viewController id="PWN-sO-Gwd" customClass="OpenChannelUserListViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="5rl-5o-PR2">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="RFx-ai-J89">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="OpenChannelSettingsUserTableViewCell" id="OmT-pZ-q8g" customClass="OpenChannelSettingsUserTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="28" width="834" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="OmT-pZ-q8g" id="XX7-4y-u23">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VnI-Iw-qQJ">
@@ -774,7 +775,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ptI-gN-087">
-                                                    <rect key="frame" x="68" y="11.5" width="330" height="21"/>
+                                                    <rect key="frame" x="68" y="11.5" width="750" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <color key="textColor" red="0.21176470589999999" green="0.1764705882" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -802,7 +803,7 @@
                                 </prototypes>
                             </tableView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no banned users" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Neh-fq-0XN" userLabel="Empty Label">
-                                <rect key="frame" x="113" y="439" width="188" height="18"/>
+                                <rect key="frame" x="323" y="588" width="188" height="18"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <color key="textColor" name="color_empty_list_label"/>
                                 <nil key="highlightedColor"/>
@@ -833,19 +834,19 @@
             <objects>
                 <viewController id="8Sw-7o-qXa" customClass="OpenChannelSettingsViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="nqV-qj-hJS">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" separatorStyle="none" sectionIndexMinimumDisplayRowCount="3" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="3eD-i2-r4F">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <color key="sectionIndexBackgroundColor" name="color_channel_settings_bg"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="OpenChannelSettingsChannelNameTableViewCell" rowHeight="108" id="cvK-1d-Oml" customClass="OpenChannelSettingsChannelNameTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="414" height="108"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="834" height="108"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="cvK-1d-Oml" id="TxQ-aZ-Hbs">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="108"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="108"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_cover_image_placeholder_1" translatesAutoresizingMaskIntoConstraints="NO" id="mcV-uX-2Jp" userLabel="Channel Cover Image View">
@@ -861,13 +862,13 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </imageView>
                                                 <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" text="Channel Name" placeholder="Channel Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="xDH-qG-0BB">
-                                                    <rect key="frame" x="131" y="43" width="211" height="22"/>
+                                                    <rect key="frame" x="131" y="43" width="631" height="22"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                     <textInputTraits key="textInputTraits" returnKeyType="done"/>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="CME-Lq-LKl" userLabel="Enable Edit Button">
-                                                    <rect key="frame" x="358" y="36" width="36" height="36"/>
+                                                    <rect key="frame" x="778" y="36" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="36" id="YqY-NI-OHB"/>
                                                         <constraint firstAttribute="width" constant="36" id="tyZ-EO-HBY"/>
@@ -894,10 +895,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="OpenChannelSettingsUserTableViewCell" id="YWF-Zw-TGB" customClass="OpenChannelSettingsUserTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="163.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="163.5" width="834" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="YWF-Zw-TGB" id="CsJ-Xz-zUs">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="HRi-al-KPI">
@@ -934,7 +935,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IHH-87-err">
-                                                    <rect key="frame" x="68" y="11.5" width="330" height="21"/>
+                                                    <rect key="frame" x="68" y="11.5" width="750" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <color key="textColor" red="0.21176470589999999" green="0.1764705882" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -961,10 +962,10 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="OpenChannelSettingsMenuTableViewCell" id="s3X-vW-jFa" customClass="OpenChannelSettingsMenuTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="207.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="207.5" width="834" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="s3X-vW-jFa" id="M86-m6-pOG">
-                                            <rect key="frame" x="0.0" y="0.0" width="376" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="801" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="agc-8s-iyQ" userLabel="Setting Menu Icon Image View">
@@ -981,7 +982,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GEY-az-qOv" userLabel="Count Label">
-                                                    <rect key="frame" x="357" y="13" width="19" height="18"/>
+                                                    <rect key="frame" x="782" y="13" width="19" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="open_channe_settings_count_label_color"/>
                                                     <nil key="highlightedColor"/>
@@ -1007,7 +1008,7 @@
                                 </prototypes>
                             </tableView>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="VaK-ij-hlj" userLabel="Loading Indicator View" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" name="color_channel_settings_bg"/>
@@ -1041,11 +1042,11 @@
             <objects>
                 <viewController id="J0f-aM-Rwm" customClass="UserProfileViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="0sz-cx-uM9">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="1bi-6Z-7Nr">
-                                <rect key="frame" x="0.0" y="44" width="414" height="121"/>
+                                <rect key="frame" x="0.0" y="74" width="834" height="121"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_default_profile_image_4" translatesAutoresizingMaskIntoConstraints="NO" id="rEv-hE-83j" userLabel="Profile Image View">
                                         <rect key="frame" x="15" y="10.5" width="100" height="100"/>
@@ -1060,7 +1061,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="3v7-LZ-ARk" userLabel="Nickname Label">
-                                        <rect key="frame" x="131" y="26" width="268" height="21"/>
+                                        <rect key="frame" x="131" y="26" width="688" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                         <color key="textColor" name="color_profile_nickname"/>
                                         <nil key="highlightedColor"/>
@@ -1129,7 +1130,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="dle-0C-8Zz" customClass="CreateOpenChannelNavigationController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="rwM-VT-4RA">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1139,7 +1140,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="wBE-RF-dIe" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1854" y="2843"/>
+            <point key="canvasLocation" x="1854" y="2866"/>
+        </scene>
+        <!--Navigation Controller-->
+        <scene sceneID="egt-ak-vMG">
+            <objects>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="JXT-n3-1vX" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="0e5-GT-G5H">
+                        <rect key="frame" x="0.0" y="24" width="834" height="50"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
+                    <connections>
+                        <segue destination="T6M-vb-pdo" kind="relationship" relationship="rootViewController" id="JGj-o3-DMt"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FJe-i7-ffh" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="72.661870503597129" y="2865.8291457286432"/>
         </scene>
     </scenes>
     <resources>

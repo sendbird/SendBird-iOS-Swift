@@ -8,6 +8,22 @@
 
 import UIKit
 import SendBirdSDK
+import MobileCoreServices
+
+enum UtilsAction {
+    case cancel, close
+    
+    func create(on viewController: UIViewController) -> UIAlertAction {
+        switch self {
+        case .cancel:
+            let action = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+            return action
+        case .close:
+            let action = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+            return action
+        }
+    }
+}
 
 class Utils: NSObject {
     //    static let imageLoaderQueue = DispatchQueue.init(label: "com.sendbird.imageloader", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes., autoreleaseFrequency: <#T##DispatchQueue.AutoreleaseFrequency#>, target: <#T##DispatchQueue?#>)
@@ -108,30 +124,47 @@ class Utils: NSObject {
         }
     }
     
+    static func showAlertControllerWithActions (_ actions: [UIAlertAction], title: String?, frame: CGRect, viewController: UIViewController) {
+        let alert = UIAlertController(title: title, message: nil, preferredStyle: .actionSheet)
+        alert.modalPresentationStyle = .popover
+        
+        for action in actions {
+            alert.addAction(action)
+        }
+        
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = viewController.view
+            presenter.sourceRect = frame
+            presenter.permittedArrowDirections = []
+        }
+        
+        viewController.present(alert, animated: true, completion: nil)
+    }
+    
     static func showAlertController(error: SBDError, viewController: UIViewController) {
-        let vc = UIAlertController(title: "Error", message: error.domain, preferredStyle: .alert)
-        let closeAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
-        vc.addAction(closeAction)
+        let alert = UIAlertController(title: "Error", message: error.domain, preferredStyle: .alert)
+        let actionCancel = UtilsAction.cancel.create(on: viewController)
+        alert.addAction(actionCancel)
         DispatchQueue.main.async {
-            viewController.present(vc, animated: true, completion: nil)
+            viewController.present(alert, animated: true, completion: nil)
         }
     }
     
     static func showAlertController(title: String?, message: String?, viewController: UIViewController) {
-        let vc = UIAlertController(title: title, message: message, preferredStyle: .alert)
-        let closeAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
-        vc.addAction(closeAction)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let actionCancel = UtilsAction.close.create(on: viewController)
+        alert.addAction(actionCancel)
         DispatchQueue.main.async {
-            viewController.present(vc, animated: true, completion: nil)
+            viewController.present(alert, animated: true, completion: nil)
         }
     }
     
     static func createAlertController(title: String?, message: String?, actions: [UIAlertAction]) -> UIAlertController {
-        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        let alert = UIAlertController(title: title, message: message, preferredStyle: .alert)
         for action in actions {
-            ac.addAction(action)
+            alert.addAction(action)
         }
-        return ac
+        return alert
     }
     
     static func buildTypingIndicatorLabel(channel: SBDGroupChannel) -> String {

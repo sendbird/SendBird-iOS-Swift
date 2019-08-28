@@ -7,10 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		520E2E7A22F29067003BA908 /* GroupChannelPublicChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E2E7922F29067003BA908 /* GroupChannelPublicChannelsViewController.swift */; };
-		520E2E7D22F2912C003BA908 /* GroupChannelPublicChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520E2E7C22F2912C003BA908 /* GroupChannelPublicChannelTableViewCell.swift */; };
-		520F9D2722F27BC700439551 /* GroupChannelHiddenChannelsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520F9D2622F27BC700439551 /* GroupChannelHiddenChannelsViewController.swift */; };
-		520F9D2A22F2830500439551 /* GroupChannelHiddenChannelTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 520F9D2922F2830500439551 /* GroupChannelHiddenChannelTableViewCell.swift */; };
 		520FF86822E6869100A9D7F4 /* GroupChannel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 520FF86722E6869100A9D7F4 /* GroupChannel.storyboard */; };
 		520FF86A22E6869F00A9D7F4 /* OpenChannel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 520FF86922E6869F00A9D7F4 /* OpenChannel.storyboard */; };
 		520FF86C22E686A900A9D7F4 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 520FF86B22E686A900A9D7F4 /* Settings.storyboard */; };
@@ -24,6 +20,7 @@
 		52E3D35B22E6D8E00099D67D /* GroupChannelIncomingMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D35A22E6D8E00099D67D /* GroupChannelIncomingMessageTableViewCell.swift */; };
 		52E3D35F22E6FCBD0099D67D /* GroupChannelOutgoingMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D35E22E6FCBC0099D67D /* GroupChannelOutgoingMessageTableViewCell.swift */; };
 		875BF66943D4A22B9064F1B1 /* Pods_SendBird_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2F8289F5E5EFDE1D2C9038 /* Pods_SendBird_iOS.framework */; };
+		A9FBF70E22FCFB10000E146B /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FBF70D22FCFB10000E146B /* SplitViewController.swift */; };
 		E21C53E52195DB7900782B60 /* GroupChannelSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21C53E32195DB7900782B60 /* GroupChannelSettingsViewController.swift */; };
 		E21CDFC52165619000839683 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21CDFC42165619000839683 /* AppDelegate.swift */; };
 		E21CDFC72165619000839683 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21CDFC62165619000839683 /* ViewController.swift */; };
@@ -133,10 +130,6 @@
 		1D2F8289F5E5EFDE1D2C9038 /* Pods_SendBird_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SendBird_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		2E6C95EE3B9E1E3E5316ABBC /* Pods-SendBird-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SendBird-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		4AE17B58DD188A15F84A0409 /* Pods-SendBird-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SendBird-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS.debug.xcconfig"; sourceTree = "<group>"; };
-		520E2E7922F29067003BA908 /* GroupChannelPublicChannelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelPublicChannelsViewController.swift; sourceTree = "<group>"; };
-		520E2E7C22F2912C003BA908 /* GroupChannelPublicChannelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelPublicChannelTableViewCell.swift; sourceTree = "<group>"; };
-		520F9D2622F27BC700439551 /* GroupChannelHiddenChannelsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelHiddenChannelsViewController.swift; sourceTree = "<group>"; };
-		520F9D2922F2830500439551 /* GroupChannelHiddenChannelTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelHiddenChannelTableViewCell.swift; sourceTree = "<group>"; };
 		520FF86722E6869100A9D7F4 /* GroupChannel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GroupChannel.storyboard; sourceTree = "<group>"; };
 		520FF86922E6869F00A9D7F4 /* OpenChannel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OpenChannel.storyboard; sourceTree = "<group>"; };
 		520FF86B22E686A900A9D7F4 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
@@ -149,6 +142,7 @@
 		52E3D35822E6D8820099D67D /* ImageUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtil.swift; sourceTree = "<group>"; };
 		52E3D35A22E6D8E00099D67D /* GroupChannelIncomingMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelIncomingMessageTableViewCell.swift; sourceTree = "<group>"; };
 		52E3D35E22E6FCBC0099D67D /* GroupChannelOutgoingMessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChannelOutgoingMessageTableViewCell.swift; sourceTree = "<group>"; };
+		A9FBF70D22FCFB10000E146B /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		E21C53E32195DB7900782B60 /* GroupChannelSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelSettingsViewController.swift; sourceTree = "<group>"; };
 		E21CDFC12165619000839683 /* SendBird-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SendBird-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21CDFC42165619000839683 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -270,24 +264,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		520E2E7B22F2906C003BA908 /* GroupChannelsPublic */ = {
-			isa = PBXGroup;
-			children = (
-				520E2E7C22F2912C003BA908 /* GroupChannelPublicChannelTableViewCell.swift */,
-				520E2E7922F29067003BA908 /* GroupChannelPublicChannelsViewController.swift */,
-			);
-			path = GroupChannelsPublic;
-			sourceTree = "<group>";
-		};
-		520F9D2822F27BD300439551 /* GroupChannelsHidden */ = {
-			isa = PBXGroup;
-			children = (
-				520F9D2922F2830500439551 /* GroupChannelHiddenChannelTableViewCell.swift */,
-				520F9D2622F27BC700439551 /* GroupChannelHiddenChannelsViewController.swift */,
-			);
-			path = GroupChannelsHidden;
-			sourceTree = "<group>";
-		};
 		5215271822E018EB00F2F011 /* ViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -349,6 +325,7 @@
 				E21CDFC42165619000839683 /* AppDelegate.swift */,
 				E21CDFC62165619000839683 /* ViewController.swift */,
 				E21CDFC82165619000839683 /* Main.storyboard */,
+				A9FBF70D22FCFB10000E146B /* SplitViewController.swift */,
 				520FF86722E6869100A9D7F4 /* GroupChannel.storyboard */,
 				520FF86922E6869F00A9D7F4 /* OpenChannel.storyboard */,
 				520FF86B22E686A900A9D7F4 /* Settings.storyboard */,
@@ -416,8 +393,6 @@
 		E27E3ED921712C6D0082C91C /* GroupChannel */ = {
 			isa = PBXGroup;
 			children = (
-				520E2E7B22F2906C003BA908 /* GroupChannelsPublic */,
-				520F9D2822F27BD300439551 /* GroupChannelsHidden */,
 				E27E3EDA21712C7B0082C91C /* GroupChannelSettings */,
 				E27E3EDB21712C850082C91C /* GroupChannels */,
 				E27E3EDD21712C960082C91C /* GroupChannelChat */,
@@ -894,7 +869,6 @@
 				E23CFA002180D6E000A946E8 /* Array+SendBird.swift in Sources */,
 				E27E3F5B2177AA1E0082C91C /* SettingsTimePickerDelegate.swift in Sources */,
 				E27E3EEF21716FB40082C91C /* GroupChannelTableViewCell.swift in Sources */,
-				520E2E7D22F2912C003BA908 /* GroupChannelPublicChannelTableViewCell.swift in Sources */,
 				E2D0C14921924A6F0080A5F3 /* GroupChannelOutgoingAudioFileMessageTableViewCell.swift in Sources */,
 				E298FFEF219F243D009F83D0 /* GroupChannelSettingsNotificationsTableViewCell.swift in Sources */,
 				E27E3F542177A8B50082C91C /* SettingsBlockedUserListViewController.swift in Sources */,
@@ -908,7 +882,6 @@
 				5215271C22E01AF000F2F011 /* SelectableUserTableViewCell.swift in Sources */,
 				E2D0C15121935A580080A5F3 /* GroupChannelIncomingAudioFileMessageTableViewCell.swift in Sources */,
 				E2D0C13721924A0D0080A5F3 /* GroupChannelIncomingGeneralFileMessageTableViewCell.swift in Sources */,
-				520E2E7A22F29067003BA908 /* GroupChannelPublicChannelsViewController.swift in Sources */,
 				E27E3F822177BACB0082C91C /* BlockedUserTableViewCell.swift in Sources */,
 				E2D0C12F219249E70080A5F3 /* GroupChannelIncomingUserMessageTableViewCell.swift in Sources */,
 				E2D0C0FD218CCDCD0080A5F3 /* OpenChannelUserListViewController.swift in Sources */,
@@ -922,13 +895,12 @@
 				E21C53E52195DB7900782B60 /* GroupChannelSettingsViewController.swift in Sources */,
 				E27E3F21217670B00082C91C /* CreateOpenChannelNavigationController.swift in Sources */,
 				E27E3EE9217156A60082C91C /* GroupChannelsViewController.swift in Sources */,
-				520F9D2722F27BC700439551 /* GroupChannelHiddenChannelsViewController.swift in Sources */,
 				E27E3F99217911240082C91C /* OpenChannelGeneralFileMessageTableViewCell.swift in Sources */,
 				5215677F22E93E7300C12632 /* OpenChannelMessageTableViewCell.swift in Sources */,
 				5215271722E0078500F2F011 /* SettingsTimeViewController.swift in Sources */,
 				E27E3F9D2179113B0082C91C /* OpenChannelAdminMessageTableViewCell.swift in Sources */,
 				E27E3F862177BB7C0082C91C /* SettingsTimePickerTableViewCell.swift in Sources */,
-				520F9D2A22F2830500439551 /* GroupChannelHiddenChannelTableViewCell.swift in Sources */,
+				A9FBF70E22FCFB10000E146B /* SplitViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

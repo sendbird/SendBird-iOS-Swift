@@ -22,7 +22,6 @@ class UserProfileViewController: UIViewController, NotificationDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-        // Do any additional setup after loading the view.
         self.title = "Profile"
         self.navigationItem.largeTitleDisplayMode = .automatic
         

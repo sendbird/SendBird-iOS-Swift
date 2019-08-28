@@ -81,8 +81,11 @@ class CreateOpenChannelViewControllerA: UIViewController, UIImagePickerControlle
     }
     
     @objc func clickCoverImage(_ sender: AnyObject) {
-        let vc = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let takePhotoAction = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
+        print("clickCoverImage/CreateOpenChannelViewController")
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        alert.modalPresentationStyle = .popover
+        
+        let actionPhoto = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.camera
@@ -93,7 +96,7 @@ class CreateOpenChannelViewControllerA: UIViewController, UIImagePickerControlle
             }
         }
         
-        let chooseFromLibraryAction = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
+        let actionLibrary = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.photoLibrary
@@ -104,13 +107,19 @@ class CreateOpenChannelViewControllerA: UIViewController, UIImagePickerControlle
             }
         }
         
-        let closeAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+        let actionCancel = UIAlertAction(title: "Close", style: .cancel, handler: nil)
         
-        vc.addAction(takePhotoAction)
-        vc.addAction(chooseFromLibraryAction)
-        vc.addAction(closeAction)
+        alert.addAction(actionPhoto)
+        alert.addAction(actionLibrary)
+        alert.addAction(actionCancel)
         
-        self.present(vc, animated: true, completion: nil)
+        if let presenter = alert.popoverPresentationController {
+            presenter.sourceView = self.view
+            presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.midY, width: 0, height: 0)
+            presenter.permittedArrowDirections = []
+        }
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     @objc func textFieldDidChangeNotification(_ notification: Notification) {

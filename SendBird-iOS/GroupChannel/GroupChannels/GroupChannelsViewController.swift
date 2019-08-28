@@ -31,14 +31,8 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         self.title = "Group Channels"
         self.navigationItem.largeTitleDisplayMode = .automatic
         
-        let createChannelBarButton = UIBarButtonItem.init(image: UIImage(named: "img_btn_create_group_channel"), style: .plain, target: self, action: #selector(GroupChannelsViewController.clickCreateGroupChannel(_:)))
+        let createChannelBarButton = UIBarButtonItem.init(image: UIImage(named: "img_btn_create_group_channel_blue"), style: .plain, target: self, action: #selector(GroupChannelsViewController.clickCreateGroupChannel(_:)))
         self.navigationItem.rightBarButtonItem = createChannelBarButton
-        
-        
-        let showHiddenChannelsBarButton = UIBarButtonItem.init(image: UIImage(named: "img_btn_create_group_channel"), style: .plain, target: self, action: #selector(showHiddenGroupChannels(_:)))
-        
-        let showPublicChannelsBarButton = UIBarButtonItem.init(image: UIImage(named: "img_btn_create_group_channel"), style: .plain, target: self, action: #selector(showPublicGroupChannels(_:)))
-        self.navigationItem.leftBarButtonItems = [showHiddenChannelsBarButton, showPublicChannelsBarButton]
         
         self.groupChannelsTableView.delegate = self
         self.groupChannelsTableView.dataSource = self
@@ -89,13 +83,14 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "CreateGroupChannel", let destination = segue.destination as? CreateGroupChannelNavigationController{
             destination.channelCreationDelegate = self
-        } else if segue.identifier == "ShowGroupChat", let destination = segue.destination as? GroupChannelChatViewController {
+        } else if segue.identifier == "ShowGroupChat", let destination = segue.destination.children.first as? GroupChannelChatViewController {
             destination.hidesBottomBarWhenPushed = true
             if let index = sender as? Int {
                 destination.channel = self.channels[index]
             } else if let channel = sender as? SBDGroupChannel {
                 destination.channel = channel
             }
+            
             destination.delegate = self
         }
     }
@@ -117,7 +112,7 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         guard let indexPath = self.groupChannelsTableView.indexPathForRow(at: point) else { return }
         if recognizer.state == .began {
             let channel = self.channels[indexPath.row]
-            let alertController = UIAlertController(title: Utils.createGroupChannelName(channel: channel), message: nil, preferredStyle: .actionSheet)
+            let alert = UIAlertController(title: Utils.createGroupChannelName(channel: channel), message: nil, preferredStyle: .actionSheet)
             let actionHide = UIAlertAction(title: "Hide Channel", style: .default) { (action) in
                 channel.hide(withHidePreviousMessages: true, completionHandler: { (error) in
                     if let error = error {
@@ -152,11 +147,18 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
             
             let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
-            alertController.addAction(actionHide)
-            alertController.addAction(actionLeave)
-            alertController.addAction(actionCancel)
+            alert.modalPresentationStyle = .popover
+            alert.addAction(actionHide)
+            alert.addAction(actionLeave)
+            alert.addAction(actionCancel)
             
-            self.present(alertController, animated: true, completion: nil)
+            if let presenter = alert.popoverPresentationController {
+                presenter.sourceView = self.view
+                presenter.sourceRect = CGRect(x: self.view.bounds.minX, y: self.view.bounds.maxY, width: 0, height: 0)
+                presenter.permittedArrowDirections = []
+            }
+            
+            self.present(alert, animated: true, completion: nil)
         }
     }
     
@@ -247,14 +249,14 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         let lastMessageDateFormatter = DateFormatter()
         var lastMessageDate: Date?
         var lastUpdatedTimestamp: Int64 = 0
+        
+        /// Marking Date on the Group Channel List
+        
         if channel.lastMessage != nil {
             lastUpdatedTimestamp = (channel.lastMessage?.createdAt)!
-        }
-        
-        if String(lastUpdatedTimestamp).count == 10 {
             lastMessageDate = Date(timeIntervalSince1970: Double(lastUpdatedTimestamp))
-        }
-        else {
+        } else {
+            lastUpdatedTimestamp = Int64(channel.createdAt * 1000)
             lastMessageDate = Date(timeIntervalSince1970: Double(lastUpdatedTimestamp) / 1000.0)
         }
         
@@ -406,8 +408,7 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
-        tableView.layoutIfNeeded()
+        //tableView.deselectRow(at: indexPath, animated: true)
 
         performSegue(withIdentifier: "ShowGroupChat", sender: indexPath.row)
     }

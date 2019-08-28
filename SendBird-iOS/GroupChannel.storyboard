@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EhS-Sz-WvI">
-    <device id="retina6_1" orientation="portrait">
+    <device id="ipad11_0rounded" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
@@ -15,18 +15,18 @@
             <objects>
                 <viewController storyboardIdentifier="GroupChannelsViewController" title="Group Channels" id="EhS-Sz-WvI" customClass="GroupChannelsViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="eLG-qZ-maB">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="6r4-MH-j3S" userLabel="Group Channels Table View">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelTableViewCell" rowHeight="80" id="yPq-Ws-8k2" customClass="GroupChannelTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="80"/>
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="gray" indentationWidth="10" reuseIdentifier="GroupChannelTableViewCell" rowHeight="80" id="yPq-Ws-8k2" customClass="GroupChannelTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
+                                        <rect key="frame" x="0.0" y="28" width="834" height="80"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="yPq-Ws-8k2" id="3Mb-k0-QK9">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="80"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="vKG-0L-bRa" userLabel="Cover Image Container View" customClass="ProfileImageView" customModule="SendBird_iOS" customModuleProvider="target">
@@ -62,7 +62,7 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nlc-Bv-mUx" userLabel="Unread Message Count Container View">
-                                                    <rect key="frame" x="370.5" y="47" width="33.5" height="19"/>
+                                                    <rect key="frame" x="790.5" y="47" width="33.5" height="19"/>
                                                     <subviews>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="+99" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GXv-Vu-ea8" userLabel="Unread Message Count Label">
                                                             <rect key="frame" x="5" y="2.5" width="23.5" height="14"/>
@@ -93,7 +93,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="nPa-hm-2vh" userLabel="Typing Indicator Container View">
-                                                    <rect key="frame" x="80" y="41" width="234" height="17"/>
+                                                    <rect key="frame" x="80" y="41" width="654" height="17"/>
                                                     <subviews>
                                                         <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="wiw-6S-71g" userLabel="Typing Indicator Image View" customClass="FLAnimatedImageView">
                                                             <rect key="frame" x="0.0" y="6" width="18" height="5"/>
@@ -103,7 +103,7 @@
                                                             </constraints>
                                                         </imageView>
                                                         <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Typing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gk9-vz-8vL" userLabel="Typing Indicator Label">
-                                                            <rect key="frame" x="28" y="-0.5" width="206" height="18"/>
+                                                            <rect key="frame" x="28" y="-0.5" width="626" height="18"/>
                                                             <fontDescription key="fontDescription" type="italicSystem" pointSize="15"/>
                                                             <color key="textColor" name="color_group_channel_last_message_label"/>
                                                             <nil key="highlightedColor"/>
@@ -121,13 +121,13 @@
                                                     </constraints>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Yesterday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="2je-nd-q17" userLabel="Last Updated Date Label">
-                                                    <rect key="frame" x="340" y="14" width="64" height="17"/>
+                                                    <rect key="frame" x="760" y="14" width="64" height="17"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                     <color key="textColor" name="color_group_channel_updated_at_label"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="BAe-fj-Q30" userLabel="Bottom Line View">
-                                                    <rect key="frame" x="80" y="79.5" width="334" height="0.5"/>
+                                                    <rect key="frame" x="80" y="79.5" width="754" height="0.5"/>
                                                     <color key="backgroundColor" name="color_group_channel_divider"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="0.5" id="Rd0-QI-I2R"/>
@@ -140,7 +140,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hkB-LA-NS9" userLabel="Last Message Label">
-                                                    <rect key="frame" x="80" y="33" width="282" height="18"/>
+                                                    <rect key="frame" x="80" y="33" width="702" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="color_group_channel_last_message_label"/>
                                                     <nil key="highlightedColor"/>
@@ -192,16 +192,16 @@
                                 </prototypes>
                             </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="jJZ-tQ-QH6" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                             </activityIndicatorView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no group channels" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8e-Li-fJv" userLabel="Empty Label">
-                                <rect key="frame" x="106.5" y="444" width="201" height="18"/>
+                                <rect key="frame" x="316.5" y="590" width="201" height="18"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <color key="textColor" name="color_empty_list_label"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bPr-fD-mwe" userLabel="Toast View">
-                                <rect key="frame" x="147" y="392.5" width="120" height="111"/>
+                                <rect key="frame" x="357" y="541.5" width="120" height="111"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_toast_check" translatesAutoresizingMaskIntoConstraints="NO" id="37M-Vj-GDL" userLabel="Toast Check Image View">
                                         <rect key="frame" x="40" y="33" width="40" height="32"/>
@@ -257,26 +257,24 @@
                         <outlet property="loadingIndicatorView" destination="jJZ-tQ-QH6" id="mKf-sR-q2S"/>
                         <outlet property="toastMessageLabel" destination="oUb-BH-sFU" id="oDh-dD-SNW"/>
                         <outlet property="toastView" destination="bPr-fD-mwe" id="b0r-0g-VSl"/>
-                        <segue destination="ESq-tY-gjT" kind="show" identifier="ShowGroupChat" id="lZ8-IH-JE1"/>
-                        <segue destination="efp-2W-Ywn" kind="presentation" identifier="CreateGroupChannel" id="TjS-Gr-Qg1"/>
-                        <segue destination="YJf-pH-691" kind="show" identifier="ShowHiddenChannels" id="qBI-dF-sJo"/>
-                        <segue destination="1Oh-gO-o99" kind="show" identifier="ShowPublicChannels" id="Ljk-rv-sVs"/>
+                        <segue destination="oiI-8W-aFC" kind="showDetail" identifier="ShowGroupChat" id="lZ8-IH-JE1"/>
+                        <segue destination="efp-2W-Ywn" kind="presentation" identifier="CreateGroupChannel" modalPresentationStyle="formSheet" id="TjS-Gr-Qg1"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hQ9-9l-WlA" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2768" y="2221"/>
+            <point key="canvasLocation" x="-2355" y="1988"/>
         </scene>
         <!--Create Group Channel View ControllerA-->
         <scene sceneID="8yP-Fc-6PN">
             <objects>
                 <viewController id="Fl6-Bo-p2e" customClass="CreateGroupChannelViewControllerA" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="CZZ-Nk-GZ1">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YkM-GI-1K1">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
@@ -297,125 +295,21 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="HrT-7B-ziU" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1497" y="3067"/>
+            <point key="canvasLocation" x="-743.16546762589928" y="3066.8341708542712"/>
         </scene>
         <!--Create Group Channel View ControllerB-->
         <scene sceneID="Wn7-n2-2m4">
             <objects>
                 <viewController id="tAb-gt-fTY" customClass="CreateGroupChannelViewControllerB" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="8XQ-du-yqF">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ubh-Lg-fRK">
-                                <rect key="frame" x="0.0" y="320" width="414" height="48"/>
-                                <subviews>
-                                    <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Enter Password..." textAlignment="natural" minimumFontSize="17" clearButtonMode="unlessEditing" translatesAutoresizingMaskIntoConstraints="NO" id="rzK-HA-AL8">
-                                        <rect key="frame" x="16" y="0.0" width="382" height="47.5"/>
-                                        <nil key="textColor"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <textInputTraits key="textInputTraits" textContentType="password"/>
-                                    </textField>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="O3v-aw-OHM" userLabel="Bottom Border View">
-                                        <rect key="frame" x="0.0" y="47.5" width="414" height="0.5"/>
-                                        <color key="backgroundColor" red="0.73725490199999999" green="0.73333333329999995" blue="0.75686274509999996" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="0.5" id="UvL-nT-ECU"/>
-                                        </constraints>
-                                    </view>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="rzK-HA-AL8" firstAttribute="top" secondItem="0ka-qh-sKC" secondAttribute="top" id="Bf4-yB-p3i"/>
-                                    <constraint firstItem="rzK-HA-AL8" firstAttribute="leading" secondItem="0ka-qh-sKC" secondAttribute="leading" constant="16" id="JGA-up-q0e"/>
-                                    <constraint firstItem="O3v-aw-OHM" firstAttribute="leading" secondItem="ubh-Lg-fRK" secondAttribute="leading" id="McM-wf-NOg"/>
-                                    <constraint firstAttribute="bottom" secondItem="O3v-aw-OHM" secondAttribute="bottom" id="Ska-oq-2g9"/>
-                                    <constraint firstAttribute="height" constant="48" id="Xvk-LO-L2u"/>
-                                    <constraint firstItem="O3v-aw-OHM" firstAttribute="top" secondItem="rzK-HA-AL8" secondAttribute="bottom" id="abW-l6-chF"/>
-                                    <constraint firstAttribute="trailing" secondItem="O3v-aw-OHM" secondAttribute="trailing" id="euk-J4-Vfa"/>
-                                    <constraint firstItem="0ka-qh-sKC" firstAttribute="trailing" secondItem="rzK-HA-AL8" secondAttribute="trailing" constant="16" id="zhh-5K-eve"/>
-                                </constraints>
-                                <viewLayoutGuide key="safeArea" id="0ka-qh-sKC"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="K8d-0w-jFP">
-                                <rect key="frame" x="0.0" y="272" width="414" height="48"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WVS-me-haS" userLabel="Bottom Border View">
-                                        <rect key="frame" x="0.0" y="47.5" width="414" height="0.5"/>
-                                        <color key="backgroundColor" red="0.73725490199999999" green="0.73333333329999995" blue="0.75686274509999996" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="0.5" id="1yw-lT-Mmo"/>
-                                        </constraints>
-                                    </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Password" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FpH-25-Wwt">
-                                        <rect key="frame" x="16" y="13.5" width="74" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="rOh-cG-JTn">
-                                        <rect key="frame" x="349" y="8.5" width="51" height="31"/>
-                                        <color key="onTintColor" name="color_settings_menu_add_operator"/>
-                                        <connections>
-                                            <action selector="togglePasswordSwitch:" destination="tAb-gt-fTY" eventType="valueChanged" id="prb-mt-nPe"/>
-                                        </connections>
-                                    </switch>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="WVS-me-haS" firstAttribute="leading" secondItem="K8d-0w-jFP" secondAttribute="leading" id="0cr-Ea-Ur6"/>
-                                    <constraint firstAttribute="height" constant="48" id="7V0-TU-VIn"/>
-                                    <constraint firstItem="FpH-25-Wwt" firstAttribute="centerY" secondItem="0jD-Rt-gPR" secondAttribute="centerY" id="AXe-Yl-Ugl"/>
-                                    <constraint firstItem="rOh-cG-JTn" firstAttribute="centerY" secondItem="0jD-Rt-gPR" secondAttribute="centerY" id="H4P-MT-pF6"/>
-                                    <constraint firstAttribute="trailing" secondItem="WVS-me-haS" secondAttribute="trailing" id="IDR-Xa-Lxd"/>
-                                    <constraint firstItem="0jD-Rt-gPR" firstAttribute="trailing" secondItem="rOh-cG-JTn" secondAttribute="trailing" constant="16" id="hho-0e-Pi9"/>
-                                    <constraint firstItem="FpH-25-Wwt" firstAttribute="leading" secondItem="0jD-Rt-gPR" secondAttribute="leading" constant="16" id="lZS-hJ-J6C"/>
-                                    <constraint firstAttribute="bottom" secondItem="WVS-me-haS" secondAttribute="bottom" id="zgU-Tw-8gF"/>
-                                </constraints>
-                                <viewLayoutGuide key="safeArea" id="0jD-Rt-gPR"/>
-                            </view>
-                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="F1f-N5-ei7" userLabel="Public Channel Switch Container view">
-                                <rect key="frame" x="0.0" y="224" width="414" height="48"/>
-                                <subviews>
-                                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ZBG-4H-pOF" userLabel="Bottom Border View">
-                                        <rect key="frame" x="0.0" y="47.5" width="414" height="0.5"/>
-                                        <color key="backgroundColor" red="0.73725490199999999" green="0.73333333329999995" blue="0.75686274509999996" alpha="1" colorSpace="calibratedRGB"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="0.5" id="QrQ-IR-Xw5"/>
-                                        </constraints>
-                                    </view>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Public" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="B9w-z5-mpI">
-                                        <rect key="frame" x="16" y="13.5" width="47" height="21"/>
-                                        <fontDescription key="fontDescription" type="system" pointSize="17"/>
-                                        <nil key="textColor"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                    <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="FFU-ch-9mL">
-                                        <rect key="frame" x="349" y="8.5" width="51" height="31"/>
-                                        <color key="onTintColor" name="color_settings_menu_add_operator"/>
-                                        <connections>
-                                            <action selector="togglePublicSwitch:" destination="tAb-gt-fTY" eventType="valueChanged" id="grD-jk-9Fh"/>
-                                        </connections>
-                                    </switch>
-                                </subviews>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <constraints>
-                                    <constraint firstItem="B9w-z5-mpI" firstAttribute="leading" secondItem="5eo-mU-nCw" secondAttribute="leading" constant="16" id="5Ct-K6-JPv"/>
-                                    <constraint firstItem="B9w-z5-mpI" firstAttribute="centerY" secondItem="5eo-mU-nCw" secondAttribute="centerY" id="5F1-aG-pyr"/>
-                                    <constraint firstAttribute="height" constant="48" id="J4i-Gq-c2Z"/>
-                                    <constraint firstItem="FFU-ch-9mL" firstAttribute="centerY" secondItem="5eo-mU-nCw" secondAttribute="centerY" id="Q54-y9-7M9"/>
-                                    <constraint firstItem="5eo-mU-nCw" firstAttribute="trailing" secondItem="FFU-ch-9mL" secondAttribute="trailing" constant="16" id="SeJ-aV-AXK"/>
-                                    <constraint firstItem="ZBG-4H-pOF" firstAttribute="leading" secondItem="F1f-N5-ei7" secondAttribute="leading" id="Y8B-b4-CXV"/>
-                                    <constraint firstAttribute="bottom" secondItem="ZBG-4H-pOF" secondAttribute="bottom" id="ebe-L0-yeG"/>
-                                    <constraint firstAttribute="trailing" secondItem="ZBG-4H-pOF" secondAttribute="trailing" id="rfd-XX-k0f"/>
-                                </constraints>
-                                <viewLayoutGuide key="safeArea" id="5eo-mU-nCw"/>
-                            </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rMO-jW-QoD" userLabel="Channel Cover Container View">
-                                <rect key="frame" x="0.0" y="88" width="414" height="120"/>
+                                <rect key="frame" x="0.0" y="50" width="540" height="120"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ruK-df-cYO" userLabel="Bottom Border View">
-                                        <rect key="frame" x="0.0" y="119" width="414" height="1"/>
+                                        <rect key="frame" x="0.0" y="119" width="540" height="1"/>
                                         <color key="backgroundColor" red="0.73725490199999999" green="0.73333333329999995" blue="0.75686274509999996" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="MW9-Ze-EnY"/>
@@ -442,7 +336,7 @@
                                         </constraints>
                                     </imageView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Channel Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="KkF-zt-Z0B" userLabel="Channel Name Text Field">
-                                        <rect key="frame" x="133" y="49" width="265" height="22"/>
+                                        <rect key="frame" x="133" y="49" width="391" height="22"/>
                                         <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                         <textInputTraits key="textInputTraits"/>
@@ -461,44 +355,28 @@
                                     <constraint firstItem="enQ-e3-Xx7" firstAttribute="centerY" secondItem="rMO-jW-QoD" secondAttribute="centerY" id="z9H-Vn-xbD"/>
                                 </constraints>
                             </view>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="vxw-Hh-o7J" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="vxw-Hh-o7J" customClass="CustomActivityIndicatorView">
+                                <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" name="color_channel_settings_bg"/>
                         <constraints>
                             <constraint firstItem="vxw-Hh-o7J" firstAttribute="leading" secondItem="8XQ-du-yqF" secondAttribute="leading" id="6sD-UD-Jzc"/>
-                            <constraint firstItem="K8d-0w-jFP" firstAttribute="trailing" secondItem="ng1-9t-I8y" secondAttribute="trailing" id="HX6-VL-m3C"/>
-                            <constraint firstItem="F1f-N5-ei7" firstAttribute="trailing" secondItem="ng1-9t-I8y" secondAttribute="trailing" id="K9p-Ja-7YZ"/>
                             <constraint firstAttribute="bottom" secondItem="vxw-Hh-o7J" secondAttribute="bottom" id="KMi-D7-zUE"/>
-                            <constraint firstItem="ubh-Lg-fRK" firstAttribute="trailing" secondItem="ng1-9t-I8y" secondAttribute="trailing" id="MdS-YZ-pGV"/>
                             <constraint firstItem="vxw-Hh-o7J" firstAttribute="top" secondItem="8XQ-du-yqF" secondAttribute="top" id="RSb-am-FuH"/>
-                            <constraint firstItem="ubh-Lg-fRK" firstAttribute="top" secondItem="K8d-0w-jFP" secondAttribute="bottom" id="U38-PI-VJt"/>
-                            <constraint firstItem="F1f-N5-ei7" firstAttribute="leading" secondItem="ng1-9t-I8y" secondAttribute="leading" id="WAb-KH-pUg"/>
                             <constraint firstItem="rMO-jW-QoD" firstAttribute="top" secondItem="ng1-9t-I8y" secondAttribute="top" id="Wzx-bb-1hA"/>
-                            <constraint firstItem="ubh-Lg-fRK" firstAttribute="leading" secondItem="ng1-9t-I8y" secondAttribute="leading" id="ZD4-4J-zHp"/>
                             <constraint firstAttribute="trailing" secondItem="rMO-jW-QoD" secondAttribute="trailing" id="ZNX-0S-aWw"/>
                             <constraint firstItem="rMO-jW-QoD" firstAttribute="leading" secondItem="8XQ-du-yqF" secondAttribute="leading" id="a9p-07-Uah"/>
                             <constraint firstItem="enQ-e3-Xx7" firstAttribute="leading" secondItem="ng1-9t-I8y" secondAttribute="leading" constant="16" id="ePB-n2-ak9"/>
                             <constraint firstAttribute="trailing" secondItem="vxw-Hh-o7J" secondAttribute="trailing" id="mEe-Yz-JPG"/>
-                            <constraint firstItem="K8d-0w-jFP" firstAttribute="leading" secondItem="ng1-9t-I8y" secondAttribute="leading" id="rzS-bz-tav"/>
-                            <constraint firstItem="F1f-N5-ei7" firstAttribute="top" secondItem="rMO-jW-QoD" secondAttribute="bottom" constant="16" id="xWb-YU-Edw"/>
                             <constraint firstItem="ng1-9t-I8y" firstAttribute="trailing" secondItem="KkF-zt-Z0B" secondAttribute="trailing" constant="16" id="y9i-Fm-W5p"/>
-                            <constraint firstItem="K8d-0w-jFP" firstAttribute="top" secondItem="F1f-N5-ei7" secondAttribute="bottom" id="zhD-DG-rIH"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ng1-9t-I8y"/>
                     </view>
                     <connections>
-                        <outlet property="accessCodeSwitch" destination="rOh-cG-JTn" id="wh0-ZG-ksX"/>
-                        <outlet property="accessCodeSwitchContainerConstraint" destination="zhD-DG-rIH" id="7dc-V9-u41"/>
-                        <outlet property="accessCodeSwitchContainerView" destination="K8d-0w-jFP" id="pci-MU-axB"/>
-                        <outlet property="accessCodeTextField" destination="rzK-HA-AL8" id="5Ua-Cq-xCq"/>
-                        <outlet property="accessCodeTextFieldContainerConstraint" destination="U38-PI-VJt" id="TgO-ud-NWE"/>
-                        <outlet property="accessCodeTextFieldContainerView" destination="ubh-Lg-fRK" id="VDL-pC-WJM"/>
                         <outlet property="channelNameTextField" destination="KkF-zt-Z0B" id="az0-nn-edE"/>
                         <outlet property="loadingIndicatorView" destination="vxw-Hh-o7J" id="SIV-vB-4Tr"/>
                         <outlet property="profileImageView" destination="enQ-e3-Xx7" id="ElY-m1-2aG"/>
-                        <outlet property="publicChannelSwitch" destination="FFU-ch-9mL" id="C8h-Bf-tnu"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mmJ-yh-3bc" userLabel="First Responder" sceneMemberID="firstResponder"/>
@@ -510,18 +388,18 @@
             <objects>
                 <viewController id="WkL-XQ-enD" customClass="GroupChannelSettingsViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Gun-vA-b8P">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="grouped" sectionIndexMinimumDisplayRowCount="4" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="18" sectionFooterHeight="18" translatesAutoresizingMaskIntoConstraints="NO" id="bMU-AL-XZ0">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                                 <color key="backgroundColor" cocoaTouchSystemColor="groupTableViewBackgroundColor"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelSettingsChannelCoverNameTableViewCell" rowHeight="139" id="8Gx-IQ-dRY" customClass="GroupChannelSettingsChannelCoverNameTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="55.5" width="414" height="139"/>
+                                        <rect key="frame" x="0.0" y="55.5" width="834" height="139"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8Gx-IQ-dRY" id="jq0-6n-4DY">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="138.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="138.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N1o-o4-DhA" customClass="ProfileImageView" customModule="SendBird_iOS" customModuleProvider="target">
@@ -538,13 +416,13 @@
                                                     </userDefinedRuntimeAttributes>
                                                 </view>
                                                 <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Channel Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z39-88-Mvd" userLabel="Channel Name Text Field">
-                                                    <rect key="frame" x="132" y="58.5" width="218" height="22"/>
+                                                    <rect key="frame" x="132" y="58.5" width="638" height="22"/>
                                                     <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
                                                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="kOZ-VG-aDZ" userLabel="Enable Edit Button">
-                                                    <rect key="frame" x="358" y="51.5" width="36" height="36"/>
+                                                    <rect key="frame" x="778" y="51.5" width="36" height="36"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="36" id="XLv-to-wFl"/>
                                                         <constraint firstAttribute="width" constant="36" id="ZC4-Il-NiS"/>
@@ -573,14 +451,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelSettingsNotificationsTableViewCell" id="3iE-b0-fOz" customClass="GroupChannelSettingsNotificationsTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="194.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="194.5" width="834" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3iE-b0-fOz" id="ExI-Tt-16h">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="meT-UA-LgR" userLabel="Background View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_notification_setting" translatesAutoresizingMaskIntoConstraints="NO" id="OBG-oS-jJd" userLabel="Notification Setting Icon Image View">
@@ -597,7 +475,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="aDs-5Z-AJ0">
-                                                    <rect key="frame" x="348" y="6.5" width="51" height="31"/>
+                                                    <rect key="frame" x="768" y="6.5" width="51" height="31"/>
                                                     <color key="onTintColor" red="0.47450980390000003" green="0.31372549020000001" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <connections>
                                                         <action selector="clickSwitch:" destination="3iE-b0-fOz" eventType="valueChanged" id="BuQ-Mb-OJo"/>
@@ -625,14 +503,14 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelSettingsInviteMemberTableViewCell" id="hCz-xY-8Ou" customClass="GroupChannelSettingsInviteMemberTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="238.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="238.5" width="834" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hCz-xY-8Ou" id="Cs5-rT-v66">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="J7v-WK-5aS" userLabel="Background View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </view>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_add_operator" translatesAutoresizingMaskIntoConstraints="NO" id="SiN-CR-Ocq" userLabel="Invite Member Icon Image View">
@@ -643,7 +521,7 @@
                                                     </constraints>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Invite a member" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sco-nJ-u8b" userLabel="Invite Member Setting Label">
-                                                    <rect key="frame" x="70" y="11.5" width="344" height="21"/>
+                                                    <rect key="frame" x="70" y="11.5" width="764" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.47450980390000003" green="0.31372549020000001" blue="0.94901960780000005" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -666,14 +544,14 @@
                                         <viewLayoutGuide key="safeArea" id="V39-Qs-5aR"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelSettingsMemberTableViewCell" id="QcM-9p-84f" customClass="GroupChannelSettingsMemberTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="282.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="282.5" width="834" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QcM-9p-84f" id="i1s-eD-u4C">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="CBw-Ka-42z" userLabel="Background View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </view>
                                                 <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="VwN-ba-whD" userLabel="Profile Image View">
@@ -713,13 +591,13 @@
                                                     <rect key="frame" x="15" y="3" width="38" height="38"/>
                                                 </imageView>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Nickname" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b2g-DC-p6d" userLabel="Nickname Label">
-                                                    <rect key="frame" x="68" y="11.5" width="269" height="21"/>
+                                                    <rect key="frame" x="68" y="11.5" width="689" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
                                                     <color key="textColor" red="0.21176470589999999" green="0.1764705882" blue="0.36470588240000001" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="750" verticalHuggingPriority="251" text="Blocked" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IqO-z2-Bci" userLabel="Status Label">
-                                                    <rect key="frame" x="343" y="13" width="55" height="18"/>
+                                                    <rect key="frame" x="763" y="13" width="55" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" red="0.65490196079999996" green="0.61176470589999998" blue="0.7843137255" alpha="1" colorSpace="calibratedRGB"/>
                                                     <nil key="highlightedColor"/>
@@ -760,24 +638,24 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelSettingsLeaveChatTableViewCell" id="p2Q-Ab-WjV" customClass="GroupChannelSettingsLeaveChatTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="326.5" width="414" height="44"/>
+                                        <rect key="frame" x="0.0" y="326.5" width="834" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="p2Q-Ab-WjV" id="O31-ib-vWw">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MqJ-YZ-RHt" userLabel="Background View">
-                                                    <rect key="frame" x="0.0" y="0.0" width="414" height="43.5"/>
+                                                    <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
                                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </view>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Leave Channel" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ln1-Za-UHa">
-                                                    <rect key="frame" x="0.0" y="11.5" width="414" height="21"/>
+                                                    <rect key="frame" x="0.0" y="11.5" width="834" height="21"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                                     <color key="textColor" red="0.87843137250000003" green="0.19215686269999999" blue="0.19215686269999999" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="wOu-wQ-kXo" userLabel="Bottom Border View">
-                                                    <rect key="frame" x="0.0" y="43" width="414" height="0.5"/>
+                                                    <rect key="frame" x="0.0" y="43" width="834" height="0.5"/>
                                                     <color key="backgroundColor" name="color_settings_border"/>
                                                     <constraints>
                                                         <constraint firstAttribute="height" constant="0.5" id="n5F-D4-5LB"/>
@@ -805,7 +683,7 @@
                                 <sections/>
                             </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="rwK-2P-xCz" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" name="color_channel_settings_bg"/>
@@ -838,15 +716,15 @@
             <objects>
                 <viewController id="LMb-Wy-W9e" customClass="GroupChannelInviteMemberViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="hLs-Cx-SLb">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WWa-Ua-705">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="s9c-PZ-Xm6" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -869,18 +747,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hdJ-JE-ldd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2716" y="3863"/>
+            <point key="canvasLocation" x="-3729" y="4555"/>
         </scene>
         <!--User Profile View Controller-->
         <scene sceneID="0NW-gW-V8x">
             <objects>
                 <viewController id="A0V-Hi-H9j" customClass="UserProfileViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="2Ic-q1-H33">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3AJ-Lz-z0z">
-                                <rect key="frame" x="0.0" y="44" width="414" height="121"/>
+                                <rect key="frame" x="0.0" y="74" width="834" height="121"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_default_profile_image_4" translatesAutoresizingMaskIntoConstraints="NO" id="Y0j-cL-ZOc" userLabel="Profile Image View">
                                         <rect key="frame" x="15" y="10.5" width="100" height="100"/>
@@ -895,7 +773,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SRa-QM-oN9" userLabel="Nickname Label">
-                                        <rect key="frame" x="131" y="26" width="268" height="21"/>
+                                        <rect key="frame" x="131" y="26" width="688" height="21"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                         <color key="textColor" name="color_profile_nickname"/>
                                         <nil key="highlightedColor"/>
@@ -956,18 +834,18 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="ql3-r0-Ydg" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1609" y="4991"/>
+            <point key="canvasLocation" x="-3023" y="4555"/>
         </scene>
         <!--Group Channel Cover Image Name Setting View Controller-->
         <scene sceneID="nkL-dV-0YB">
             <objects>
                 <viewController id="uUn-AC-KUB" customClass="GroupChannelCoverImageNameSettingViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="Dju-38-emj">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0du-kn-47v" userLabel="Container View">
-                                <rect key="frame" x="0.0" y="44" width="414" height="120"/>
+                                <rect key="frame" x="0.0" y="74" width="834" height="120"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgc-FM-u7u" customClass="ProfileImageView" customModule="SendBird_iOS" customModuleProvider="target">
                                         <rect key="frame" x="15" y="10" width="100" height="100"/>
@@ -990,7 +868,7 @@
                                         </constraints>
                                     </imageView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Open Channel Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="Ef4-YI-Qh2" userLabel="Channel Name Text Field">
-                                        <rect key="frame" x="131" y="46" width="268" height="28"/>
+                                        <rect key="frame" x="131" y="46" width="688" height="28"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="28" id="7zm-Vk-Rt0"/>
                                         </constraints>
@@ -999,7 +877,7 @@
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="sWh-6V-hSL" userLabel="Divider View">
-                                        <rect key="frame" x="0.0" y="119" width="414" height="1"/>
+                                        <rect key="frame" x="0.0" y="119" width="834" height="1"/>
                                         <color key="backgroundColor" red="0.73725490199999999" green="0.73333333329999995" blue="0.75686274509999996" alpha="1" colorSpace="calibratedRGB"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="1" id="1LP-pQ-ddv"/>
@@ -1020,7 +898,7 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="gwk-HN-GE3" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="20"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="20"/>
                             </activityIndicatorView>
                         </subviews>
                         <color key="backgroundColor" name="color_channel_settings_bg"/>
@@ -1044,22 +922,22 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="lri-SO-DpR" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3730" y="4677"/>
+            <point key="canvasLocation" x="-4414" y="4555"/>
         </scene>
         <!--Group Channel Chat View Controller-->
         <scene sceneID="ipV-Fx-eSg">
             <objects>
-                <viewController id="ESq-tY-gjT" customClass="GroupChannelChatViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="GrouplChatViewController" id="ESq-tY-gjT" customClass="GroupChannelChatViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="CQq-dl-bWx">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" bouncesZoom="NO" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="jaE-X5-4Cj" userLabel="Message Table View">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="807"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1119"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="WuF-Dg-dkJ" userLabel="Typing Indicator Container View">
-                                <rect key="frame" x="0.0" y="777" width="414" height="30"/>
+                                <rect key="frame" x="0.0" y="1089" width="834" height="30"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="DMA-AS-cxg" userLabel="Typing Indicator Image View" customClass="FLAnimatedImageView">
                                         <rect key="frame" x="14" y="12.5" width="18" height="5"/>
@@ -1069,7 +947,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Typing" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="qFx-mg-CyJ" userLabel="Typing Indicator Label">
-                                        <rect key="frame" x="42" y="8" width="372" height="14"/>
+                                        <rect key="frame" x="42" y="8" width="792" height="14"/>
                                         <fontDescription key="fontDescription" type="italicSystem" pointSize="12"/>
                                         <color key="textColor" red="0.61568627450000002" green="0.63921568630000003" blue="0.68235294120000001" alpha="1" colorSpace="calibratedRGB"/>
                                         <nil key="highlightedColor"/>
@@ -1087,10 +965,10 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="QuK-mS-w71" userLabel="Input Message Container View">
-                                <rect key="frame" x="0.0" y="807" width="414" height="89"/>
+                                <rect key="frame" x="0.0" y="1119" width="834" height="75"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="fuE-Ad-gK4" userLabel="Input Message Inner Container View">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="55"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="834" height="55"/>
                                         <subviews>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="4aq-78-8Fq" userLabel="Send File Message Button">
                                                 <rect key="frame" x="10" y="10.5" width="34" height="34"/>
@@ -1107,7 +985,7 @@
                                                 </connections>
                                             </button>
                                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ss2-j2-7ID" userLabel="Send User Message Button">
-                                                <rect key="frame" x="377" y="15" width="25" height="25"/>
+                                                <rect key="frame" x="797" y="15" width="25" height="25"/>
                                                 <constraints>
                                                     <constraint firstAttribute="height" constant="25" id="2SZ-7F-aah"/>
                                                     <constraint firstAttribute="width" constant="25" id="NPk-k5-3v2"/>
@@ -1121,10 +999,10 @@
                                                 </connections>
                                             </button>
                                             <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="2S4-Db-JSI" userLabel="Input Message Text Field Container View">
-                                                <rect key="frame" x="52" y="6.5" width="314" height="42"/>
+                                                <rect key="frame" x="52" y="6.5" width="734" height="42"/>
                                                 <subviews>
                                                     <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Type a message.." textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="Rj9-bV-Rvg">
-                                                        <rect key="frame" x="1" y="1" width="312" height="40"/>
+                                                        <rect key="frame" x="1" y="1" width="732" height="40"/>
                                                         <color key="backgroundColor" name="color_message_input_textfiled_bg"/>
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="LCn-55-tVz"/>
@@ -1171,7 +1049,7 @@
                                         </userDefinedRuntimeAttributes>
                                     </view>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="zSS-G6-YAw" userLabel="Divider View">
-                                        <rect key="frame" x="0.0" y="0.0" width="414" height="0.5"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="834" height="0.5"/>
                                         <color key="backgroundColor" name="color_message_input_view_top_border"/>
                                         <constraints>
                                             <constraint firstAttribute="height" constant="0.5" id="AZD-ol-vzi"/>
@@ -1187,10 +1065,10 @@
                                 </constraints>
                             </view>
                             <activityIndicatorView hidden="YES" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="x4w-rc-Oaf" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                             </activityIndicatorView>
                             <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0az-YP-nSf" userLabel="Toast View">
-                                <rect key="frame" x="147" y="392.5" width="120" height="111"/>
+                                <rect key="frame" x="357" y="541.5" width="120" height="111"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_toast_check" translatesAutoresizingMaskIntoConstraints="NO" id="NS8-lD-OUL" userLabel="Toast Check Image View">
                                         <rect key="frame" x="40" y="33" width="40" height="32"/>
@@ -1246,6 +1124,7 @@
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="sZa-6g-QDr"/>
                     </view>
+                    <navigationItem key="navigationItem" id="n18-sE-CiL"/>
                     <nil key="simulatedBottomBarMetrics"/>
                     <connections>
                         <outlet property="inputMessageInnerContainerViewBottomMargin" destination="tjm-vM-Jbz" id="gZc-dm-VYI"/>
@@ -1265,7 +1144,7 @@
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="mPo-cB-Ts6" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3396" y="3067"/>
+            <point key="canvasLocation" x="-2642.4460431654679" y="3066.8341708542712"/>
         </scene>
         <!--Create Group Channel Navigation Controller-->
         <scene sceneID="N3H-6T-86S">
@@ -1273,7 +1152,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="efp-2W-Ywn" customClass="CreateGroupChannelNavigationController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Sbo-AA-peK">
-                        <rect key="frame" x="0.0" y="44" width="414" height="44"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1283,336 +1162,25 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="FuV-C6-TbW" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-2353" y="3067"/>
+            <point key="canvasLocation" x="-1599.2805755395684" y="3066.8341708542712"/>
         </scene>
-        <!--Group Channels-->
-        <scene sceneID="UDf-fu-ar5">
+        <!--Navigation Controller-->
+        <scene sceneID="tGZ-Sa-mO9">
             <objects>
-                <viewController id="YJf-pH-691" customClass="GroupChannelHiddenChannelsViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="hdp-Kc-Sjr">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="rSj-L8-V32" userLabel="Group Channels Table View">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelTableViewCell" rowHeight="80" id="C8J-sp-ThP" customClass="GroupChannelHiddenChannelTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="80"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="C8J-sp-ThP" id="j8X-eM-BK4">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="UWg-Rw-cRX" userLabel="Cover Image Container View" customClass="ProfileImageView" customModule="SendBird_iOS" customModuleProvider="target">
-                                                    <rect key="frame" x="10" y="12" width="56" height="56"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" constant="56" id="74c-dL-9sB"/>
-                                                        <constraint firstAttribute="height" constant="56" id="eat-wr-MSb"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="Urp-NX-o0Z" userLabel="Member Count Container View">
-                                                    <rect key="frame" x="204.5" y="14" width="18" height="17"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ajf-aH-gWI" userLabel="Member Count Label">
-                                                            <rect key="frame" x="5" y="1.5" width="8" height="14"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" name="color_group_channel_member_count_label"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" name="color_group_channel_member_count_bg"/>
-                                                    <constraints>
-                                                        <constraint firstItem="ajf-aH-gWI" firstAttribute="leading" secondItem="Urp-NX-o0Z" secondAttribute="leading" constant="5" id="HG6-TP-7b3"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="18" id="b3g-iH-l4L"/>
-                                                        <constraint firstAttribute="height" constant="17" id="vLX-DQ-7Mo"/>
-                                                        <constraint firstAttribute="trailing" secondItem="ajf-aH-gWI" secondAttribute="trailing" constant="5" id="wgj-vX-rMa"/>
-                                                        <constraint firstItem="ajf-aH-gWI" firstAttribute="centerY" secondItem="Urp-NX-o0Z" secondAttribute="centerY" id="zbb-sT-S9U"/>
-                                                    </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="3"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Yesterday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="NOY-MR-wlt" userLabel="Last Updated Date Label">
-                                                    <rect key="frame" x="340" y="14" width="64" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" name="color_group_channel_updated_at_label"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="o5K-LF-FDI" userLabel="Bottom Line View">
-                                                    <rect key="frame" x="80" y="79.5" width="334" height="0.5"/>
-                                                    <color key="backgroundColor" name="color_group_channel_divider"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="0.5" id="sJl-gw-zbl"/>
-                                                    </constraints>
-                                                </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Channel Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="zQc-qZ-Utl" userLabel="Channel Name Label">
-                                                    <rect key="frame" x="80" y="12" width="116.5" height="21"/>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <color key="textColor" name="color_group_channel_name_label"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="9Y4-Vd-EC3" userLabel="Last Message Label">
-                                                    <rect key="frame" x="80" y="33" width="282" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" name="color_group_channel_last_message_label"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="UWg-Rw-cRX" firstAttribute="leading" secondItem="j8X-eM-BK4" secondAttribute="leading" constant="10" id="AzI-BY-wNl"/>
-                                                <constraint firstItem="9Y4-Vd-EC3" firstAttribute="leading" secondItem="UWg-Rw-cRX" secondAttribute="trailing" constant="14" id="CIz-c9-F64"/>
-                                                <constraint firstItem="zQc-qZ-Utl" firstAttribute="top" secondItem="UWg-Rw-cRX" secondAttribute="top" id="Dn6-iZ-Tei"/>
-                                                <constraint firstAttribute="trailing" secondItem="NOY-MR-wlt" secondAttribute="trailing" constant="10" id="JFU-4y-vEy"/>
-                                                <constraint firstAttribute="trailing" secondItem="9Y4-Vd-EC3" secondAttribute="trailing" constant="52" id="RZa-oc-GVn"/>
-                                                <constraint firstItem="o5K-LF-FDI" firstAttribute="leading" secondItem="UWg-Rw-cRX" secondAttribute="trailing" constant="14" id="S4k-4c-EZG"/>
-                                                <constraint firstItem="UWg-Rw-cRX" firstAttribute="centerY" secondItem="j8X-eM-BK4" secondAttribute="centerY" id="cT5-ZT-9M0"/>
-                                                <constraint firstItem="NOY-MR-wlt" firstAttribute="centerY" secondItem="zQc-qZ-Utl" secondAttribute="centerY" id="hge-yG-U4N"/>
-                                                <constraint firstItem="zQc-qZ-Utl" firstAttribute="leading" secondItem="UWg-Rw-cRX" secondAttribute="trailing" constant="14" id="kzb-EQ-Kv5"/>
-                                                <constraint firstItem="Urp-NX-o0Z" firstAttribute="leading" secondItem="zQc-qZ-Utl" secondAttribute="trailing" constant="8" id="ouK-e4-aaG"/>
-                                                <constraint firstAttribute="bottom" secondItem="o5K-LF-FDI" secondAttribute="bottom" id="paT-Ws-pYC"/>
-                                                <constraint firstItem="9Y4-Vd-EC3" firstAttribute="top" secondItem="zQc-qZ-Utl" secondAttribute="bottom" id="sra-s4-3Tt"/>
-                                                <constraint firstItem="Urp-NX-o0Z" firstAttribute="centerY" secondItem="zQc-qZ-Utl" secondAttribute="centerY" id="vE2-DB-rpd"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="o5K-LF-FDI" secondAttribute="trailing" id="xZs-Qs-Lz4"/>
-                                        </constraints>
-                                        <viewLayoutGuide key="safeArea" id="n89-wo-ueb"/>
-                                        <connections>
-                                            <outlet property="channelNameLabel" destination="zQc-qZ-Utl" id="Ajt-2A-LVk"/>
-                                            <outlet property="lastMessageLabel" destination="9Y4-Vd-EC3" id="7f7-nD-Jt8"/>
-                                            <outlet property="lastUpdatedDateLabel" destination="NOY-MR-wlt" id="Kfy-2i-cXa"/>
-                                            <outlet property="memberCountContainerView" destination="Urp-NX-o0Z" id="UCq-Gn-Ok6"/>
-                                            <outlet property="memberCountLabel" destination="ajf-aH-gWI" id="7Tw-Zk-IbQ"/>
-                                            <outlet property="profileImagView" destination="UWg-Rw-cRX" id="sIn-H8-OKP"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="b0q-aD-Iad" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                            </activityIndicatorView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no group channels" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="N1b-2c-xyl" userLabel="Empty Label">
-                                <rect key="frame" x="106.5" y="444" width="201" height="18"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                <color key="textColor" name="color_empty_list_label"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <view hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R0k-6o-sjy" userLabel="Toast View">
-                                <rect key="frame" x="147" y="392.5" width="120" height="111"/>
-                                <subviews>
-                                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_toast_check" translatesAutoresizingMaskIntoConstraints="NO" id="Jd9-eG-Lnc" userLabel="Toast Check Image View">
-                                        <rect key="frame" x="40" y="33" width="40" height="32"/>
-                                        <constraints>
-                                            <constraint firstAttribute="height" constant="32" id="dmy-yB-DTp"/>
-                                            <constraint firstAttribute="width" constant="40" id="nX8-0D-SIH"/>
-                                        </constraints>
-                                    </imageView>
-                                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hgv-iQ-BJT" userLabel="Toast Message Label">
-                                        <rect key="frame" x="37" y="73" width="46" height="21.5"/>
-                                        <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
-                                        <color key="textColor" name="color_toast_label"/>
-                                        <nil key="highlightedColor"/>
-                                    </label>
-                                </subviews>
-                                <color key="backgroundColor" name="color_toast_bg"/>
-                                <constraints>
-                                    <constraint firstItem="hgv-iQ-BJT" firstAttribute="top" secondItem="Jd9-eG-Lnc" secondAttribute="bottom" constant="8" id="1Ze-0u-fgd"/>
-                                    <constraint firstAttribute="height" constant="111" id="2Yv-f2-L1x"/>
-                                    <constraint firstItem="hgv-iQ-BJT" firstAttribute="centerX" secondItem="R0k-6o-sjy" secondAttribute="centerX" id="8xY-OK-MNR"/>
-                                    <constraint firstItem="Jd9-eG-Lnc" firstAttribute="centerX" secondItem="R0k-6o-sjy" secondAttribute="centerX" id="A5W-5x-8Y3"/>
-                                    <constraint firstAttribute="width" constant="120" id="Lco-VO-oEJ"/>
-                                    <constraint firstItem="Jd9-eG-Lnc" firstAttribute="top" secondItem="R0k-6o-sjy" secondAttribute="top" constant="33" id="TbU-Ak-fEj"/>
-                                </constraints>
-                                <userDefinedRuntimeAttributes>
-                                    <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                        <integer key="value" value="8"/>
-                                    </userDefinedRuntimeAttribute>
-                                </userDefinedRuntimeAttributes>
-                            </view>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="R0k-6o-sjy" firstAttribute="centerX" secondItem="hdp-Kc-Sjr" secondAttribute="centerX" id="7PJ-zU-k29"/>
-                            <constraint firstItem="N1b-2c-xyl" firstAttribute="centerX" secondItem="BJW-9R-91w" secondAttribute="centerX" id="Cqr-de-QNB"/>
-                            <constraint firstItem="N1b-2c-xyl" firstAttribute="centerY" secondItem="BJW-9R-91w" secondAttribute="centerY" id="Dmp-2l-xEq"/>
-                            <constraint firstItem="R0k-6o-sjy" firstAttribute="centerY" secondItem="hdp-Kc-Sjr" secondAttribute="centerY" id="GpC-Ep-wsN"/>
-                            <constraint firstItem="rSj-L8-V32" firstAttribute="top" secondItem="hdp-Kc-Sjr" secondAttribute="top" id="L1r-xi-9HU"/>
-                            <constraint firstAttribute="bottom" secondItem="b0q-aD-Iad" secondAttribute="bottom" id="QC2-1Y-ILs"/>
-                            <constraint firstItem="rSj-L8-V32" firstAttribute="leading" secondItem="hdp-Kc-Sjr" secondAttribute="leading" id="R9X-HO-e1D"/>
-                            <constraint firstItem="b0q-aD-Iad" firstAttribute="top" secondItem="hdp-Kc-Sjr" secondAttribute="top" id="ZNR-9W-NLC"/>
-                            <constraint firstAttribute="trailing" secondItem="rSj-L8-V32" secondAttribute="trailing" id="ZxS-NC-x09"/>
-                            <constraint firstAttribute="trailing" secondItem="b0q-aD-Iad" secondAttribute="trailing" id="p96-E3-WbB"/>
-                            <constraint firstAttribute="bottom" secondItem="rSj-L8-V32" secondAttribute="bottom" id="viT-ap-GzB"/>
-                            <constraint firstItem="b0q-aD-Iad" firstAttribute="leading" secondItem="hdp-Kc-Sjr" secondAttribute="leading" id="voW-06-1Yz"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="BJW-9R-91w"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Group Channels" largeTitleDisplayMode="always" id="DZj-yY-zgx"/>
-                    <nil key="simulatedBottomBarMetrics"/>
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oiI-8W-aFC" sceneMemberID="viewController">
+                    <toolbarItems/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="MRH-Gs-gcK">
+                        <rect key="frame" x="0.0" y="24" width="834" height="50"/>
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <nil name="viewControllers"/>
                     <connections>
-                        <outlet property="emptyLabel" destination="N1b-2c-xyl" id="FHG-Xi-wMW"/>
-                        <outlet property="loadingIndicatorView" destination="b0q-aD-Iad" id="mV9-b8-AJ1"/>
-                        <outlet property="tableView" destination="rSj-L8-V32" id="TlF-Lw-4nZ"/>
-                        <outlet property="toastMessageLabel" destination="hgv-iQ-BJT" id="w5o-7k-gtT"/>
-                        <outlet property="toastView" destination="R0k-6o-sjy" id="v6m-Dv-EXk"/>
+                        <segue destination="ESq-tY-gjT" kind="relationship" relationship="rootViewController" id="e7v-8d-FJM"/>
                     </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="BXc-vE-9Bj" userLabel="First Responder" sceneMemberID="firstResponder"/>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="RVb-cC-D9t" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-1668" y="2186"/>
-        </scene>
-        <!--Group Channels-->
-        <scene sceneID="XA8-wK-OF6">
-            <objects>
-                <viewController id="1Oh-gO-o99" customClass="GroupChannelPublicChannelsViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
-                    <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="6gq-dX-Dk3">
-                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
-                        <subviews>
-                            <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="tG8-KA-jJA" userLabel="Group Channels Table View">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelTableViewCell" rowHeight="80" id="akW-U2-0m0" customClass="GroupChannelPublicChannelTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="28" width="414" height="80"/>
-                                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                        <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="akW-U2-0m0" id="fcc-9u-5S7">
-                                            <rect key="frame" x="0.0" y="0.0" width="414" height="80"/>
-                                            <autoresizingMask key="autoresizingMask"/>
-                                            <subviews>
-                                                <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="cZ4-iJ-OMl" userLabel="Cover Image Container View" customClass="ProfileImageView" customModule="SendBird_iOS" customModuleProvider="target">
-                                                    <rect key="frame" x="10" y="12" width="56" height="56"/>
-                                                    <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="56" id="mnz-LZ-LYH"/>
-                                                        <constraint firstAttribute="width" constant="56" id="sm8-1O-cpC"/>
-                                                    </constraints>
-                                                </view>
-                                                <view contentMode="scaleToFill" horizontalCompressionResistancePriority="1000" translatesAutoresizingMaskIntoConstraints="NO" id="wQD-ZI-KpW" userLabel="Member Count Container View">
-                                                    <rect key="frame" x="204.5" y="14" width="18" height="17"/>
-                                                    <subviews>
-                                                        <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="wxv-sX-G5t" userLabel="Member Count Label">
-                                                            <rect key="frame" x="5" y="1.5" width="8" height="14"/>
-                                                            <fontDescription key="fontDescription" type="system" pointSize="12"/>
-                                                            <color key="textColor" name="color_group_channel_member_count_label"/>
-                                                            <nil key="highlightedColor"/>
-                                                        </label>
-                                                    </subviews>
-                                                    <color key="backgroundColor" name="color_group_channel_member_count_bg"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="trailing" secondItem="wxv-sX-G5t" secondAttribute="trailing" constant="5" id="ErS-Yk-y4E"/>
-                                                        <constraint firstItem="wxv-sX-G5t" firstAttribute="leading" secondItem="wQD-ZI-KpW" secondAttribute="leading" constant="5" id="ceQ-Yv-WxH"/>
-                                                        <constraint firstAttribute="height" constant="17" id="ceX-cj-wzF"/>
-                                                        <constraint firstAttribute="width" relation="greaterThanOrEqual" constant="18" id="k9u-hm-kUq"/>
-                                                        <constraint firstItem="wxv-sX-G5t" firstAttribute="centerY" secondItem="wQD-ZI-KpW" secondAttribute="centerY" id="yCX-JF-gCi"/>
-                                                    </constraints>
-                                                    <userDefinedRuntimeAttributes>
-                                                        <userDefinedRuntimeAttribute type="number" keyPath="layer.cornerRadius">
-                                                            <integer key="value" value="3"/>
-                                                        </userDefinedRuntimeAttribute>
-                                                    </userDefinedRuntimeAttributes>
-                                                </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" horizontalCompressionResistancePriority="1000" text="Yesterday" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PAS-M0-In8" userLabel="Last Updated Date Label">
-                                                    <rect key="frame" x="340" y="14" width="64" height="17"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="14"/>
-                                                    <color key="textColor" name="color_group_channel_updated_at_label"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rBE-Mi-I5F" userLabel="Bottom Line View">
-                                                    <rect key="frame" x="80" y="79.5" width="334" height="0.5"/>
-                                                    <color key="backgroundColor" name="color_group_channel_divider"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="height" constant="0.5" id="0uP-FD-Kfp"/>
-                                                    </constraints>
-                                                </view>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Channel Name" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nXN-Zl-gqk" userLabel="Channel Name Label">
-                                                    <rect key="frame" x="80" y="12" width="116.5" height="21"/>
-                                                    <constraints>
-                                                        <constraint firstAttribute="width" relation="lessThanOrEqual" constant="150" id="qTR-Mp-Iui"/>
-                                                    </constraints>
-                                                    <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="17"/>
-                                                    <color key="textColor" name="color_group_channel_name_label"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xZB-FK-gPX" userLabel="Last Message Label">
-                                                    <rect key="frame" x="80" y="33" width="282" height="18"/>
-                                                    <fontDescription key="fontDescription" type="system" pointSize="15"/>
-                                                    <color key="textColor" name="color_group_channel_last_message_label"/>
-                                                    <nil key="highlightedColor"/>
-                                                </label>
-                                            </subviews>
-                                            <constraints>
-                                                <constraint firstItem="nXN-Zl-gqk" firstAttribute="top" secondItem="cZ4-iJ-OMl" secondAttribute="top" id="1vL-Hq-50P"/>
-                                                <constraint firstItem="nXN-Zl-gqk" firstAttribute="leading" secondItem="cZ4-iJ-OMl" secondAttribute="trailing" constant="14" id="FYa-bC-Fg0"/>
-                                                <constraint firstItem="PAS-M0-In8" firstAttribute="centerY" secondItem="nXN-Zl-gqk" secondAttribute="centerY" id="HCp-jS-QLQ"/>
-                                                <constraint firstItem="wQD-ZI-KpW" firstAttribute="centerY" secondItem="nXN-Zl-gqk" secondAttribute="centerY" id="HZ9-hJ-2ap"/>
-                                                <constraint firstItem="wQD-ZI-KpW" firstAttribute="leading" secondItem="nXN-Zl-gqk" secondAttribute="trailing" constant="8" id="IK4-kP-fHr"/>
-                                                <constraint firstAttribute="bottom" secondItem="rBE-Mi-I5F" secondAttribute="bottom" id="Mjp-L9-qMi"/>
-                                                <constraint firstItem="rBE-Mi-I5F" firstAttribute="leading" secondItem="cZ4-iJ-OMl" secondAttribute="trailing" constant="14" id="dhD-nD-hzm"/>
-                                                <constraint firstItem="xZB-FK-gPX" firstAttribute="top" secondItem="nXN-Zl-gqk" secondAttribute="bottom" id="rSi-pb-0JY"/>
-                                                <constraint firstItem="xZB-FK-gPX" firstAttribute="leading" secondItem="cZ4-iJ-OMl" secondAttribute="trailing" constant="14" id="u5S-FO-Cns"/>
-                                                <constraint firstAttribute="trailing" secondItem="PAS-M0-In8" secondAttribute="trailing" constant="10" id="u92-SR-f63"/>
-                                                <constraint firstItem="cZ4-iJ-OMl" firstAttribute="leading" secondItem="fcc-9u-5S7" secondAttribute="leading" constant="10" id="uaR-O6-BXO"/>
-                                                <constraint firstAttribute="trailing" secondItem="xZB-FK-gPX" secondAttribute="trailing" constant="52" id="xHl-cr-kX8"/>
-                                                <constraint firstItem="cZ4-iJ-OMl" firstAttribute="centerY" secondItem="fcc-9u-5S7" secondAttribute="centerY" id="xbJ-hx-G3I"/>
-                                            </constraints>
-                                        </tableViewCellContentView>
-                                        <constraints>
-                                            <constraint firstAttribute="trailing" secondItem="rBE-Mi-I5F" secondAttribute="trailing" id="3ZA-kb-rWh"/>
-                                        </constraints>
-                                        <viewLayoutGuide key="safeArea" id="26z-tz-nf3"/>
-                                        <connections>
-                                            <outlet property="channelNameLabel" destination="nXN-Zl-gqk" id="UWS-PT-TkT"/>
-                                            <outlet property="lastMessageLabel" destination="xZB-FK-gPX" id="72p-dK-PC9"/>
-                                            <outlet property="lastUpdatedDateLabel" destination="PAS-M0-In8" id="W4P-Sr-iaQ"/>
-                                            <outlet property="memberCountContainerView" destination="wQD-ZI-KpW" id="yc3-P6-Z0i"/>
-                                            <outlet property="memberCountLabel" destination="wxv-sX-G5t" id="RdP-6Q-BZs"/>
-                                            <outlet property="profileImagView" destination="cZ4-iJ-OMl" id="PtW-01-g7a"/>
-                                        </connections>
-                                    </tableViewCell>
-                                </prototypes>
-                            </tableView>
-                            <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="57G-ez-lEa" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
-                                <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
-                            </activityIndicatorView>
-                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no group channels" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="vYb-OY-fAg" userLabel="Empty Label">
-                                <rect key="frame" x="106.5" y="444" width="201" height="18"/>
-                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
-                                <color key="textColor" name="color_empty_list_label"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                        </subviews>
-                        <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-                        <constraints>
-                            <constraint firstItem="tG8-KA-jJA" firstAttribute="leading" secondItem="6gq-dX-Dk3" secondAttribute="leading" id="BNl-aT-siD"/>
-                            <constraint firstAttribute="trailing" secondItem="57G-ez-lEa" secondAttribute="trailing" id="HhJ-Ul-WPE"/>
-                            <constraint firstItem="57G-ez-lEa" firstAttribute="top" secondItem="6gq-dX-Dk3" secondAttribute="top" id="Oc3-sA-fHa"/>
-                            <constraint firstAttribute="bottom" secondItem="57G-ez-lEa" secondAttribute="bottom" id="RK4-gn-hIs"/>
-                            <constraint firstItem="tG8-KA-jJA" firstAttribute="top" secondItem="6gq-dX-Dk3" secondAttribute="top" id="d4j-gZ-Adi"/>
-                            <constraint firstAttribute="bottom" secondItem="tG8-KA-jJA" secondAttribute="bottom" id="ghD-Xk-cCM"/>
-                            <constraint firstAttribute="trailing" secondItem="tG8-KA-jJA" secondAttribute="trailing" id="hdM-Rq-Cmz"/>
-                            <constraint firstItem="vYb-OY-fAg" firstAttribute="centerX" secondItem="gQS-uN-bPI" secondAttribute="centerX" id="i6e-hR-WY5"/>
-                            <constraint firstItem="vYb-OY-fAg" firstAttribute="centerY" secondItem="gQS-uN-bPI" secondAttribute="centerY" id="lRn-zB-3D7"/>
-                            <constraint firstItem="57G-ez-lEa" firstAttribute="leading" secondItem="6gq-dX-Dk3" secondAttribute="leading" id="wSd-eY-tQd"/>
-                        </constraints>
-                        <viewLayoutGuide key="safeArea" id="gQS-uN-bPI"/>
-                    </view>
-                    <navigationItem key="navigationItem" title="Group Channels" largeTitleDisplayMode="always" id="Sbk-gt-sVl"/>
-                    <nil key="simulatedBottomBarMetrics"/>
-                    <connections>
-                        <outlet property="emptyLabel" destination="vYb-OY-fAg" id="LUP-rg-Ux3"/>
-                        <outlet property="loadingIndicatorView" destination="57G-ez-lEa" id="NbX-si-Pie"/>
-                        <outlet property="tableView" destination="tG8-KA-jJA" id="7gs-NE-5Ur"/>
-                    </connections>
-                </viewController>
-                <placeholder placeholderIdentifier="IBFirstResponder" id="NkN-5n-MaI" userLabel="First Responder" sceneMemberID="firstResponder"/>
-            </objects>
-            <point key="canvasLocation" x="-3912" y="2259"/>
+            <point key="canvasLocation" x="-3396.4028776978421" y="3066.8341708542712"/>
         </scene>
     </scenes>
     <resources>
@@ -1676,9 +1244,6 @@
         </namedColor>
         <namedColor name="color_settings_border">
             <color red="0.7839999794960022" green="0.77999997138977051" blue="0.80000001192092896" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
-        </namedColor>
-        <namedColor name="color_settings_menu_add_operator">
-            <color red="0.47499999403953552" green="0.31400001049041748" blue="0.94900000095367432" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
         </namedColor>
         <namedColor name="color_toast_bg">
             <color red="0.31000000238418579" green="0.31000000238418579" blue="0.31000000238418579" alpha="0.69999998807907104" colorSpace="custom" customColorSpace="sRGB"/>

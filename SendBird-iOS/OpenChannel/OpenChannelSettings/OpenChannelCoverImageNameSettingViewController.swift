@@ -118,8 +118,7 @@ class OpenChannelCoverImageNameSettingViewController: UIViewController, UIImageP
     }
     
     @objc func clickCoverImage() {
-        let vc = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
-        let takePhotoAction = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
+        let actionPhoto = UIAlertAction(title: "Take Photo...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.camera
@@ -130,7 +129,7 @@ class OpenChannelCoverImageNameSettingViewController: UIViewController, UIImageP
             }
         }
         
-        let chooseFromLibraryAction = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
+        let actionLibrary = UIAlertAction(title: "Choose from Library...", style: .default) { (action) in
             DispatchQueue.main.async {
                 let mediaUI = UIImagePickerController()
                 mediaUI.sourceType = UIImagePickerController.SourceType.photoLibrary
@@ -141,18 +140,22 @@ class OpenChannelCoverImageNameSettingViewController: UIViewController, UIImageP
             }
         }
         
-        let closeAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+        let actionCancel = UIAlertAction(title: "Close", style: .cancel, handler: nil)
         
-        vc.addAction(takePhotoAction)
-        vc.addAction(chooseFromLibraryAction)
-        vc.addAction(closeAction)
-        
-        self.present(vc, animated: true, completion: nil)
+        Utils.showAlertControllerWithActions([actionPhoto, actionLibrary, actionCancel],
+                                             title: nil,
+                                             frame: CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0),
+                                             viewController: self
+        )
     }
     
     func updateChannelInfo() {
         let imageData = self.channelCoverImage?.jpegData(compressionQuality: 0.5)
+        
+        self.loadingIndicatorView.superViewSize = self.view.frame.size
+        self.loadingIndicatorView.updateFrame()
         self.showLoadingIndicatorView()
+        
         guard let channel = self.channel else { return }
         channel.update(withName: self.channelNameTextField.text, coverImage: imageData, coverImageName: "image.jpg", data: nil, operatorUserIds: nil, customType: nil, progressHandler: nil) { (channel, error) in
             self.hideLoadingIndicatorView()

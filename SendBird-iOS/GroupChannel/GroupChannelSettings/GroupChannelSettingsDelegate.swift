@@ -8,6 +8,6 @@
 
 import Foundation
 
-@objc protocol GroupChannelSettingsDelegate: NSObjectProtocol {
-    @objc optional func didLeaveChannel();
+protocol GroupChannelSettingsDelegate: NSObjectProtocol {
+    func didLeaveChannel()
 }

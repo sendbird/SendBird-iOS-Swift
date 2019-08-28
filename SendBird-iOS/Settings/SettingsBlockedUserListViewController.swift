@@ -27,12 +27,8 @@ class SettingsBlockedUserListViewController: UIViewController, UITableViewDelega
         self.title = "Blocked Users"
         self.navigationItem.largeTitleDisplayMode = .never
         
-        self.tabBarHidden = self.tabBarController!.tabBar.isHidden
-        self.tabBarController?.tabBar.isHidden = true
-        
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: #selector(SettingsBlockedUserListViewController.refreshUserList), for: .valueChanged)
@@ -45,19 +41,9 @@ class SettingsBlockedUserListViewController: UIViewController, UITableViewDelega
     }
 
     override func viewWillDisappear(_ animated: Bool) {
-        self.tabBarController?.tabBar.isHidden = self.tabBarHidden!
         super.viewWillDisappear(animated)
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     // MARK: - NotificationDelegate
     func openChat(_ channelUrl: String) {
@@ -149,16 +135,16 @@ class SettingsBlockedUserListViewController: UIViewController, UITableViewDelega
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let user = self.users[indexPath.row]
-        let ac = UIAlertController(title: user.nickname, message: nil, preferredStyle: .actionSheet)
+        
         let actionSeeProfile = UIAlertAction(title: "See profile", style: .default) { (action) in
-            let vc = UserProfileViewController.init(nibName: "UserProfileViewController", bundle: nil)
-            vc.user = user
+            let userProfileVC = UserProfileViewController.init(nibName: "UserProfileViewController", bundle: nil)
+            userProfileVC.user = user
             DispatchQueue.main.async {
-                self.navigationController?.pushViewController(vc, animated: true)
+                self.navigationController?.pushViewController(userProfileVC, animated: true)
             }
         }
         
-        let actionUnblockUser = UIAlertAction(title: "Unblock", style: .default) { (action) in
+        let actionUnblock = UIAlertAction(title: "Unblock", style: .default) { (action) in
             SBDMain.unblockUser(user, completionHandler: { (error) in
                 if error != nil {
                     return
@@ -173,10 +159,10 @@ class SettingsBlockedUserListViewController: UIViewController, UITableViewDelega
         
         let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
         
-        ac.addAction(actionSeeProfile)
-        ac.addAction(actionUnblockUser)
-        ac.addAction(actionCancel)
-        
-        self.present(ac, animated: true, completion: nil)
+        Utils.showAlertControllerWithActions([actionSeeProfile, actionUnblock, actionCancel],
+                                             title: user.nickname,
+                                             frame: CGRect(x: self.view.bounds.minX, y: self.view.bounds.maxY, width: 0, height: 0),
+                                             viewController: self
+        )
     }
 }

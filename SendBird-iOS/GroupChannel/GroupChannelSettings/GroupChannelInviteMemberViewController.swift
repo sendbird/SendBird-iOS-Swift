@@ -133,19 +133,18 @@ class GroupChannelInviteMemberViewController: UIViewController, UITableViewDeleg
             self.updatingIndicatorView.stopAnimating()
             
             if let error = error {
-                let vc = UIAlertController(title: "Error", message: error.domain, preferredStyle: .alert)
-                let actionClose = UIAlertAction(title: "Close", style: .cancel, handler: nil)
-                vc.addAction(actionClose)
-                self.present(vc, animated: true, completion: nil)
+                let alert = UIAlertController(title: "Error", message: error.domain, preferredStyle: .alert)
+                let actionCancel = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+                alert.addAction(actionCancel)
+                self.present(alert, animated: true, completion: nil)
                 
                 return
             }
             
             if let delegate = self.delegate {
-                if delegate.responds(to: #selector(GroupChannelInviteMemberDelegate.didInviteMembers)) {
-                    delegate.didInviteMembers!()
-                }
+                delegate.didInviteMembers()
             }
+            
             if let navigationController = self.navigationController {
                 navigationController.popViewController(animated: true)
             }

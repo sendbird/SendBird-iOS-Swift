@@ -8,6 +8,6 @@
 
 import Foundation
 
-@objc protocol GroupChannelCoverImageNameSettingDelegate: NSObjectProtocol {
-    @objc optional func didUpdateGroupChannel()
+protocol GroupChannelCoverImageNameSettingDelegate: NSObjectProtocol {
+    func didUpdateGroupChannel()
 }

@@ -17,6 +17,7 @@ class CustomActivityIndicatorView: UIActivityIndicatorView {
     var backgroundImageView: UIImageView?
     
     var animation: CABasicAnimation?
+    var superViewSize: CGSize?
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -78,6 +79,7 @@ class CustomActivityIndicatorView: UIActivityIndicatorView {
         
         let height = UIScreen.main.bounds.size.height
         let width = UIScreen.main.bounds.size.width
+        
         self.imageView?.frame = CGRect(origin: CGPoint(x: (width - (self.imageView?.frame.size.width)!) / 2, y: (height - (self.imageView?.frame.size.height)!) / 2), size: (self.imageView?.frame.size)!)
         self.backgroundImageView?.frame = CGRect(origin: CGPoint(x: (width - (self.backgroundImageView?.frame.size.width)!) / 2, y: (height - (self.backgroundImageView?.frame.size.height)!) / 2), size: (self.backgroundImageView?.frame.size)!)
     }
@@ -118,5 +120,13 @@ class CustomActivityIndicatorView: UIActivityIndicatorView {
         }
         
         self.imageView?.layer.removeAllAnimations()
+    }
+    
+    func updateFrame() {
+        let height = superViewSize == nil ? UIScreen.main.bounds.size.height : superViewSize!.height
+        let width = superViewSize == nil ? UIScreen.main.bounds.size.width : superViewSize!.width
+        
+        self.imageView?.frame = CGRect(origin: CGPoint(x: (width - (self.imageView?.frame.size.width)!) / 2, y: (height - (self.imageView?.frame.size.height)!) / 2), size: (self.imageView?.frame.size)!)
+        self.backgroundImageView?.frame = CGRect(origin: CGPoint(x: (width - (self.backgroundImageView?.frame.size.width)!) / 2, y: (height - (self.backgroundImageView?.frame.size.height)!) / 2), size: (self.backgroundImageView?.frame.size)!)
     }
 }

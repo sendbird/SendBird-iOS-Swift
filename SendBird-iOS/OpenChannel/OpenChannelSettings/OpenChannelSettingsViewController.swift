@@ -163,7 +163,7 @@ class OpenChannelSettingsViewController: UIViewController, UITableViewDelegate, 
                 } else if indexPath.row == 2{
                     if let banCell = tableView.dequeueReusableCell(withIdentifier: "OpenChannelSettingsMenuTableViewCell", for: indexPath) as? OpenChannelSettingsMenuTableViewCell {
                         banCell.settingMenuLabel.text = "Banned Users"
-                        banCell.settingMenuIconImageView.image = UIImage(named: "img_icon_ban")
+                        banCell.settingMenuIconImageView.image = UIImage(named: "bannedUsers")
                         banCell.countLabel.isHidden = true
                         
                         cell = banCell
@@ -446,7 +446,7 @@ class OpenChannelSettingsViewController: UIViewController, UITableViewDelegate, 
                     operators.append(user)
                 }
                 
-                let vc = UIAlertController(title: removedOperator.nickname, message: nil, preferredStyle: .actionSheet)
+                let alert = UIAlertController(title: removedOperator.nickname, message: nil, preferredStyle: .actionSheet)
                 let actionRemoveUser = UIAlertAction(title: "Remove from operators", style: .destructive) { (action) in
                     self.showLoadingIndicatorView()
                     
@@ -476,11 +476,11 @@ class OpenChannelSettingsViewController: UIViewController, UITableViewDelegate, 
                 }
                 let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
                 
-                vc.addAction(actionRemoveUser)
-                vc.addAction(actionCancel)
+                alert.addAction(actionRemoveUser)
+                alert.addAction(actionCancel)
                 
                 DispatchQueue.main.async {
-                    self.present(vc, animated: true, completion: nil)
+                    self.present(alert, animated: true, completion: nil)
                 }
             }
         }
