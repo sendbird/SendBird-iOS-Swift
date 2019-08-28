@@ -10,7 +10,7 @@ import UIKit
 import SendBirdSDK
 
 class Utils: NSObject {
-//    static let imageLoaderQueue = DispatchQueue.init(label: "com.sendbird.imageloader", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes., autoreleaseFrequency: <#T##DispatchQueue.AutoreleaseFrequency#>, target: <#T##DispatchQueue?#>)
+    //    static let imageLoaderQueue = DispatchQueue.init(label: "com.sendbird.imageloader", qos: DispatchQoS.background, attributes: DispatchQueue.Attributes., autoreleaseFrequency: <#T##DispatchQueue.AutoreleaseFrequency#>, target: <#T##DispatchQueue?#>)
     static func getMessageDateStringFromTimestamp(_ timestamp: Int64) -> String? {
         var messageDateString: String = ""
         let messageDateFormatter: DateFormatter = DateFormatter()
@@ -100,15 +100,12 @@ class Utils: NSObject {
             }
         }
         
-        var channelName: String?
         if count == 0 {
-            channelName = "NO MEMBERS"
+            return "NO MEMBERS"
         }
         else {
-            channelName = memberNicknames.joined(separator: ", ")
+            return memberNicknames.joined(separator: ", ")
         }
-    
-        return channelName!
     }
     
     static func showAlertController(error: SBDError, viewController: UIViewController) {
@@ -127,6 +124,14 @@ class Utils: NSObject {
         DispatchQueue.main.async {
             viewController.present(vc, animated: true, completion: nil)
         }
+    }
+    
+    static func createAlertController(title: String?, message: String?, actions: [UIAlertAction]) -> UIAlertController {
+        let ac = UIAlertController(title: title, message: message, preferredStyle: .alert)
+        for action in actions {
+            ac.addAction(action)
+        }
+        return ac
     }
     
     static func buildTypingIndicatorLabel(channel: SBDGroupChannel) -> String {
@@ -151,45 +156,29 @@ class Utils: NSObject {
         }
     }
     
-    static func transformUserProfileImage(user: SBDUser) -> String {
-        if let profileUrl = user.profileUrl {
-            if profileUrl.hasPrefix("https://sendbird.com/main/img/profiles") {
-                return ""
-            }
-            else {
-                return profileUrl
-            }
-        }
+    static func getKeyboardAnimationOptions(notification: Notification) -> (height: CGFloat?, duration: Double?, curve: UIView.AnimationOptions) {
+        let duration = (notification.userInfo?[UIResponder.keyboardAnimationDurationUserInfoKey] as? NSNumber)?.doubleValue
         
-        return ""
-    }
-    
-    static func getDefaultUserProfileImage(user: SBDUser) -> UIImage? {
-        if let nickname = user.nickname {
-            switch nickname.count % 4 {
-            case 0:
-                return UIImage(named: "img_default_profile_image_1")
-            case 1:
-                return UIImage(named: "img_default_profile_image_2")
-            case 2:
-                return UIImage(named: "img_default_profile_image_3")
-            case 3:
-                return UIImage(named: "img_default_profile_image_4")
-            default:
-                return UIImage(named: "img_default_profile_image_1")
-            }
-        }
+        let animationCurveRawNSN = notification.userInfo?[UIResponder.keyboardAnimationCurveUserInfoKey] as? NSNumber
+        let animationCurveRaw = (animationCurveRawNSN?.uintValue) ?? UIView.AnimationOptions.curveEaseInOut.rawValue
+        let animationCurve: UIView.AnimationOptions = UIView.AnimationOptions(rawValue: animationCurveRaw)
         
-        return UIImage(named: "img_default_profile_image_1")
+        let keyboardFrameBegin = (notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue)?.cgRectValue.size.height
+        
+        return (height: keyboardFrameBegin, duration: duration, curve: animationCurve)
     }
-    
-    static func setProfileImage(imageView: UIImageView, user: SBDUser) {
-        let url = Utils.transformUserProfileImage(user: user)
-        if url.count > 0 {
-            imageView.af_setImage(withURL: URL(string: url)!, placeholderImage: Utils.getDefaultUserProfileImage(user: user))
-        }
-        else {
-            imageView.image = Utils.getDefaultUserProfileImage(user: user)
-        }
+}
+
+extension Collection {
+    /// Returns the element at the specified index if it is within bounds, otherwise nil.
+    subscript (exists index: Index) -> Element? {
+        return indices.contains(index) ? self[index] : nil
+    }
+}
+
+//Random String Generator for Channel Url
+extension String {
+    static func randomUUIDString() -> String{
+        return String(UUID().uuidString[..<String.Index(utf16Offset: 8, in: UUID().uuidString)])
     }
 }

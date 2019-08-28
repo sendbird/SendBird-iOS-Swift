@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -164,21 +164,7 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="dateSeperatorContainerView" destination="Qzc-Ct-R4B" id="Rdw-6t-qTD"/>
-                <outlet property="dateSeperatorContainerViewHeight" destination="nKQ-rB-w9B" id="zvM-dK-qyR"/>
-                <outlet property="dateSeperatorContainerViewTopMargin" destination="fww-4O-uS5" id="U1l-Qk-LWb"/>
-                <outlet property="dateSeperatorLabel" destination="kve-3A-eaT" id="HOb-Jm-mou"/>
-                <outlet property="fileNameLabel" destination="ZKd-IL-pwP" id="xSw-qV-Ntj"/>
-                <outlet property="messageContainerView" destination="877-Hf-thi" id="Iz4-wz-Wlc"/>
-                <outlet property="messageContainerViewBottomMargin" destination="S5A-bE-YE7" id="l9O-4A-FBx"/>
-                <outlet property="messageContainerViewTopMargin" destination="kBD-uq-R8N" id="5OO-PQ-qzi"/>
-                <outlet property="messageDateLabel" destination="g7d-qc-4CY" id="ZEx-nz-mwa"/>
-                <outlet property="messageStatusContainerView" destination="SMH-Ki-8KE" id="vln-Vr-6Oe"/>
-                <outlet property="messageStatusContainerViewHeight" destination="VLa-35-iYc" id="EnG-QO-PtF"/>
-                <outlet property="nicknameContainerViewTopMargin" destination="Vyh-bk-6dG" id="4Nc-dq-0QM"/>
-                <outlet property="nicknameLabel" destination="JTP-rG-inw" id="jcs-eW-8h4"/>
-                <outlet property="profileContainerView" destination="cW1-rn-3El" id="QKl-X2-VHT"/>
-                <outlet property="profileImageView" destination="vOl-Er-asB" id="TPu-q3-Jx6"/>
+                <outlet property="fileNameLabel" destination="ZKd-IL-pwP" id="9OK-yv-dQx"/>
             </connections>
             <point key="canvasLocation" x="224" y="263.56821589205401"/>
         </tableViewCell>

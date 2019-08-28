@@ -12,7 +12,6 @@ class OpenChannelSettingsMenuTableViewCell: UITableViewCell {
     @IBOutlet weak var settingMenuIconImageView: UIImageView!
     @IBOutlet weak var settingMenuLabel: UILabel!
     @IBOutlet weak var countLabel: UILabel!
-    @IBOutlet weak var dividerView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

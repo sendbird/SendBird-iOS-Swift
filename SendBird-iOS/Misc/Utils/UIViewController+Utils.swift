@@ -14,9 +14,8 @@ extension UIViewController {
             // Return presented view controller
             return UIViewController.findBestViewController(presentedViewController)
         }
-        else if vc is UISplitViewController {
+        else if let svc = vc as? UISplitViewController {
             // Return right hand side
-            let svc = vc as! UISplitViewController
             if svc.viewControllers.count > 0 {
                 return UIViewController.findBestViewController(svc.viewControllers.last!)
             }
@@ -24,9 +23,8 @@ extension UIViewController {
                 return vc
             }
         }
-        else if vc is UINavigationController {
+        else if let svc = vc as? UINavigationController {
             // Return top view
-            let svc = vc as! UINavigationController
             // TODO: Need to compare with ObjC ver.
             if let topViewController = svc.topViewController {
                 return UIViewController.findBestViewController(topViewController)
@@ -35,10 +33,9 @@ extension UIViewController {
                 return vc
             }
         }
-        else if vc is UITabBarController {
+        else if let svc = vc as? UITabBarController {
             // Return visible view
-            let svc = vc as! UITabBarController
-            if (svc.viewControllers?.count)! > 0 {
+            if (svc.viewControllers?.count ?? 0) > 0 {
                 return UIViewController.findBestViewController(svc.selectedViewController!)
             }
             else {

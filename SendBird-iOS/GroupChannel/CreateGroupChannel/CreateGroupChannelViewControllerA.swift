@@ -46,8 +46,8 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        self.tableView.register(UINib(nibName: "SelectGroupChannelMemberTableViewCell", bundle: nil), forCellReuseIdentifier: "SelectGroupChannelMemberTableViewCell")
-        
+        self.tableView.register(SelectableUserTableViewCell.nib(), forCellReuseIdentifier: "SelectableUserTableViewCell")
+
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: #selector(CreateGroupChannelViewControllerA.refreshUserList), for: .valueChanged)
         
@@ -72,30 +72,23 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
     }
 
     @objc func clickOkButton(_ sender: AnyObject) {
-        let vc = CreateGroupChannelViewControllerB.init(nibName: "CreateGroupChannelViewControllerB", bundle: nil)
-        vc.members = Array(self.selectedUsers.values)
-        self.navigationController?.pushViewController(vc, animated: true)
+        performSegue(withIdentifier: "ConfigureGroupChannel", sender: self)
     }
     
     // MARK: - NotificationDelegate
     func openChat(_ channelUrl: String) {
         self.dismiss(animated: false) {
-            let cvc = UIViewController.currentViewController()
-            if cvc is GroupChannelsViewController {
-                (cvc as! GroupChannelsViewController).openChat(channelUrl)
+            if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+                cvc.openChat(channelUrl)
             }
         }
     }
 
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
+        if segue.identifier == "ConfigureGroupChannel", let destination = segue.destination as? CreateGroupChannelViewControllerB{
+            destination.members = Array(self.selectedUsers.values)
+        }
      }
-     */
     
     // MARK: - Load users
     @objc func refreshUserList() {
@@ -145,13 +138,15 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
 
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectGroupChannelMemberTableViewCell") as! SelectGroupChannelMemberTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectableUserTableViewCell") as! SelectableUserTableViewCell
         cell.user = self.users[indexPath.row]
         
         DispatchQueue.main.async {
-            if let updateCell = tableView.cellForRow(at: indexPath) as? SelectGroupChannelMemberTableViewCell {
+            if let updateCell = tableView.cellForRow(at: indexPath) as? SelectableUserTableViewCell {
                 updateCell.nicknameLabel.text = self.users[indexPath.row].nickname
-                Utils.setProfileImage(imageView: updateCell.profileImageView, user: self.users[indexPath.row])
+                updateCell.profileImageView.setProfileImageView(for: self.users[indexPath.row])
+//                updateCell.profileImageView = ImageUtil.getProfileImageView(user: self.users[indexPath.row])
+//                ImageUtil.setProfileImage(imageView: updateCell.profileImageView, user: self.users[indexPath.row])
                 
                 if self.selectedUsers[self.users[indexPath.row].userId] != nil {
                     updateCell.selectedUser = true
@@ -166,7 +161,7 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
             self.loadUserListNextPage(false)
         }
         
-        return cell;
+        return cell
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
@@ -179,14 +174,11 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if self.selectedUsers[self.users[indexPath.row].userId] != nil {
-            self.selectedUsers.removeValue(forKey: self.users[indexPath.row].userId)
-        }
-        else {
+        if self.selectedUsers.removeValue(forKey: self.users[indexPath.row].userId) == nil {
             self.selectedUsers[self.users[indexPath.row].userId] = self.users[indexPath.row]
         }
         
-        self.okButtonItem!.title = String(format: "OK(%d)", Int(self.selectedUsers.count))
+        self.okButtonItem?.title = String(format: "OK(%d)", Int(self.selectedUsers.count))
         
         if self.selectedUsers.count == 0 {
             self.okButtonItem?.isEnabled = false
@@ -218,7 +210,7 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
                 
                 DispatchQueue.main.async {
                     self.users.removeAll()
-                    for user in users! {
+                    for user in users ?? [] {
                         if user.userId == SBDMain.getCurrentUser()!.userId {
                             continue
                         }

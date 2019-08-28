@@ -26,10 +26,6 @@ class SettingsBlockedUserListViewController: UIViewController, UITableViewDelega
         
         self.title = "Blocked Users"
         self.navigationItem.largeTitleDisplayMode = .never
-        let barButtonItemBack = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
-        if let prevVC = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 2] {
-            prevVC.navigationItem.backBarButtonItem = barButtonItemBack
-        }
         
         self.tabBarHidden = self.tabBarController!.tabBar.isHidden
         self.tabBarController?.tabBar.isHidden = true
@@ -37,7 +33,6 @@ class SettingsBlockedUserListViewController: UIViewController, UITableViewDelega
         self.tableView.delegate = self
         self.tableView.dataSource = self
         
-        self.tableView.register(UINib(nibName: "BlockedUserTableViewCell", bundle: nil), forCellReuseIdentifier: "BlockedUserTableViewCell")
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: #selector(SettingsBlockedUserListViewController.refreshUserList), for: .valueChanged)
@@ -67,10 +62,8 @@ class SettingsBlockedUserListViewController: UIViewController, UITableViewDelega
     // MARK: - NotificationDelegate
     func openChat(_ channelUrl: String) {
         self.navigationController?.popViewController(animated: false)
-        if let cvc = UIViewController.currentViewController() {
-            if cvc is SettingsViewController {
-                (cvc as! SettingsViewController).openChat(channelUrl)
-            }
+        if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+            cvc.openChat(channelUrl)
         }
     }
 
@@ -124,12 +117,7 @@ class SettingsBlockedUserListViewController: UIViewController, UITableViewDelega
             DispatchQueue.main.async {
                 if let updateCell = tableView.cellForRow(at: indexPath) as? BlockedUserTableViewCell {
                     updateCell.nicknameLabel.text = self.users[indexPath.row].nickname
-                    if let url = URL(string: Utils.transformUserProfileImage(user: self.users[indexPath.row])) {
-                        updateCell.profileImageView.af_setImage(withURL: url, placeholderImage: Utils.getDefaultUserProfileImage(user: self.users[indexPath.row]))
-                    }
-                    else {
-                        updateCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: self.users[indexPath.row])
-                    }
+                    updateCell.profileImageView.setProfileImageView(for: self.users[indexPath.row])
                 }
             }
             

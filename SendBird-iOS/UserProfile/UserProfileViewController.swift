@@ -25,10 +25,6 @@ class UserProfileViewController: UIViewController, NotificationDelegate {
         // Do any additional setup after loading the view.
         self.title = "Profile"
         self.navigationItem.largeTitleDisplayMode = .automatic
-        let barButtonItemBack = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
-        guard let navigationController = self.navigationController else { return }
-        let prevVC = navigationController.viewControllers[navigationController.viewControllers.count - 2]
-        prevVC.navigationItem.backBarButtonItem = barButtonItemBack
         
         self.refreshUserInfo(self.user!)
         
@@ -46,13 +42,12 @@ class UserProfileViewController: UIViewController, NotificationDelegate {
         })
     }
 
+    static func nib() -> UINib {
+        return UINib(nibName: String(describing: self), bundle: Bundle(for: self))
+    }
+    
     func refreshUserInfo(_ user: SBDUser) {
-        if let url = URL(string: Utils.transformUserProfileImage(user: user)) {
-            self.profileImageView.af_setImage(withURL: url, placeholderImage: Utils.getDefaultUserProfileImage(user: user))
-        }
-        else {
-            self.profileImageView.image = Utils.getDefaultUserProfileImage(user: user)
-        }
+        self.profileImageView.setProfileImageView(for: user)
         
         self.nicknameLabel.text = user.nickname
         
@@ -74,42 +69,13 @@ class UserProfileViewController: UIViewController, NotificationDelegate {
         }
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
     // MARK: - NotificationDelegate
     func openChat(_ channelUrl: String) {
         if let navigationController = self.navigationController {
             navigationController.popViewController(animated: false)
         }
-        let cvc = UIViewController.currentViewController()
-        if cvc is GroupChannelSettingsViewController {
-            (cvc as? GroupChannelSettingsViewController)?.openChat(channelUrl)
-        }
-        else if cvc is GroupChannelChatViewController {
-            (cvc as? GroupChannelChatViewController)?.openChat(channelUrl)
-        }
-        else if cvc is OpenChannelBannedUserListViewController {
-            (cvc as? OpenChannelBannedUserListViewController)?.openChat(channelUrl)
-        }
-        else if cvc is OpenChannelMutedUserListViewController {
-            (cvc as? OpenChannelMutedUserListViewController)?.openChat(channelUrl)
-        }
-        else if cvc is OpenChannelParticipantListViewController {
-            (cvc as? OpenChannelParticipantListViewController)?.openChat(channelUrl)
-        }
-        else if cvc is OpenChannelSettingsViewController {
-            (cvc as? OpenChannelSettingsViewController)?.openChat(channelUrl)
-        }
-        else if cvc is SettingsBlockedUserListViewController {
-            (cvc as? SettingsBlockedUserListViewController)?.openChat(channelUrl)
+        if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+            cvc.openChat(channelUrl)
         }
     }
 }

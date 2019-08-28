@@ -19,7 +19,6 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
     
     var refreshControl: UIRefreshControl?
     var trypingIndicatorTimer: [String : Timer] = [:]
-    var createChannelBarButton: UIBarButtonItem?
     
     var channelListQuery: SBDGroupChannelListQuery?
     var channels: [SBDGroupChannel] = []
@@ -32,14 +31,18 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         self.title = "Group Channels"
         self.navigationItem.largeTitleDisplayMode = .automatic
         
-        self.createChannelBarButton = UIBarButtonItem.init(image: UIImage(named: "img_btn_create_group_channel"), style: .plain, target: self, action: #selector(GroupChannelsViewController.clickCreateGroupChannel(_:)))
-        self.navigationItem.rightBarButtonItem = self.createChannelBarButton
+        let createChannelBarButton = UIBarButtonItem.init(image: UIImage(named: "img_btn_create_group_channel"), style: .plain, target: self, action: #selector(GroupChannelsViewController.clickCreateGroupChannel(_:)))
+        self.navigationItem.rightBarButtonItem = createChannelBarButton
+        
+        
+        let showHiddenChannelsBarButton = UIBarButtonItem.init(image: UIImage(named: "img_btn_create_group_channel"), style: .plain, target: self, action: #selector(showHiddenGroupChannels(_:)))
+        
+        let showPublicChannelsBarButton = UIBarButtonItem.init(image: UIImage(named: "img_btn_create_group_channel"), style: .plain, target: self, action: #selector(showPublicGroupChannels(_:)))
+        self.navigationItem.leftBarButtonItems = [showHiddenChannelsBarButton, showPublicChannelsBarButton]
         
         self.groupChannelsTableView.delegate = self
         self.groupChannelsTableView.dataSource = self
-        
-        self.groupChannelsTableView.register(UINib(nibName: "GroupChannelTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupChannelTableViewCell")
-        
+
         let longPressGesture = UILongPressGestureRecognizer(target: self, action: #selector(GroupChannelsViewController.longPressChannel(_:)))
         longPressGesture.minimumPressDuration = 1.0
         self.groupChannelsTableView.addGestureRecognizer(longPressGesture)
@@ -76,27 +79,37 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         }) { (finished) in
             self.toastView.isHidden = true
             self.toastCompleted = true
-            if completion != nil {
-                completion!()
-            }
+            
+            completion?()
         }
     }
     
     // MARK: - Navigation
     // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-        let vc = segue.destination
-        if vc is CreateGroupChannelNavigationController {
-            (vc as! CreateGroupChannelNavigationController).channelCreationDelegate = self
+        if segue.identifier == "CreateGroupChannel", let destination = segue.destination as? CreateGroupChannelNavigationController{
+            destination.channelCreationDelegate = self
+        } else if segue.identifier == "ShowGroupChat", let destination = segue.destination as? GroupChannelChatViewController {
+            destination.hidesBottomBarWhenPushed = true
+            if let index = sender as? Int {
+                destination.channel = self.channels[index]
+            } else if let channel = sender as? SBDGroupChannel {
+                destination.channel = channel
+            }
+            destination.delegate = self
         }
     }
 
     @objc func clickCreateGroupChannel(_ sender: Any) {
-        let vc = CreateGroupChannelNavigationController()
-        vc.channelCreationDelegate = self
-        self.present(vc, animated: true, completion: nil)
+        performSegue(withIdentifier: "CreateGroupChannel", sender: self)
+    }
+    
+    @objc func showHiddenGroupChannels(_ sender: Any) {
+        performSegue(withIdentifier: "ShowHiddenChannels", sender: self)
+    }
+    
+    @objc func showPublicGroupChannels(_ sender: Any) {
+        performSegue(withIdentifier: "ShowPublicChannels", sender: self)
     }
     
     @objc func longPressChannel(_ recognizer: UILongPressGestureRecognizer) {
@@ -107,8 +120,8 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
             let alertController = UIAlertController(title: Utils.createGroupChannelName(channel: channel), message: nil, preferredStyle: .actionSheet)
             let actionHide = UIAlertAction(title: "Hide Channel", style: .default) { (action) in
                 channel.hide(withHidePreviousMessages: true, completionHandler: { (error) in
-                    if error != nil {
-                        Utils.showAlertController(error: error!, viewController: self)
+                    if let error = error {
+                        Utils.showAlertController(error: error, viewController: self)
                         return
                     }
                     
@@ -130,8 +143,8 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
             
             let actionLeave = UIAlertAction(title: "Leave Channel", style: .destructive) { (action) in
                 channel.leave(completionHandler: { (error) in
-                    if error != nil {
-                        Utils.showAlertController(error: error!, viewController: self)
+                    if let error = error {
+                        Utils.showAlertController(error: error, viewController: self)
                         return
                     }
                 })
@@ -201,11 +214,12 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     @objc func typingIndicatorTimeout(_ timer: Timer) {
-        let channelUrl = timer.userInfo as! String
-        self.trypingIndicatorTimer[channelUrl]?.invalidate()
-        self.trypingIndicatorTimer.removeValue(forKey: channelUrl)
-        DispatchQueue.main.async {
-            self.groupChannelsTableView.reloadData()
+        if let channelUrl = timer.userInfo as? String {
+            self.trypingIndicatorTimer[channelUrl]?.invalidate()
+            self.trypingIndicatorTimer.removeValue(forKey: channelUrl)
+            DispatchQueue.main.async {
+                self.groupChannelsTableView.reloadData()
+            }
         }
     }
     
@@ -217,16 +231,8 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
             }
             
             DispatchQueue.main.async {
-                let vc = GroupChannelChatViewController.init(nibName: "GroupChannelChatViewController", bundle: nil)
-                vc.channel = channel
-                vc.hidesBottomBarWhenPushed = true
-                vc.delegate = self
-                
-                (UIApplication.shared.delegate as! AppDelegate).pushReceivedGroupChannel = nil
-                
-                if let navigationController = self.navigationController {
-                    navigationController.pushViewController(vc, animated: true)
-                }
+                (UIApplication.shared.delegate as? AppDelegate)?.pushReceivedGroupChannel = nil
+                self.performSegue(withIdentifier: "ShowGroupChat", sender: channel)
             }
         }
     }
@@ -331,12 +337,17 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
             cell.memberCountLabel.text = String(channel.memberCount)
         }
         
-        if channel.isPushEnabled {
+        let pushOption = channel.myPushTriggerOption
+        
+        switch pushOption {
+        case .all, .default, .mentionOnly:
             cell.notiOffIconImageView.isHidden = true
-        }
-        else {
+            break
+        case .off:
             cell.notiOffIconImageView.isHidden = false
+            break
         }
+
         
         DispatchQueue.main.async {
             var members: [SBDUser] = []
@@ -354,110 +365,15 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
                 }
             }
             
+            
             if let updateCell = tableView.cellForRow(at: indexPath) as? GroupChannelTableViewCell {
-                updateCell.singleCoverImageContainerView.isHidden = true
-                updateCell.doubleCoverImageContainerView.isHidden = true
-                updateCell.tripleCoverImageContainerView.isHidden = true
-                updateCell.quadrupleCoverImageContainerView.isHidden = true
-                
                 if let coverUrl = channel.coverUrl {
                     if coverUrl.count > 0 && !coverUrl.hasPrefix("https://sendbird.com/main/img/cover/") {
-                        updateCell.singleCoverImageContainerView.isHidden = false
-                        updateCell.singleCoverImageView.af_setImage(withURL: URL(string: coverUrl)!, placeholderImage: UIImage(named: "img_cover_image_placeholder_1"))
+                        updateCell.profileImagView.setImage(withCoverUrl: coverUrl)
                     }
                     else {
-                        if members.count == 0 {
-                            updateCell.singleCoverImageContainerView.isHidden = false
-                            updateCell.singleCoverImageView.image = UIImage(named: "img_cover_image_placeholder_1")
-                        }
-                        else if members.count == 1 {
-                            updateCell.singleCoverImageContainerView.isHidden = false
-                            let url0 = Utils.transformUserProfileImage(user: members[0])
-                            if url0.count > 0 {
-                                updateCell.singleCoverImageView.af_setImage(withURL: URL(string: url0)!, placeholderImage: Utils.getDefaultUserProfileImage(user: members[0]))
-                            }
-                            else {
-                                updateCell.singleCoverImageView.image = Utils.getDefaultUserProfileImage(user: members[0])
-                            }
-                        }
-                        else if members.count == 2 {
-                            updateCell.doubleCoverImageContainerView.isHidden = false
-                            let url0 = Utils.transformUserProfileImage(user: members[0])
-                            if url0.count > 0 {
-                                updateCell.doubleCoverImageView1.af_setImage(withURL: URL(string: url0)!, placeholderImage: Utils.getDefaultUserProfileImage(user: members[0]))
-                            }
-                            else {
-                                updateCell.doubleCoverImageView1.image = Utils.getDefaultUserProfileImage(user: members[0])
-                            }
-                            
-                            let url1 = Utils.transformUserProfileImage(user: members[1])
-                            if url1.count > 0 {
-                                updateCell.doubleCoverImageView2.af_setImage(withURL: URL(string: url1)!, placeholderImage: Utils.getDefaultUserProfileImage(user: members[1]))
-                            }
-                            else {
-                                updateCell.doubleCoverImageView2.image = Utils.getDefaultUserProfileImage(user: members[1])
-                            }
-                        }
-                        else if members.count == 3 {
-                            updateCell.tripleCoverImageContainerView.isHidden = false
-                            let url0 = Utils.transformUserProfileImage(user: members[0])
-                            if url0.count > 0 {
-                                updateCell.tripleCoverImageView1.af_setImage(withURL: URL(string: url0)!, placeholderImage: Utils.getDefaultUserProfileImage(user: members[0]))
-                            }
-                            else {
-                                updateCell.tripleCoverImageView1.image = Utils.getDefaultUserProfileImage(user: members[0])
-                            }
-                            
-                            let url1 = Utils.transformUserProfileImage(user: members[1])
-                            if url1.count > 0 {
-                                updateCell.tripleCoverImageView2.af_setImage(withURL: URL(string: url1)!, placeholderImage: Utils.getDefaultUserProfileImage(user: members[1]))
-                            }
-                            else {
-                                updateCell.tripleCoverImageView2.image = Utils.getDefaultUserProfileImage(user: members[1])
-                            }
-                            
-                            let url2 = Utils.transformUserProfileImage(user: members[2])
-                            if url2.count > 0 {
-                                updateCell.tripleCoverImageView3.af_setImage(withURL: URL(string: url2)!, placeholderImage: Utils.getDefaultUserProfileImage(user: members[2]))
-                            }
-                            else {
-                                updateCell.tripleCoverImageView3.image = Utils.getDefaultUserProfileImage(user: members[2])
-                            }
-                        }
-                        else if members.count == 4 {
-                            updateCell.quadrupleCoverImageContainerView.isHidden = false
-                            let url0 = Utils.transformUserProfileImage(user: members[0])
-                            if url0.count > 0 {
-                                updateCell.quadrupleCoverImageView1.af_setImage(withURL: URL(string: url0)!, placeholderImage: Utils.getDefaultUserProfileImage(user: members[0]))
-                            }
-                            else {
-                                updateCell.quadrupleCoverImageView1.image = Utils.getDefaultUserProfileImage(user: members[0])
-                            }
-                            
-                            let url1 = Utils.transformUserProfileImage(user: members[1])
-                            if url1.count > 0 {
-                                updateCell.quadrupleCoverImageView2.af_setImage(withURL: URL(string: url1)!, placeholderImage: Utils.getDefaultUserProfileImage(user: members[1]))
-                            }
-                            else {
-                                updateCell.quadrupleCoverImageView2.image = Utils.getDefaultUserProfileImage(user: members[1])
-                            }
-                            
-                            let url2 = Utils.transformUserProfileImage(user: members[2])
-                            if url2.count > 0 {
-                                updateCell.quadrupleCoverImageView3.af_setImage(withURL: URL(string: url2)!, placeholderImage: Utils.getDefaultUserProfileImage(user: members[2]))
-                            }
-                            else {
-                                updateCell.quadrupleCoverImageView3.image = Utils.getDefaultUserProfileImage(user: members[2])
-                            }
-                            
-                            let url3 = Utils.transformUserProfileImage(user: members[3])
-                            if url3.count > 0 {
-                                updateCell.quadrupleCoverImageView4.af_setImage(withURL: URL(string: url3)!, placeholderImage: Utils.getDefaultUserProfileImage(user: members[3]))
-                            }
-                            else {
-                                updateCell.quadrupleCoverImageView4.image = Utils.getDefaultUserProfileImage(user: members[3])
-                            }
-                        }
+                        updateCell.profileImagView.users = members
+                        updateCell.profileImagView.makeCircularWithSpacing(spacing: 1)
                     }
                 }
             }
@@ -467,8 +383,11 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
             self.loadChannelListNextPage(false)
         }
         
+        
         return cell
     }
+    
+    
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         if self.channels.count == 0 && self.toastCompleted {
@@ -489,49 +408,43 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         tableView.layoutIfNeeded()
-        let vc = GroupChannelChatViewController.init(nibName: "GroupChannelChatViewController", bundle: nil)
-        vc.hidesBottomBarWhenPushed = true
-        vc.channel = self.channels[indexPath.row]
-        vc.delegate = self
-        
-        guard let navigationController = self.navigationController else { return }
-        navigationController.pushViewController(vc, animated: true)
+
+        performSegue(withIdentifier: "ShowGroupChat", sender: indexPath.row)
     }
     
     func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
-        let leaveAction: UIContextualAction = UIContextualAction.init(style: .normal, title: "Leave") { (action, sourceView, completionHandler) in
+        let leaveAction: UIContextualAction = UIContextualAction.init(style: .destructive, title: "Leave") { (action, sourceView, completionHandler) in
             self.channels[indexPath.row].leave(completionHandler: { (error) in
-                if error != nil {
-                    Utils.showAlertController(error: error!, viewController: self)
+                if let error = error {
+                    Utils.showAlertController(error: error, viewController: self)
                     return
                 }
             })
+            
             completionHandler(true)
         }
         leaveAction.backgroundColor = UIColor(named: "color_leave_group_channel_bg")
         
         let hideAction: UIContextualAction = UIContextualAction.init(style: .normal, title: "Hide") { (action, sourceView, completionHandler) in
             self.channels[indexPath.row].hide(withHidePreviousMessages: true, completionHandler: { (error) in
-                if error != nil {
-                    Utils.showAlertController(error: error!, viewController: self)
+                if let error = error {
+                    Utils.showAlertController(error: error, viewController: self)
                     return
                 }
-                
-                DispatchQueue.main.async {
-                    self.showToast(message: "Hidden", completion: {
-                        if self.channels.count == 0 && self.toastCompleted {
-                            self.emptyLabel.isHidden = false
-                        }
-                        else {
-                            self.emptyLabel.isHidden = true
-                        }
-                    })
-                    
-                    self.channels.remove(at: indexPath.row)
-                    self.groupChannelsTableView.reloadData()
-                }
             })
-            
+            DispatchQueue.main.async {
+                self.showToast(message: "Hidden", completion: {
+                    if self.channels.count == 0 && self.toastCompleted {
+                        self.emptyLabel.isHidden = false
+                    }
+                    else {
+                        self.emptyLabel.isHidden = true
+                    }
+                })
+                
+                self.channels.remove(at: indexPath.row)
+                self.groupChannelsTableView.reloadData()
+            }
             completionHandler(true)
         }
         hideAction.backgroundColor = UIColor(named: "color_hide_group_channel_bg")

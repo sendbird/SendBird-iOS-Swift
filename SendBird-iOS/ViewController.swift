@@ -16,3 +16,11 @@ class ViewController: UIViewController {
     }
 }
 
+enum SendBirdStoryBoard : String {
+    case GroupChat = "GroupChat"
+    case OpenChat = "OpenChat"
+    case Settings = "Settings"
+    var instance : UIStoryboard {
+        return UIStoryboard(name: self.rawValue, bundle: Bundle.main)
+    }
+}

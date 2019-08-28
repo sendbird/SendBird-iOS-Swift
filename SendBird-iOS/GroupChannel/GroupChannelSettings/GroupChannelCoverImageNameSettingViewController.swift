@@ -22,25 +22,7 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
     @IBOutlet weak var loadingIndicatorView: CustomActivityIndicatorView!
     @IBOutlet weak var channelNameTextField: UITextField!
     
-    @IBOutlet weak var coverImageContainerView: UIView!
-    
-    @IBOutlet weak var singleCoverImageContainerView: UIView!
-    @IBOutlet weak var singleCoverImageView: UIImageView!
-    
-    @IBOutlet weak var doubleCoverImageContainerView: UIView!
-    @IBOutlet weak var doubleCoverImageView1: UIImageView!
-    @IBOutlet weak var doubleCoverImageView2: UIImageView!
-    
-    @IBOutlet weak var tripleCoverImageContainerView: UIView!
-    @IBOutlet weak var tripleCoverImageView1: UIImageView!
-    @IBOutlet weak var tripleCoverImageView2: UIImageView!
-    @IBOutlet weak var tripleCoverImageView3: UIImageView!
-    
-    @IBOutlet weak var quadrupleCoverImageContainerView: UIView!
-    @IBOutlet weak var quadrupleCoverImageView1: UIImageView!
-    @IBOutlet weak var quadrupleCoverImageView2: UIImageView!
-    @IBOutlet weak var quadrupleCoverImageView3: UIImageView!
-    @IBOutlet weak var quadrupleCoverImageView4: UIImageView!
+    @IBOutlet weak var profileImageView: ProfileImageView!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,12 +31,6 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
         
         self.title = "Cover Image & Name"
         self.navigationItem.largeTitleDisplayMode = .never
-        
-        if let navigationController = self.navigationController {
-            let barButtonItemBack = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
-            let prevVC = navigationController.viewControllers[navigationController.viewControllers.count - 2]
-            prevVC.navigationItem.backBarButtonItem = barButtonItemBack
-        }
         
         let barButtonItemDone = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(GroupChannelCoverImageNameSettingViewController.clickDoneButton(_:)))
         self.navigationItem.rightBarButtonItem = barButtonItemDone
@@ -69,17 +45,13 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
             ])
         self.channelNameTextField.text = self.channel!.name
         
-        self.coverImageContainerView.isUserInteractionEnabled = true
+        self.profileImageView.isUserInteractionEnabled = true
         let tapCoverImageGesture = UITapGestureRecognizer(target: self, action: #selector(GroupChannelCoverImageNameSettingViewController.clickCoverImage))
-        self.coverImageContainerView.addGestureRecognizer(tapCoverImageGesture)
-        
-        self.singleCoverImageContainerView.isHidden = true
-        self.doubleCoverImageContainerView.isHidden = true
-        self.tripleCoverImageContainerView.isHidden = true
-        self.quadrupleCoverImageContainerView.isHidden = true
+        self.profileImageView.addGestureRecognizer(tapCoverImageGesture)
+
         var currentMembers: [SBDMember] = []
         var count = 0
-        for member in self.channel?.members as! [SBDMember] {
+        for member in self.channel?.members as? [SBDMember] ?? [] {
             if member.userId == SBDMain.getCurrentUser()?.userId {
                 continue
             }
@@ -89,122 +61,15 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
                 break
             }
         }
-        
-        if (self.channel?.coverUrl?.count)! > 0 && !(self.channel?.coverUrl?.hasPrefix("https://sendbird.com/main/img/cover/"))! {
-            self.singleCoverImageContainerView.isHidden = false
-            
-            if let url = URL(string: (self.channel?.coverUrl)!) {
-                self.singleCoverImageView.af_setImage(withURL: url, placeholderImage: UIImage(named: "img_cover_image_placeholder_1"))
+        if let coverUrl = self.channel?.coverUrl {
+            if coverUrl.count > 0 && !coverUrl.hasPrefix("https://sendbird.com/main/img/cover/") {
+                self.profileImageView.setImage(withCoverUrl: coverUrl)
             }
-            else {
-                self.singleCoverImageView.image = UIImage(named: "img_cover_image_placeholder_1")
-            }
+        } else {
+            self.profileImageView.users = currentMembers
         }
-        else {
-            if currentMembers.count == 0 {
-                self.singleCoverImageContainerView.isHidden = false
-                self.singleCoverImageView.image = UIImage(named: "img_default_profile_image_1")
-            }
-            else if currentMembers.count == 1 {
-                self.singleCoverImageContainerView.isHidden = false
-                let url0 = Utils.transformUserProfileImage(user: currentMembers[0])
-                if url0.count > 0 {
-                    self.singleCoverImageView.af_setImage(withURL: URL(string: url0)!, placeholderImage: Utils.getDefaultUserProfileImage(user: currentMembers[0]))
-                }
-                else {
-                    self.singleCoverImageView.image = Utils.getDefaultUserProfileImage(user: currentMembers[0])
-                }
-            }
-            else if currentMembers.count == 2 {
-                self.doubleCoverImageContainerView.isHidden = false
-                let url0 = Utils.transformUserProfileImage(user: currentMembers[0])
-                if url0.count > 0 {
-                    self.doubleCoverImageView1.af_setImage(withURL: URL(string: url0)!, placeholderImage: Utils.getDefaultUserProfileImage(user: currentMembers[0]))
-                }
-                else {
-                    self.doubleCoverImageView1.image = Utils.getDefaultUserProfileImage(user: currentMembers[0])
-                }
-                
-                let url1 = Utils.transformUserProfileImage(user: currentMembers[1])
-                if url1.count > 0 {
-                    self.doubleCoverImageView2.af_setImage(withURL: URL(string: url1)!, placeholderImage: Utils.getDefaultUserProfileImage(user: currentMembers[1]))
-                }
-                else {
-                    self.doubleCoverImageView2.image = Utils.getDefaultUserProfileImage(user: currentMembers[1])
-                }
-            }
-            else if currentMembers.count == 3 {
-                self.tripleCoverImageContainerView.isHidden = false
-                let url0 = Utils.transformUserProfileImage(user: currentMembers[0])
-                if url0.count > 0 {
-                    self.tripleCoverImageView1.af_setImage(withURL: URL(string: url0)!, placeholderImage: Utils.getDefaultUserProfileImage(user: currentMembers[0]))
-                }
-                else {
-                    self.tripleCoverImageView1.image = Utils.getDefaultUserProfileImage(user: currentMembers[0])
-                }
-                
-                let url1 = Utils.transformUserProfileImage(user: currentMembers[1])
-                if url1.count > 0 {
-                    self.tripleCoverImageView2.af_setImage(withURL: URL(string: url1)!, placeholderImage: Utils.getDefaultUserProfileImage(user: currentMembers[1]))
-                }
-                else {
-                    self.tripleCoverImageView2.image = Utils.getDefaultUserProfileImage(user: currentMembers[1])
-                }
-                
-                let url2 = Utils.transformUserProfileImage(user: currentMembers[2])
-                if url2.count > 0 {
-                    self.tripleCoverImageView3.af_setImage(withURL: URL(string: url2)!, placeholderImage: Utils.getDefaultUserProfileImage(user: currentMembers[2]))
-                }
-                else {
-                    self.tripleCoverImageView3.image = Utils.getDefaultUserProfileImage(user: currentMembers[2])
-                }
-            }
-            else if currentMembers.count == 4 {
-                self.quadrupleCoverImageContainerView.isHidden = false
-                let url0 = Utils.transformUserProfileImage(user: currentMembers[0])
-                if url0.count > 0 {
-                    self.quadrupleCoverImageView1.af_setImage(withURL: URL(string: url0)!, placeholderImage: Utils.getDefaultUserProfileImage(user: currentMembers[0]))
-                }
-                else {
-                    self.quadrupleCoverImageView1.image = Utils.getDefaultUserProfileImage(user: currentMembers[0])
-                }
-                
-                let url1 = Utils.transformUserProfileImage(user: currentMembers[1])
-                if url1.count > 0 {
-                    self.quadrupleCoverImageView2.af_setImage(withURL: URL(string: url1)!, placeholderImage: Utils.getDefaultUserProfileImage(user: currentMembers[1]))
-                }
-                else {
-                    self.quadrupleCoverImageView2.image = Utils.getDefaultUserProfileImage(user: currentMembers[1])
-                }
-                
-                let url2 = Utils.transformUserProfileImage(user: currentMembers[2])
-                if url2.count > 0 {
-                    self.quadrupleCoverImageView3.af_setImage(withURL: URL(string: url2)!, placeholderImage: Utils.getDefaultUserProfileImage(user: currentMembers[2]))
-                }
-                else {
-                    self.quadrupleCoverImageView3.image = Utils.getDefaultUserProfileImage(user: currentMembers[2])
-                }
-                
-                let url3 = Utils.transformUserProfileImage(user: currentMembers[3])
-                if url3.count > 0 {
-                    self.quadrupleCoverImageView4.af_setImage(withURL: URL(string: url3)!, placeholderImage: Utils.getDefaultUserProfileImage(user: currentMembers[3]))
-                }
-                else {
-                    self.quadrupleCoverImageView4.image = Utils.getDefaultUserProfileImage(user: currentMembers[3])
-                }
-            }
-        }
+        self.profileImageView.makeCircularWithSpacing(spacing: 1)
     }
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
     
     @objc func clickDoneButton(_ sender: Any) {
         self.updateChannelInfo()
@@ -222,9 +87,8 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
     // MARK: - NotificationDelegate
     func openChat(_ channelUrl: String) {
         self.navigationController?.popViewController(animated: false)
-        let cvc = UIViewController.currentViewController()
-        if cvc is GroupChannelSettingsViewController {
-            (cvc as! GroupChannelSettingsViewController).openChat(channelUrl)
+        if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+            cvc.openChat(channelUrl)
         }
     }
     
@@ -257,12 +121,6 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
     // The original image has been cropped.
     func imageCropViewController(_ controller: RSKImageCropViewController, didCropImage croppedImage: UIImage, usingCropRect cropRect: CGRect, rotationAngle: CGFloat) {
         self.coverImage = croppedImage
-        
-        self.singleCoverImageView.image = croppedImage
-        self.singleCoverImageContainerView.isHidden = false
-        self.doubleCoverImageContainerView.isHidden = true
-        self.tripleCoverImageContainerView.isHidden = true
-        self.quadrupleCoverImageContainerView.isHidden = true
 
         controller.dismiss(animated: false, completion: nil)
     }
@@ -324,8 +182,8 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
                 self.loadingIndicatorView.isHidden = true
                 self.loadingIndicatorView.stopAnimating()
                 
-                if error != nil {
-                    Utils.showAlertController(error: error!, viewController: self)
+                if let error = error {
+                    Utils.showAlertController(error: error, viewController: self)
                     return
                 }
                 
@@ -335,9 +193,7 @@ class GroupChannelCoverImageNameSettingViewController: UIViewController, UIImage
                     }
                 }
                 
-                if let navigationController = self.navigationController {
-                    navigationController.popViewController(animated: true)
-                }
+                self.navigationController?.popViewController(animated: true)
             }
         }
     }

@@ -27,17 +27,14 @@ class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITa
         // Do any additional setup after loading the view.
         
         self.navigationItem.largeTitleDisplayMode = .automatic
-        let barButtonItemBack = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
-        if let prevVC = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 2] {
-            prevVC.navigationItem.backBarButtonItem = barButtonItemBack
-        }
         
         self.okButtonItem = UIBarButtonItem(title: "OK(0)", style: .plain, target: self, action: #selector(SelectOperatorsViewController.clickOkButton(_:)))
         self.navigationItem.rightBarButtonItem = self.okButtonItem
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
-        self.tableView.register(UINib(nibName: "SelectOperatorsTableViewCell", bundle: nil), forCellReuseIdentifier: "SelectOperatorsTableViewCell")
+        
+        self.tableView.register(SelectableUserTableViewCell.nib(), forCellReuseIdentifier: "SelectableUserTableViewCell")
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: #selector(SelectOperatorsViewController.refreshUserList), for: .valueChanged)
@@ -71,12 +68,8 @@ class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITa
             navigationController.popViewController(animated: false)
         }
         
-        let cvc = UIViewController.currentViewController()
-        if cvc is OpenChannelSettingsViewController {
-            (cvc as? OpenChannelSettingsViewController)?.openChat(channelUrl)
-        }
-        else if cvc is OpenChannelSettingsViewController {
-            (cvc as? OpenChannelSettingsViewController)?.openChat(channelUrl)
+        if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+            cvc.openChat(channelUrl)
         }
     }
 
@@ -146,24 +139,19 @@ class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITa
 
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectOperatorsTableViewCell") as! SelectOperatorsTableViewCell
+        let cell = tableView.dequeueReusableCell(withIdentifier: "SelectableUserTableViewCell") as! SelectableUserTableViewCell
         cell.user = self.users[indexPath.row]
         
         DispatchQueue.main.async {
-            if let updateCell = tableView.cellForRow(at: indexPath) as? SelectOperatorsTableViewCell {
+            if let updateCell = tableView.cellForRow(at: indexPath) as? SelectableUserTableViewCell {
                 updateCell.nicknameLabel.text = self.users[indexPath.row].nickname
-                if let url = URL(string: Utils.transformUserProfileImage(user: self.users[indexPath.row])) {
-                    updateCell.profileImageView.af_setImage(withURL: url, placeholderImage: Utils.getDefaultUserProfileImage(user: self.users[indexPath.row]))
-                }
-                else {
-                    updateCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: self.users[indexPath.row])
-                }
+                updateCell.profileImageView.setProfileImageView(for: self.users[indexPath.row])
                 
                 if self.selectedUsers[self.users[indexPath.row].userId] != nil {
-                   updateCell.selectedOperator = true
+                   updateCell.selectedUser = true
                 }
                 else {
-                    updateCell.selectedOperator = false
+                    updateCell.selectedUser = false
                 }
             }
         }
@@ -187,7 +175,7 @@ class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITa
             self.selectedUsers[self.users[indexPath.row].userId] = self.users[indexPath.row]
         }
         
-        self.okButtonItem!.title = String(format: "OK(%d)", Int(self.selectedUsers.count))
+        self.okButtonItem?.title = String(format: "OK(%d)", Int(self.selectedUsers.count))
         
         if self.selectedUsers.count == 0 {
             self.okButtonItem?.isEnabled = false
@@ -213,7 +201,7 @@ class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITa
         if searchText.count > 0 {
             self.userListQuery = SBDMain.createApplicationUserListQuery()
             self.userListQuery?.userIdsFilter = [searchText]
-            self.userListQuery!.loadNextPage { (users, error) in
+            self.userListQuery?.loadNextPage { (users, error) in
                 if error != nil {
                     DispatchQueue.main.async {
                         self.refreshControl?.endRefreshing()

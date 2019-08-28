@@ -31,12 +31,7 @@ class OpenChannelCoverImageNameSettingViewController: UIViewController, UIImageP
         // Do any additional setup after loading the view.
         self.title = "Cover Image & Name"
         self.navigationItem.largeTitleDisplayMode = .never
-        
-        let barButtonItemBack = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
-        guard let navigationController = self.navigationController else { return }
-        let prevVC = navigationController.viewControllers[navigationController.viewControllers.count - 2]
-        prevVC.navigationItem.backBarButtonItem = barButtonItemBack
-        
+
         let barButtonItemDone = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(OpenChannelCoverImageNameSettingViewController.clickDoneButton(_:)))
         self.navigationItem.rightBarButtonItem = barButtonItemDone
         
@@ -62,17 +57,6 @@ class OpenChannelCoverImageNameSettingViewController: UIViewController, UIImageP
         }
     }
 
-
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-    
     @objc func clickDoneButton(_ sender: AnyObject) {
         self.updateChannelInfo()
     }
@@ -89,9 +73,8 @@ class OpenChannelCoverImageNameSettingViewController: UIViewController, UIImageP
     func openChat(_ channelUrl: String) {
         guard let navigationController = self.navigationController else { return }
         navigationController.popViewController(animated: false)
-        let cvc = UIViewController.currentViewController()
-        if cvc is OpenChannelSettingsViewController {
-            (cvc as! OpenChannelSettingsViewController).openChat(channelUrl)
+        if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+            cvc.openChat(channelUrl)
         }
     }
     

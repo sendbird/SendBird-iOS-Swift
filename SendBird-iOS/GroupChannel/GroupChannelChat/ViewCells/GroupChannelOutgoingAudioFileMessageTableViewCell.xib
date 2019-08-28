@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -82,20 +82,20 @@
                         <rect key="frame" x="11" y="121.5" width="317" height="14"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_outgoing_sending_flag" translatesAutoresizingMaskIntoConstraints="NO" id="kvf-pN-d9b" userLabel="Sending Flag Image View">
-                                <rect key="frame" x="247" y="1" width="14" height="13"/>
+                                <rect key="frame" x="214.5" y="1" width="14" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13" id="BSi-Sx-f1H"/>
                                     <constraint firstAttribute="width" constant="14" id="F4T-BH-25M"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1Yt-zZ-Sz6" userLabel="Message Date Label">
-                                <rect key="frame" x="269" y="0.5" width="48" height="13.5"/>
+                                <rect key="frame" x="236.5" y="0.5" width="48" height="13.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" red="0.66666666669999997" green="0.69019607839999997" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="R4W-P9-hGy" userLabel="Read Status Container View">
-                                <rect key="frame" x="209" y="0.5" width="57" height="13.5"/>
+                                <rect key="frame" x="176.5" y="0.5" width="57" height="13.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_read" translatesAutoresizingMaskIntoConstraints="NO" id="blT-7L-IfW" userLabel="Read Icon Image View">
                                         <rect key="frame" x="0.0" y="1" width="12" height="12"/>
@@ -146,6 +146,7 @@
                                     <constraint firstAttribute="height" constant="13" id="M4o-St-knB"/>
                                     <constraint firstAttribute="trailing" secondItem="agR-fl-RQ9" secondAttribute="trailing" id="Od8-XZ-2eT"/>
                                     <constraint firstItem="agR-fl-RQ9" firstAttribute="centerY" secondItem="Ftg-Kb-aPI" secondAttribute="centerY" id="W9K-C7-6XP"/>
+                                    <constraint firstAttribute="width" constant="32.5" id="XdR-4p-051"/>
                                     <constraint firstItem="blW-rP-2Cj" firstAttribute="centerY" secondItem="Ftg-Kb-aPI" secondAttribute="centerY" id="dcS-IJ-2us"/>
                                 </constraints>
                             </view>
@@ -180,7 +181,7 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstAttribute="trailing" secondItem="1Yt-zZ-Sz6" secondAttribute="trailing" id="1eD-3R-rLd"/>
+                            <constraint firstAttribute="trailing" secondItem="1Yt-zZ-Sz6" secondAttribute="trailing" priority="999" id="1eD-3R-rLd"/>
                             <constraint firstAttribute="bottom" secondItem="1Yt-zZ-Sz6" secondAttribute="bottom" id="5OQ-6y-2W8"/>
                             <constraint firstItem="1Yt-zZ-Sz6" firstAttribute="leading" secondItem="R4W-P9-hGy" secondAttribute="trailing" constant="3" id="6DL-PR-LUJ"/>
                             <constraint firstAttribute="trailing" secondItem="Ftg-Kb-aPI" secondAttribute="trailing" id="EPo-Ag-vRr"/>
@@ -188,6 +189,7 @@
                             <constraint firstAttribute="bottom" secondItem="7ai-V4-Pep" secondAttribute="bottom" id="Srv-EM-eSY"/>
                             <constraint firstItem="1Yt-zZ-Sz6" firstAttribute="centerY" secondItem="kvf-pN-d9b" secondAttribute="centerY" id="Vht-IN-7AS"/>
                             <constraint firstAttribute="bottom" secondItem="R4W-P9-hGy" secondAttribute="bottom" id="ZmI-Xb-KpR"/>
+                            <constraint firstItem="Ftg-Kb-aPI" firstAttribute="leading" secondItem="1Yt-zZ-Sz6" secondAttribute="trailing" id="euo-SO-M8S"/>
                             <constraint firstItem="1Yt-zZ-Sz6" firstAttribute="leading" secondItem="kvf-pN-d9b" secondAttribute="trailing" constant="8" id="fJc-Qt-UOO"/>
                             <constraint firstAttribute="trailing" secondItem="7ai-V4-Pep" secondAttribute="trailing" id="gUm-2J-pv1"/>
                             <constraint firstAttribute="bottom" secondItem="Ftg-Kb-aPI" secondAttribute="bottom" id="ojk-Zz-fG3"/>
@@ -249,6 +251,7 @@
                 <outlet property="resendButton" destination="btx-fD-IcF" id="bcP-Ms-U0o"/>
                 <outlet property="resendButtonContainerView" destination="76Q-Yq-HXZ" id="028-Qu-cg8"/>
                 <outlet property="sendingFailureContainerView" destination="Ftg-Kb-aPI" id="uL2-MU-vVr"/>
+                <outlet property="sendingFailureContainerViewConstraint" destination="euo-SO-M8S" id="BHv-Ph-nnR"/>
                 <outlet property="sendingFlagImageView" destination="kvf-pN-d9b" id="bLR-Q6-Wtf"/>
             </connections>
             <point key="canvasLocation" x="148" y="196.10194902548727"/>

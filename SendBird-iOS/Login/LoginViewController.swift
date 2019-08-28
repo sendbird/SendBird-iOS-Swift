@@ -50,12 +50,11 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
         }
 
         // Version
-        let path = Bundle.main.path(forResource: "Info", ofType: "plist")
-        if path != nil {
-            let infoDict = NSDictionary.init(contentsOfFile: path!)
-            let sampleUIVersion = infoDict!["CFBundleShortVersionString"] as! String
-            let version = String(format: "Sample UI v%@ / SDK v%@", sampleUIVersion, SBDMain.getSDKVersion())
-            self.versionInfoLabel.text = version
+        if let path = Bundle.main.path(forResource: "Info", ofType: "plist"){
+            if let infoDict = NSDictionary.init(contentsOfFile: path), let sampleUIVersion = infoDict["CFBundleShortVersionString"] as? String {
+                let version = String(format: "Sample UI v%@ / SDK v%@", sampleUIVersion, SBDMain.getSDKVersion())
+                self.versionInfoLabel.text = version
+            }
         }
         
         let authStatus = PHPhotoLibrary.authorizationStatus()
@@ -112,7 +111,14 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
     
     func connect() {
         self.view.endEditing(true)
-        if SBDMain.getConnectState() != .open {
+        if SBDMain.getConnectState() == .open {
+            SBDMain.disconnect {
+                DispatchQueue.main.async {
+                    self.setUIsForDefault()
+                }
+            }
+        }
+        else {
             let userId = self.userIdTextField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             let nickname = self.nicknameTextField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             
@@ -131,13 +137,6 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
             
             SBDConnectionManager.setAuthenticateDelegate(self)
             SBDConnectionManager.authenticate()
-        }
-        else {
-            SBDMain.disconnect {
-                DispatchQueue.main.async {
-                    self.setUIsForDefault()
-                }
-            }
         }
     }
 
@@ -176,8 +175,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
         DispatchQueue.main.async {
             self.setUIsForDefault()
             
-            let tabBarVC = MainTabBarController.init(nibName: "MainTabBarController", bundle: nil)
-            self.present(tabBarVC, animated: true, completion: nil)
+            self.performSegue(withIdentifier: "LoggedIn", sender: self)
         }
         
         SBDMain.getDoNotDisturb { (isDoNotDisturbOn, startHour, startMin, endHour, endMin, timezone, error) in
@@ -205,7 +203,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
             }
         }
         
-        if let nickname = UserDefaults.standard.object(forKey: "sendbird_user_nickname") as? String {
+        if let nickname = UserDefaults.standard.object(forKey: "sendbird_user_nickname") as? String, nickname != SBDMain.getCurrentUser()?.nickname{
             SBDMain.updateCurrentUserInfo(withNickname: nickname, profileUrl: nil) { (error) in
                 if error != nil {
                     SBDMain.disconnect(completionHandler: {

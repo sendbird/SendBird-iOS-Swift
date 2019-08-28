@@ -45,12 +45,7 @@ class UpdateUserProfileViewController: UIViewController, UIImagePickerController
         let tapProfileImageGesture = UITapGestureRecognizer(target: self, action: #selector(UpdateUserProfileViewController.clickProfileImage))
         self.profileImageView.addGestureRecognizer(tapProfileImageGesture)
         
-        if let url = URL(string: Utils.transformUserProfileImage(user: SBDMain.getCurrentUser()!)) {
-            self.profileImageView.af_setImage(withURL: url, placeholderImage: Utils.getDefaultUserProfileImage(user: SBDMain.getCurrentUser()!))
-        }
-        else {
-            self.profileImageView.image = Utils.getDefaultUserProfileImage(user: SBDMain.getCurrentUser()!)
-        }
+        self.profileImageView.setProfileImageView(for: SBDMain.getCurrentUser()!)
         
         self.nicknameTextField.text = SBDMain.getCurrentUser()!.nickname
         self.nicknameTextField.attributedPlaceholder = NSAttributedString(string: "Please write your nickname", attributes: [
@@ -74,18 +69,19 @@ class UpdateUserProfileViewController: UIViewController, UIImagePickerController
     }
     
     func cropImage(_ imageData: Data) {
-        let image = UIImage(data: imageData)
-        let imageCropVC = RSKImageCropViewController(image: image!)
-        imageCropVC.delegate = self
-        imageCropVC.cropMode = .square
-        self.present(imageCropVC, animated: false, completion: nil)
+        if let image = UIImage(data: imageData) {
+            let imageCropVC = RSKImageCropViewController(image: image)
+            imageCropVC.delegate = self
+            imageCropVC.cropMode = .square
+            self.present(imageCropVC, animated: false, completion: nil)
+        }
     }
     
     // MARK: - NotificationDelegate
     func openChat(_ channelUrl: String) {
         self.navigationController?.popViewController(animated: false)
-        if let cvc = UIViewController.currentViewController() {
-            (cvc as! SettingsViewController).openChat(channelUrl)
+        if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+            cvc.openChat(channelUrl)
         }
     }
     

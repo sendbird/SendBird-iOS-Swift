@@ -9,31 +9,16 @@
 import UIKit
 import SendBirdSDK
 
-class OpenChannelUserMessageTableViewCell: UITableViewCell {
-    weak var delegate: OpenChannelMessageTableViewCellDelegate?
-    var msg: SBDUserMessage?
-    
-    @IBOutlet weak var profileImageView: UIImageView!
+class OpenChannelUserMessageTableViewCell: OpenChannelMessageTableViewCell {
+
+
     @IBOutlet weak var profileImageContainerView: UIView!
-    @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var messageLabel: UILabel!
-    @IBOutlet weak var resendButtonContainerView: UIView!
-    @IBOutlet weak var resendButton: UIButton!
     @IBOutlet weak var sendingFailureContainerView: UIView!
-    @IBOutlet weak var messageContainerView: UIView!
-    @IBOutlet weak var messageContainerViewBottomMargin: NSLayoutConstraint!
-    
-    static let kMessageContainerViewBottomMarginNormal: CGFloat = 14.0
     
     override func awakeFromNib() {
         super.awakeFromNib()
         // Initialization code
-    }
-
-    override func setSelected(_ selected: Bool, animated: Bool) {
-        super.setSelected(selected, animated: animated)
-
-        // Configure the view for the selected state
     }
     
     func setMessage(_ message: SBDUserMessage) {
@@ -44,25 +29,11 @@ class OpenChannelUserMessageTableViewCell: UITableViewCell {
         let longClickMessageContainerGesture = UILongPressGestureRecognizer(target: self, action: #selector(OpenChannelUserMessageTableViewCell.longClickUserMessage(_:)))
         self.messageContainerView.addGestureRecognizer(longClickMessageContainerGesture)
         
-        let longClickProfileGesture = UILongPressGestureRecognizer(target: self, action: #selector(OpenChannelUserMessageTableViewCell.longClickProfile(_:)))
-        self.profileImageContainerView.addGestureRecognizer(longClickProfileGesture)
+        self.messageLabel.text = message.message
         
-        let clickProfileGesture = UITapGestureRecognizer(target: self, action: #selector(OpenChannelUserMessageTableViewCell.clickProfile(_:)))
-        self.profileImageContainerView.addGestureRecognizer(clickProfileGesture)
-        
-        self.messageLabel.text = self.msg?.message
-        if self.msg!.sender?.nickname!.count == 0 {
-            self.nicknameLabel.text = " "
-        }
-        else {
-            self.nicknameLabel.text = self.msg!.sender?.nickname
-        }
+        super.setMessage(message)
     }
-    
-    func getMessage() -> SBDUserMessage? {
-        return self.msg
-    }
-    
+
     func hideElementsForFailure() {
         self.resendButtonContainerView.isHidden = true
         self.resendButton.isEnabled = false
@@ -78,33 +49,17 @@ class OpenChannelUserMessageTableViewCell: UITableViewCell {
     }
     
     @objc func clickResendUserMessageButton(_ sender: AnyObject) {
-        if let delegate = self.delegate {
+        if let delegate = self.delegate, let msg = (self.msg as? SBDUserMessage) {
             if delegate.responds(to: #selector(OpenChannelMessageTableViewCellDelegate.didClickResendUserMessageButton(_:))) {
-                delegate.didClickResendUserMessageButton!(self.msg!)
-            }
-        }
-    }
-    
-    @objc func longClickProfile(_ recognizer: UILongPressGestureRecognizer) {
-        if let delegate = self.delegate {
-            if delegate.responds(to: #selector(OpenChannelMessageTableViewCellDelegate.didLongClickUserProfile(_:))) {
-                delegate.didLongClickUserProfile!(self.msg!.sender!)
+                delegate.didClickResendUserMessageButton!(msg)
             }
         }
     }
     
     @objc func longClickUserMessage(_ recognizer: UILongPressGestureRecognizer) {
-        if let delegate = self.delegate {
-            if delegate.responds(to: #selector(OpenChannelMessageTableViewCellDelegate.didLongClickUserMessage(_:))) {
-                delegate.didLongClickUserMessage!(self.msg!)
-            }
-        }
-    }
-    
-    @objc func clickProfile(_ recognizer: UITapGestureRecognizer) {
-        if let delegate = self.delegate {
-            if delegate.responds(to: #selector(OpenChannelMessageTableViewCellDelegate.didClickUserProfile(_:))) {
-                delegate.didClickUserProfile!(self.msg!.sender!)
+        if let delegate = self.delegate, let msg = (self.msg as? SBDUserMessage) {
+            if delegate.responds(to: #selector(OpenChannelMessageTableViewCellDelegate.didLongClickMessage(_:))) {
+                delegate.didLongClickMessage!(msg)
             }
         }
     }

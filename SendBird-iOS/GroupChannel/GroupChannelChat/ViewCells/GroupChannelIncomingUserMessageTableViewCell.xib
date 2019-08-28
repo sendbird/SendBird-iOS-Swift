@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -154,10 +154,10 @@
             </constraints>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
-                <outlet property="dateSeperatorContainerView" destination="xeQ-qp-X1c" id="h3c-oz-Jht"/>
-                <outlet property="dateSeperatorContainerViewHeight" destination="jPT-hA-fgh" id="Sxp-JF-P7j"/>
-                <outlet property="dateSeperatorContainerViewTopMargin" destination="bA7-KR-Y7S" id="3FL-RJ-Ar3"/>
-                <outlet property="dateSeperatorLabel" destination="yT0-Oh-Veo" id="sK6-ny-y3F"/>
+                <outlet property="dateSeperatorContainerView" destination="xeQ-qp-X1c" id="WRh-Oh-pcU"/>
+                <outlet property="dateSeperatorContainerViewHeight" destination="jPT-hA-fgh" id="HDj-dw-Tml"/>
+                <outlet property="dateSeperatorContainerViewTopMargin" destination="bA7-KR-Y7S" id="fky-O8-sMC"/>
+                <outlet property="dateSeperatorLabel" destination="yT0-Oh-Veo" id="SRE-B3-9Rn"/>
                 <outlet property="messageContainerView" destination="E8J-Gf-NPk" id="gSw-ZH-YWt"/>
                 <outlet property="messageContainerViewBottomMargin" destination="KiH-YZ-WcL" id="rGH-sI-IY4"/>
                 <outlet property="messageContainerViewTopMargin" destination="98p-ky-Ru8" id="U9O-Js-Kg6"/>

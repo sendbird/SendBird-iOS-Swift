@@ -42,6 +42,10 @@ class OpenChannelAdminMessageTableViewCell: UITableViewCell {
         return self.msg
     }
     
+    static func nib() -> UINib {
+        return UINib(nibName: String(describing: self), bundle: Bundle(for: self))
+    }
+    
     func setPreviousMessage(_ prevMessage: SBDBaseMessage?) {
         if prevMessage != nil {
             self.messageContainerViewTopMargin.constant = 14
@@ -54,8 +58,8 @@ class OpenChannelAdminMessageTableViewCell: UITableViewCell {
     @objc func longClickMessage(_ recognizer: UILongPressGestureRecognizer) {
         if recognizer.state == .began {
             if let delegate = self.delegate {
-                if delegate.responds(to: #selector(OpenChannelMessageTableViewCellDelegate.didLongClickAdminMessage(_:))) {
-                    delegate.didLongClickAdminMessage!(self.msg!)
+                if delegate.responds(to: #selector(OpenChannelMessageTableViewCellDelegate.didLongClickMessage(_:))) {
+                    delegate.didLongClickMessage!(self.msg!)
                 }
             }
         }

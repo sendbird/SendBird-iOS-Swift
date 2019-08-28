@@ -22,10 +22,8 @@ class CustomTextField: UITextField {
         path.move(to: CGPoint(x: 0, y: self.frame.size.height - (self.bottomBorderWidth / 2)))
         path.addLine(to: CGPoint(x: self.frame.size.width, y: self.frame.size.height - (self.bottomBorderWidth / 2)))
         
-        if self.shapeLayer != nil {
-            self.shapeLayer!.removeFromSuperlayer()
-            self.shapeLayer = nil
-        }
+        self.shapeLayer?.removeFromSuperlayer()
+        self.shapeLayer = nil
         
         self.shapeLayer = CAShapeLayer()
         self.shapeLayer!.path = path.cgPath

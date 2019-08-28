@@ -14,7 +14,6 @@ class GroupChannelSettingsMemberTableViewCell: UITableViewCell {
     @IBOutlet weak var nicknameLabel: UILabel!
     @IBOutlet weak var statusLabel: UILabel!
     @IBOutlet weak var blockedUserCoverImageView: UIImageView!
-    @IBOutlet weak var topBorderView: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()

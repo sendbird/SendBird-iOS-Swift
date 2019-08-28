@@ -170,73 +170,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func jumpToGroupChannel(_ channelUrl: String?) -> Void {
-        let vc = UIViewController.currentViewController()
-        
-        if vc is GroupChannelsViewController {
-            (vc as! GroupChannelsViewController).openChat(channelUrl!)
-        }
-        else if vc is GroupChannelChatViewController {
-            (vc as! GroupChannelChatViewController).openChat(channelUrl!)
-        }
-        else if vc is GroupChannelSettingsViewController {
-            (vc as! GroupChannelSettingsViewController).openChat(channelUrl!)
-        }
-        else if vc is GroupChannelCoverImageNameSettingViewController {
-            (vc as! GroupChannelCoverImageNameSettingViewController).openChat(channelUrl!)
-        }
-        else if vc is GroupChannelInviteMemberViewController {
-            (vc as! GroupChannelInviteMemberViewController).openChat(channelUrl!)
-        }
-        else if vc is CreateGroupChannelViewControllerA {
-            (vc as! CreateGroupChannelViewControllerA).openChat(channelUrl!)
-        }
-        else if vc is CreateGroupChannelViewControllerB {
-            (vc as! CreateGroupChannelViewControllerB).openChat(channelUrl!)
-        }
-        else if vc is UserProfileViewController {
-            (vc as! UserProfileViewController).openChat(channelUrl!)
-        }
-        else if vc is OpenChannelsViewController {
-            (vc as! OpenChannelsViewController).openChat(channelUrl!)
-        }
-        else if vc is OpenChannelChatViewController {
-            (vc as! OpenChannelChatViewController).openChat(channelUrl!)
-        }
-        else if vc is OpenChannelSettingsViewController {
-            (vc as! OpenChannelSettingsViewController).openChat(channelUrl!)
-        }
-        else if vc is OpenChannelParticipantListViewController {
-            (vc as! OpenChannelParticipantListViewController).openChat(channelUrl!)
-        }
-        else if vc is OpenChannelBannedUserListViewController {
-            (vc as! OpenChannelBannedUserListViewController).openChat(channelUrl!)
-        }
-        else if vc is OpenChannelMutedUserListViewController {
-            (vc as! OpenChannelMutedUserListViewController).openChat(channelUrl!)
-        }
-        else if vc is SelectOperatorsViewController {
-            (vc as! SelectOperatorsViewController).openChat(channelUrl!)
-        }
-        else if vc is OpenChannelCoverImageNameSettingViewController {
-            (vc as! OpenChannelCoverImageNameSettingViewController).openChat(channelUrl!)
-        }
-        else if vc is CreateOpenChannelViewControllerA {
-            (vc as! CreateOpenChannelViewControllerA).openChat(channelUrl!)
-        }
-        else if vc is CreateOpenChannelViewControllerB {
-            (vc as! CreateOpenChannelViewControllerB).openChat(channelUrl!)
-        }
-        else if vc is SettingsViewController {
-            (vc as! SettingsViewController).openChat(channelUrl!)
-        }
-        else if vc is UpdateUserProfileViewController {
-            (vc as! UpdateUserProfileViewController).openChat(channelUrl!)
-        }
-        else if vc is SettingsBlockedUserListViewController {
-            (vc as! SettingsBlockedUserListViewController).openChat(channelUrl!)
-        }
-        else if vc is LoginViewController {
-            (vc as! LoginViewController).openChat(channelUrl!)
+        if let vc = UIViewController.currentViewController() as? NotificationDelegate, let url = channelUrl{
+            vc.openChat(url)
         }
     }
 

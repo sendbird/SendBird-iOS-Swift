@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -91,20 +91,20 @@
                         <rect key="frame" x="0.0" y="254.5" width="349" height="14"/>
                         <subviews>
                             <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_outgoing_sending_flag" translatesAutoresizingMaskIntoConstraints="NO" id="eB6-Qe-qmb" userLabel="Sending Flag Image View">
-                                <rect key="frame" x="279" y="1" width="14" height="13"/>
+                                <rect key="frame" x="266" y="1" width="14" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13" id="cCt-Zr-jif"/>
                                     <constraint firstAttribute="width" constant="14" id="fel-P6-ih7"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="JUj-Qc-HZz" userLabel="Message Date Label">
-                                <rect key="frame" x="301" y="0.5" width="48" height="13.5"/>
+                                <rect key="frame" x="288" y="0.5" width="48" height="13.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" red="0.66666666669999997" green="0.69019607839999997" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view hidden="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="pTc-ab-zno" userLabel="Read Status Container View">
-                                <rect key="frame" x="241" y="0.5" width="57" height="13.5"/>
+                                <rect key="frame" x="228" y="0.5" width="57" height="13.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_read" translatesAutoresizingMaskIntoConstraints="NO" id="fdr-cy-HgZ" userLabel="Read Icon Image View">
                                         <rect key="frame" x="0.0" y="1" width="12" height="12"/>
@@ -131,7 +131,7 @@
                                 </constraints>
                             </view>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="T1g-xI-JZo" userLabel="Sending Failure Container View">
-                                <rect key="frame" x="316.5" y="1" width="32.5" height="13"/>
+                                <rect key="frame" x="336" y="1" width="13" height="13"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_failure" translatesAutoresizingMaskIntoConstraints="NO" id="xxS-fJ-P6H" userLabel="Sending Failure Image View">
                                         <rect key="frame" x="0.0" y="0.0" width="13" height="13"/>
@@ -142,7 +142,7 @@
                                         </constraints>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Fail" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Fui-bs-SxZ" userLabel="Sending Failure Label">
-                                        <rect key="frame" x="13" y="-0.5" width="19.5" height="14.5"/>
+                                        <rect key="frame" x="13" y="-0.5" width="0.0" height="14.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="12"/>
                                         <color key="textColor" name="color_message_sending_fail"/>
                                         <nil key="highlightedColor"/>
@@ -195,8 +195,9 @@
                             <constraint firstAttribute="bottom" secondItem="pTc-ab-zno" secondAttribute="bottom" id="29w-Xm-8Fh"/>
                             <constraint firstAttribute="trailing" secondItem="m4t-UF-Tcn" secondAttribute="trailing" id="3w3-tw-kNa"/>
                             <constraint firstItem="JUj-Qc-HZz" firstAttribute="leading" secondItem="eB6-Qe-qmb" secondAttribute="trailing" constant="8" id="EKN-NM-lGs"/>
-                            <constraint firstAttribute="trailing" secondItem="JUj-Qc-HZz" secondAttribute="trailing" id="FLR-1Z-3oM"/>
+                            <constraint firstAttribute="trailing" secondItem="JUj-Qc-HZz" secondAttribute="trailing" priority="999" id="FLR-1Z-3oM"/>
                             <constraint firstAttribute="bottom" secondItem="T1g-xI-JZo" secondAttribute="bottom" id="GAv-Wv-Qow"/>
+                            <constraint firstItem="T1g-xI-JZo" firstAttribute="leading" secondItem="JUj-Qc-HZz" secondAttribute="trailing" id="HHY-v3-c6d"/>
                             <constraint firstItem="JUj-Qc-HZz" firstAttribute="leading" secondItem="pTc-ab-zno" secondAttribute="trailing" constant="3" id="JmV-nK-Nwm"/>
                             <constraint firstAttribute="trailing" secondItem="T1g-xI-JZo" secondAttribute="trailing" id="Xn0-60-55Q"/>
                             <constraint firstItem="JUj-Qc-HZz" firstAttribute="centerY" secondItem="eB6-Qe-qmb" secondAttribute="centerY" id="YLT-eo-EgM"/>
@@ -262,6 +263,7 @@
                 <outlet property="resendButton" destination="i62-go-MGk" id="jda-6C-m1p"/>
                 <outlet property="resendButtonContainerView" destination="Xdd-h0-WaA" id="HHQ-S4-ExK"/>
                 <outlet property="sendingFailureContainerView" destination="T1g-xI-JZo" id="Aty-cg-etZ"/>
+                <outlet property="sendingFailureContainerViewConstraint" destination="HHY-v3-c6d" id="j5j-B2-N1g"/>
                 <outlet property="sendingFlagImageView" destination="eB6-Qe-qmb" id="xxy-tL-6Z9"/>
                 <outlet property="videoMessagePlaceholderImageView" destination="gw2-y3-i3k" id="reJ-M7-Wy8"/>
                 <outlet property="videoPlayIconImageView" destination="krO-cX-0gX" id="FoU-Xy-ypQ"/>

@@ -35,19 +35,16 @@ class DownloadManager: NSObject, URLSessionDelegate, URLSessionDataDelegate {
     
     // MARK: URLSessionDataDelegate
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive data: Data) {
-        let filePath = DownloadManager.shared.filePath[dataTask.taskIdentifier]
-        if filePath != nil {
-            let handle = FileHandle(forUpdatingAtPath: filePath!)
-            handle?.seekToEndOfFile()
-            handle?.write(data)
-            handle?.closeFile()
+        if let filePath = DownloadManager.shared.filePath[dataTask.taskIdentifier], let handle = FileHandle(forUpdatingAtPath: filePath) {
+            handle.seekToEndOfFile()
+            handle.write(data)
+            handle.closeFile()
         }
     }
     
     func urlSession(_ session: URLSession, dataTask: URLSessionDataTask, didReceive response: URLResponse, completionHandler: @escaping (URLSession.ResponseDisposition) -> Void) {
-        if response is HTTPURLResponse {
-            let statusCode = (response as! HTTPURLResponse).statusCode
-            if statusCode >= 200 && statusCode < 300 {
+        if let statusCode = (response as? HTTPURLResponse)?.statusCode{
+            if statusCode >= 200, statusCode < 300{
                 completionHandler(URLSession.ResponseDisposition.allow)
             }
         }
@@ -59,56 +56,38 @@ class DownloadManager: NSObject, URLSessionDelegate, URLSessionDataDelegate {
             return
         }
         
-        guard let currentRequest = task.currentRequest else { return }
-        guard let url = currentRequest.url else { return }
-        let urlAbsoluteString = url.absoluteString
-        var saveToLibrary: Bool?
-        var filePath: String?
-        var mimeType: String?
+        guard let currentRequest = task.currentRequest, let _ = currentRequest.url else { return }
         let taskIdentifier = task.taskIdentifier
-        if DownloadManager.shared.saveToLibrary[taskIdentifier] != nil {
-            saveToLibrary = DownloadManager.shared.saveToLibrary[taskIdentifier]!
-            DownloadManager.shared.saveToLibrary.removeValue(forKey: taskIdentifier)
-        }
         
-        if DownloadManager.shared.filePath[taskIdentifier] != nil {
-            filePath = DownloadManager.shared.filePath[taskIdentifier]!
-            DownloadManager.shared.filePath.removeValue(forKey: taskIdentifier)
-        }
-        
-        if DownloadManager.shared.mimeType[taskIdentifier] != nil {
-            mimeType = DownloadManager.shared.mimeType[taskIdentifier]!
-            DownloadManager.shared.mimeType.removeValue(forKey: taskIdentifier)
-        }
-        
-        if saveToLibrary != nil && filePath != nil && mimeType != nil && task.response is HTTPURLResponse {
+        if let saveToLibrary = DownloadManager.shared.saveToLibrary[taskIdentifier], let filePath = DownloadManager.shared.filePath[taskIdentifier], let mimeType = DownloadManager.shared.mimeType[taskIdentifier], task.response is HTTPURLResponse {
             let statusCode = (task.response as! HTTPURLResponse).statusCode
             if statusCode >= 200 && statusCode < 300 {
                 let content = UNMutableNotificationContent()
                 content.title = "File Downloaded."
-                if saveToLibrary! {
+                if saveToLibrary {
                     content.body = "Run Photos app to open the file."
-                }
-                else {
+                } else {
                     content.body = "Run Files app to open the file."
                 }
                 
-                let data = FileManager.default.contents(atPath: filePath!)
-                if mimeType!.hasPrefix("image") {
-                    let image = UIImage(data: data!)
-                    UIImageWriteToSavedPhotosAlbum(image!, nil, nil, nil)
+                if mimeType.hasPrefix("image"), let data = FileManager.default.contents(atPath: filePath), let image = UIImage(data: data){
+                    UIImageWriteToSavedPhotosAlbum(image, nil, nil, nil)
                 }
-                else if mimeType!.hasPrefix("video") {
-                    UISaveVideoAtPathToSavedPhotosAlbum(filePath!, nil, nil, nil)
+                else if mimeType.hasPrefix("video") {
+                    UISaveVideoAtPathToSavedPhotosAlbum(filePath, nil, nil, nil)
                 }
                 
                 let trigger = UNTimeIntervalNotificationTrigger.init(timeInterval: 1, repeats: false)
                 let request = UNNotificationRequest(identifier: "com.sendbird.sample.local", content: content, trigger: trigger)
                 UNUserNotificationCenter.current().add(request) { (error) in
-                    
+                    // Handle Callback
                 }
             }
         }
+        
+        DownloadManager.shared.saveToLibrary.removeValue(forKey: taskIdentifier)
+        DownloadManager.shared.filePath.removeValue(forKey: taskIdentifier)
+        DownloadManager.shared.mimeType.removeValue(forKey: taskIdentifier)
     }
     
     static func download(url: URL, filename: String, mimeType: String, addToMediaLibrary: Bool) {
@@ -117,6 +96,7 @@ class DownloadManager: NSObject, URLSessionDelegate, URLSessionDataDelegate {
         let documentsPath = NSSearchPathForDirectoriesInDomains(.documentDirectory, .userDomainMask, true).first! as NSString
         let filePath = documentsPath.appendingPathComponent(filename)
         let taskIdentifier = dataTask.taskIdentifier
+        
         if DownloadManager.shared.filePath[taskIdentifier] == nil {
             FileManager.default.createFile(atPath: filePath, contents: nil, attributes: nil)
             DownloadManager.shared.filePath[taskIdentifier] = filePath

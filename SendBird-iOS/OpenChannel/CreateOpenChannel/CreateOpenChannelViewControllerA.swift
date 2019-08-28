@@ -57,22 +57,22 @@ class CreateOpenChannelViewControllerA: UIViewController, UIImagePickerControlle
         switch r {
         case 0:
             self.coverImageView.image = UIImage(named: "img_default_cover_image_1")
-            break;
+            break
         case 1:
             self.coverImageView.image = UIImage(named: "img_default_cover_image_2")
-            break;
+            break
         case 2:
             self.coverImageView.image = UIImage(named: "img_default_cover_image_3")
-            break;
+            break
         case 3:
             self.coverImageView.image = UIImage(named: "img_default_cover_image_4")
-            break;
+            break
         case 4:
             self.coverImageView.image = UIImage(named: "img_default_cover_image_5")
-            break;
+            break
         default:
             self.coverImageView.image = UIImage(named: "img_default_cover_image_1")
-            break;
+            break
         }
     }
     
@@ -125,39 +125,31 @@ class CreateOpenChannelViewControllerA: UIViewController, UIImagePickerControlle
     // MARK: - NotificationDelegate
     func openChat(_ channelUrl: String) {
         self.dismiss(animated: false) {
-            let cvc = UIViewController.currentViewController()
-            if cvc is OpenChannelsViewController {
-                (cvc as! OpenChannelsViewController).openChat(channelUrl)
+            if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+                cvc.openChat(channelUrl)
             }
         }
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
+
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
+        if segue.identifier == "ConfigureOpenChannel", let destination = segue.destination as? CreateOpenChannelViewControllerB{
+            destination.channelName = self.channelNameTextField.text
+            destination.coverImageData = self.coverImageData ?? self.coverImageView.image?.jpegData(compressionQuality: 0.5)
+        }
      }
-     */
     
     @objc func clickNextButton(_ sender: AnyObject) {
-        let vc = CreateOpenChannelViewControllerB.init(nibName: "CreateOpenChannelViewControllerB", bundle: nil)
-        vc.channelName = self.channelNameTextField.text
-        if self.coverImageData == nil {
-            self.coverImageData = self.coverImageView.image?.jpegData(compressionQuality: 0.5)
-        }
-        vc.coverImageData = self.coverImageData
-        self.navigationController?.pushViewController(vc, animated: true)
+        performSegue(withIdentifier: "ConfigureOpenChannel", sender: nil)
     }
     
     func cropImage(_ imageData: Data) {
-        let image = UIImage(data: imageData)
-        let imageCropVC = RSKImageCropViewController(image: image!)
-        imageCropVC.delegate = self
-        imageCropVC.cropMode = .square
-        self.present(imageCropVC, animated: false, completion: nil)
+        if let image = UIImage(data: imageData){
+            let imageCropVC = RSKImageCropViewController(image: image)
+            imageCropVC.delegate = self
+            imageCropVC.cropMode = .square
+            self.present(imageCropVC, animated: false, completion: nil)
+        }
     }
     
     // MARK: - UIImagePickerControllerDelegate

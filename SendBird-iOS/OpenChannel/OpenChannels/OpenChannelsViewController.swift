@@ -35,8 +35,6 @@ class OpenChannelsViewController: UIViewController, UITableViewDelegate, UITable
         self.openChannelsTableView.delegate = self
         self.openChannelsTableView.dataSource = self
         
-        self.openChannelsTableView.register(UINib(nibName: "OpenChannelTableViewCell", bundle: nil), forCellReuseIdentifier: "OpenChannelTableViewCell")
-        
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: #selector(OpenChannelsViewController.refreshChannelList), for: .valueChanged)
         
@@ -53,35 +51,29 @@ class OpenChannelsViewController: UIViewController, UITableViewDelegate, UITable
         self.view.bringSubviewToFront(self.loadingIndicatorView)
         
         self.loadChannelListNextPage(refresh: true, channelNameFilter: self.channelNameFilter)
+
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "ShowOpenChat", let destination = segue.destination as? OpenChannelChatViewController, let selectedChannel = sender as? SBDOpenChannel{
+            destination.channel = selectedChannel
+            destination.hidesBottomBarWhenPushed = true
+            destination.delegate = self
+        } else if segue.identifier == "CreateOpenChannel", let destination = segue.destination as? CreateOpenChannelNavigationController{
+            destination.createChannelDelegate = self
+        }
     }
-    */
 
     @objc func clickCreateOpenChannel(_ sender: AnyObject) {
-        let vc = CreateOpenChannelNavigationController.init(nibName: "CreateOpenChannelNavigationController", bundle: nil)
-        vc.createChannelDelegate = self
-        self.present(vc, animated: true, completion: nil)
+        performSegue(withIdentifier: "CreateOpenChannel", sender: nil)
     }
     
     // MARK: - NotificationDelegate
     func openChat(_ channelUrl: String) {
-        if let navigationController = self.navigationController {
-            if let mainTabVC = navigationController.parent {
-                (mainTabVC as! MainTabBarController).selectedIndex = 0
-            }
-        }
+        (navigationController?.parent as? UITabBarController)?.selectedIndex = 0
         
-        let cvc = UIViewController.currentViewController()
-        if cvc is GroupChannelsViewController {
-            (cvc as? GroupChannelsViewController)?.openChat(channelUrl)
+        if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+            cvc.openChat(channelUrl)
         }
     }
     
@@ -177,17 +169,12 @@ class OpenChannelsViewController: UIViewController, UITableViewDelegate, UITable
             self.loadingIndicatorView.isHidden = true
             self.loadingIndicatorView.stopAnimating()
             
-            if error != nil {
-                Utils.showAlertController(error: error!, viewController: self)
+            if let error = error {
+                Utils.showAlertController(error: error, viewController: self)
                 return
             }
             
-            let vc = OpenChannelChatViewController.init(nibName: "OpenChannelChatViewController", bundle: nil)
-            vc.channel = selectedChannel
-            vc.hidesBottomBarWhenPushed = true
-            vc.delegate = self
-            guard let navigationController = self.navigationController else { return }
-            navigationController.pushViewController(vc, animated: true)
+            self.performSegue(withIdentifier: "ShowOpenChat", sender: selectedChannel)
         }
     }
     
@@ -208,7 +195,7 @@ class OpenChannelsViewController: UIViewController, UITableViewDelegate, UITable
         if self.channelListQuery == nil {
             self.channelListQuery = SBDOpenChannel.createOpenChannelListQuery()
             self.channelListQuery?.limit = 20
-            if channelNameFilter != nil && (channelNameFilter?.count)! > 0 {
+            if (channelNameFilter?.count ?? 0 ) > 0 {
                 self.channelListQuery?.channelNameFilter = channelNameFilter
             }
         }

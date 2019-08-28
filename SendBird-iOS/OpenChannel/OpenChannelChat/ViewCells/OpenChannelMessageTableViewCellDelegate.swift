@@ -20,8 +20,6 @@ import SendBirdSDK
     @objc optional func didClickImageVideoFileMessage(_ message: SBDFileMessage)
     @objc optional func didClickGeneralFileMessage(_ message: SBDFileMessage)
     
-    @objc optional func didLongClickAdminMessage(_ message: SBDAdminMessage)
-    @objc optional func didLongClickUserMessage(_ message: SBDUserMessage)
-    @objc optional func didLongClickImageVideoFileMessage(_ message: SBDFileMessage)
-    @objc optional func didLongClickGeneralFileMessage(_ message: SBDFileMessage)
+    @objc optional func didLongClickMessage(_ message: SBDBaseMessage)
+    @objc optional func didLongClickFileMessage(_ message: SBDFileMessage)
 }

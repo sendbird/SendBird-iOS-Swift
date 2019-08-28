@@ -32,6 +32,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
     @IBOutlet weak var toastView: UIView!
     @IBOutlet weak var toastMessageLabel: UILabel!
     @IBOutlet weak var sendUserMessageButton: UIButton!
+    @IBOutlet weak var sendFileMessageButton: UIButton!
     
     var keyboardShown: Bool = false
     var keyboardHeight: CGFloat = 0
@@ -73,6 +74,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
         if let channel = self.channel {
             self.title = channel.name
         }
+    
         self.navigationItem.largeTitleDisplayMode = .never
         if let navigationController = self.navigationController {
             navigationController.isNavigationBarHidden = false
@@ -81,26 +83,17 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
         let settingBarButtonItem = UIBarButtonItem(image: UIImage(named: "img_btn_channel_settings"), style: .plain, target: self, action: #selector(self.clickOpenChannelSettingsButton(_:)))
         self.navigationItem.rightBarButtonItem = settingBarButtonItem
         
-        self.navigationItem.leftBarButtonItem = nil
-        self.navigationItem.leftBarButtonItems = nil
-        
-        let barButtonItemBack = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
-        if let navigationController = self.navigationController {
-            let prevViewController = navigationController.viewControllers[navigationController.viewControllers.count - 2]
-            prevViewController.navigationItem.backBarButtonItem = barButtonItemBack
-        }
-        
         self.messageTableView.rowHeight = UITableView.automaticDimension
         self.messageTableView.estimatedRowHeight = 140
         self.messageTableView.delegate = self
         self.messageTableView.dataSource = self
         self.messageTableView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: 14, right: 0)
         
-        self.messageTableView.register(UINib(nibName: "OpenChannelAdminMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "OpenChannelAdminMessageTableViewCell")
-        self.messageTableView.register(UINib(nibName: "OpenChannelUserMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "OpenChannelUserMessageTableViewCell")
-        self.messageTableView.register(UINib(nibName: "OpenChannelImageVideoFileMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "OpenChannelImageVideoFileMessageTableViewCell")
-        self.messageTableView.register(UINib(nibName: "OpenChannelGeneralFileMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "OpenChannelGeneralFileMessageTableViewCell")
-        self.messageTableView.register(UINib(nibName: "OpenChannelAudioFileMessageTableViewCell", bundle: nil), forCellReuseIdentifier: "OpenChannelAudioFileMessageTableViewCell")
+        self.messageTableView.register(OpenChannelAdminMessageTableViewCell.nib(), forCellReuseIdentifier: "OpenChannelAdminMessageTableViewCell")
+        self.messageTableView.register(OpenChannelUserMessageTableViewCell.nib(), forCellReuseIdentifier: "OpenChannelUserMessageTableViewCell")
+        self.messageTableView.register(OpenChannelImageVideoFileMessageTableViewCell.nib(), forCellReuseIdentifier: "OpenChannelImageVideoFileMessageTableViewCell")
+        self.messageTableView.register(OpenChannelGeneralFileMessageTableViewCell.nib(), forCellReuseIdentifier: "OpenChannelGeneralFileMessageTableViewCell")
+        self.messageTableView.register(OpenChannelAudioFileMessageTableViewCell.nib(), forCellReuseIdentifier: "OpenChannelAudioFileMessageTableViewCell")
         
         // Input Text Field
         let leftPaddingView = UIView(frame: CGRect(x: 0, y: 0, width: 15, height: 0))
@@ -112,11 +105,28 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
         self.inputMessageTextField.addTarget(self, action: #selector(self.inputMessageTextFieldChanged(_:)), for: .editingChanged)
         self.sendUserMessageButton.isEnabled = false
         
+        let messageViewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(recognizer:)))
+        self.messageTableView.addGestureRecognizer(messageViewTapGestureRecognizer)
+        
         NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillShow(_:)), name: UIWindow.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardDidHide(_:)), name: UIWindow.keyboardDidHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(self.keyboardWillHide(_:)), name: UIWindow.keyboardWillHideNotification, object: nil)
         
         self.view.bringSubviewToFront(self.loadingIndicatorView)
         self.loadingIndicatorView.isHidden = true
+        
+        channel?.getMyMutedInfo(completionHandler: { (isMuted, description, startAt, endAt, duration, error) in
+            if isMuted {
+                self.sendUserMessageButton.isEnabled = false
+                self.inputMessageTextField.isEnabled = false
+                self.inputMessageTextField.placeholder = "You are muted"
+                self.sendFileMessageButton.isEnabled = false
+            } else {
+                self.sendUserMessageButton.isEnabled = true
+                self.inputMessageTextField.isEnabled = true
+                self.inputMessageTextField.placeholder = "Type a message.."
+                self.sendFileMessageButton.isEnabled = false
+            }
+        })
         
         self.loadPreviousMessages(initial: true)
     }
@@ -297,6 +307,12 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
         }
     }
     
+    @objc func hideKeyboard(recognizer: UITapGestureRecognizer) {
+        if recognizer.state == .ended {
+            self.firstKeyboardShown = false
+            self.view.endEditing(false)
+        }
+    }
     @objc func keyboardWillShow(_ notification: Notification) {
         self.determineScrollLock()
         
@@ -305,26 +321,33 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
         }
         self.firstKeyboardShown = false
         
-        guard let keyboardFrameBegin: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue else { return }
+        let (height, duration, _) = Utils.getKeyboardAnimationOptions(notification: notification)
         
-        let keyboardFrameBeginRect = keyboardFrameBegin.cgRectValue
-        self.keyboardHeight = keyboardFrameBeginRect.size.height
+        self.keyboardHeight = height ?? 0
         
         DispatchQueue.main.async {
-            self.inputMessageInnerContainerViewBottomMargin.constant = self.keyboardHeight - self.view.safeAreaInsets.bottom
-            self.view.layoutIfNeeded()
+            UIView.animate(withDuration: duration ?? 0, delay: 0, options: .curveEaseOut, animations: {
+                self.inputMessageInnerContainerViewBottomMargin.constant = self.keyboardHeight - self.view.safeAreaInsets.bottom
+                self.view.layoutIfNeeded()
+            }, completion: nil)
+            
             self.stopMeasuringVelocity = true
             self.scrollToBottom(force: false)
             self.keyboardShown = true
         }
     }
     
-    @objc func keyboardDidHide(_ notification: Notification) {
+    @objc func keyboardWillHide(_ notification: Notification) {
         self.keyboardShown = false
         self.keyboardHeight = 0
+        
+        let (_, duration, _) = Utils.getKeyboardAnimationOptions(notification: notification)
+
         DispatchQueue.main.async {
-            self.inputMessageInnerContainerViewBottomMargin.constant = 0
-            self.view.layoutIfNeeded()
+            UIView.animate(withDuration: duration ?? 0, delay: 0, options: .curveEaseOut, animations: {
+                self.inputMessageInnerContainerViewBottomMargin.constant = 0
+                self.view.layoutIfNeeded()
+            }, completion: nil)
             self.scrollToBottom(force: false)
         }
     }
@@ -333,12 +356,14 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
         if self.keyboardShown == false {
             return
         }
-        
-        DispatchQueue.main.async {
-            self.inputMessageInnerContainerViewBottomMargin.constant = 0
-            self.view.layoutIfNeeded()
-            self.scrollToBottom(force: false)
-        }
+
+//        DispatchQueue.main.async {
+//            UIView.animate(withDuration: 0.1, animations: {
+//                self.inputMessageInnerContainerViewBottomMargin.constant = 0
+//                self.view.layoutIfNeeded()
+//            })
+//            self.scrollToBottom(force: false)
+//        }
         self.view.endEditing(true)
         self.firstKeyboardShown = false
     }
@@ -347,14 +372,15 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
         guard let messageText = self.inputMessageTextField.text else { return }
         guard let channel = self.channel else { return }
         
+        self.inputMessageTextField.text = ""
+        self.sendUserMessageButton.isEnabled = false
+        
         if messageText.count == 0 {
             return
         }
         
         var preSendMessage: SBDUserMessage?
         preSendMessage = channel.sendUserMessage(messageText) { (userMessage, error) in
-            self.inputMessageTextField.text = ""
-            self.sendUserMessageButton.isEnabled = false
             
             if error != nil {
                 DispatchQueue.main.async {
@@ -380,6 +406,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                     if let index = self.messages.firstIndex(of: preSendMessage) {
                         self.messages[index] = message
                         self.preSendMessages.removeValue(forKey: requestId)
+                        self.messageTableView.reloadRows(at: [IndexPath(row: index, section: 0)], with: .none)
                         self.scrollToBottom(force: false)
                     }
                 }
@@ -487,13 +514,22 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
     }
     */
 
-    @objc func clickOpenChannelSettingsButton(_ sender: AnyObject) {
-        if let navigationController = self.navigationController {
-            let vc = OpenChannelSettingsViewController.init(nibName: "OpenChannelSettingsViewController", bundle: nil)
-            vc.delegate = self
-            vc.channel = self.channel
-            navigationController.pushViewController(vc, animated: true)
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "ShowOpenChannelSettings", let destination = segue.destination as? OpenChannelSettingsViewController{
+            destination.channel = self.channel
+            destination.delegate = self
         }
+    }
+    
+    @objc func clickOpenChannelSettingsButton(_ sender: AnyObject) {
+        performSegue(withIdentifier: "ShowOpenChannelSettings", sender: self)
+        
+//        if let navigationController = self.navigationController {
+//            let vc = OpenChannelSettingsViewController.init(nibName: "OpenChannelSettingsViewController", bundle: nil)
+//            vc.delegate = self
+//            vc.channel = self.channel
+//            navigationController.pushViewController(vc, animated: true)
+//        }
     }
     
     // MARK: - UITableViewDataSource
@@ -538,13 +574,8 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                 DispatchQueue.main.async {
                     guard let updateCell = tableView.cellForRow(at: indexPath) else { return }
                     guard let updateUserMessageCell = updateCell as? OpenChannelUserMessageTableViewCell else { return }
-                    
-                    if let profileUrl = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                        updateUserMessageCell.profileImageView.af_setImage(withURL: profileUrl, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                    }
-                    else {
-                        updateUserMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                    }
+
+                    updateUserMessageCell.profileImageView.setProfileImageView(for: sender)
                 }
                 
                 cell = userMessageCell
@@ -577,12 +608,9 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                             guard let updateImageFileMessageCell = updateCell as? OpenChannelImageVideoFileMessageTableViewCell else { return }
                             guard let imageData = fileDataDict["data"] as? Data else { return }
                             
-                            if let url = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                                updateImageFileMessageCell.profileImageView.af_setImage(withURL: url, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                            }
-                            else {
-                                updateImageFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                            }
+                            updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
+                            
+                           updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
                             
                             updateImageFileMessageCell.fileImageView.animatedImage = FLAnimatedImage(animatedGIFData: imageData)
                         }
@@ -593,12 +621,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                             guard let updateImageFileMessageCell = updateCell as? OpenChannelImageVideoFileMessageTableViewCell else { return }
                             guard let imageData = fileDataDict["data"] as? Data else { return }
                             
-                            if let url = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                                updateImageFileMessageCell.profileImageView.af_setImage(withURL: url, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                            }
-                            else {
-                                updateImageFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                            }
+                            updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
                             
                             updateImageFileMessageCell.fileImageView.image = UIImage(data: imageData)
                         }
@@ -626,12 +649,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                         guard let updateCell = tableView.cellForRow(at: indexPath) else { return }
                         guard let updateVideoFileMessageCell = updateCell as? OpenChannelImageVideoFileMessageTableViewCell else { return }
                         
-                        if let profileUrl = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                            updateVideoFileMessageCell.profileImageView.af_setImage(withURL: profileUrl, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                        }
-                        else {
-                            updateVideoFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                        }
+                        updateVideoFileMessageCell.profileImageView.setProfileImageView(for: sender)
                     }
                     
                     cell = videoFileMessageCell
@@ -651,12 +669,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                         guard let updateCell = tableView.cellForRow(at: indexPath) else { return }
                         guard let updateAudioFileMessageCell = updateCell as? OpenChannelAudioFileMessageTableViewCell else { return }
                         
-                        if let profileUrl = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                            updateAudioFileMessageCell.profileImageView.af_setImage(withURL: profileUrl, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                        }
-                        else {
-                            updateAudioFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                        }
+                        updateAudioFileMessageCell.profileImageView.setProfileImageView(for: sender)
                     }
                     
                     cell = audioFileMessageCell
@@ -675,13 +688,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                     DispatchQueue.main.async {
                         guard let updateCell = tableView.cellForRow(at: indexPath) else { return }
                         guard let updateGeneralFileMessageCell = updateCell as? OpenChannelGeneralFileMessageTableViewCell else { return }
-                        
-                        if let profileUrl = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                            updateGeneralFileMessageCell.profileImageView.af_setImage(withURL: profileUrl, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                        }
-                        else {
-                            updateGeneralFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                        }
+                        updateGeneralFileMessageCell.profileImageView.setProfileImageView(for: sender)
                     }
                     
                     cell = generalFileMessageCell
@@ -719,12 +726,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                                     
                                     updateImageFileMessageCell.hideAllPlaceholders()
                                     updateImageFileMessageCell.setAnimated(image: image, hash: hash)
-                                    if let profileUrl = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                                        updateImageFileMessageCell.profileImageView.af_setImage(withURL: profileUrl, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                                    }
-                                    else {
-                                        updateImageFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                                    }
+                                    updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
                                     self.loadedImageHash[String(fileMessage.messageId)] = hash
                                 }
                             }) { (error) in
@@ -734,12 +736,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                                     
                                     updateImageFileMessageCell.hideAllPlaceholders()
                                     updateImageFileMessageCell.imageMessagePlaceholderImageView.isHidden = false
-                                    if let profileUrl = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                                        updateImageFileMessageCell.profileImageView.af_setImage(withURL: profileUrl, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                                    }
-                                    else {
-                                        updateImageFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                                    }
+                                    updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
                                     updateImageFileMessageCell.setImage(nil)
                                     self.loadedImageHash.removeValue(forKey: String(fileMessage.messageId))
                                 }
@@ -756,13 +753,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                                     if let url = URL(string: thumbnails[0].url) {
                                         updateImageFileMessageCell.fileImageView.af_setImage(withURL: url, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: UIImageView.ImageTransition.noTransition, runImageTransitionIfCached: false, completion: { (response) in
                                             updateImageFileMessageCell.hideAllPlaceholders()
-                                            if let profileUrl = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                                                updateImageFileMessageCell.profileImageView.af_setImage(withURL: profileUrl, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                                            }
-                                            else {
-                                                updateImageFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                                            }
-                                            
+                                            updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
                                             if response.error != nil {
                                                 updateImageFileMessageCell.imageMessagePlaceholderImageView.isHidden = false
                                                 updateImageFileMessageCell.setImage(nil)
@@ -819,12 +810,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                                         updateVideoFileMessageCell.hideAllPlaceholders()
                                         updateVideoFileMessageCell.videoPlayIconImageView.isHidden = false
                                         
-                                        if let url = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                                            updateVideoFileMessageCell.profileImageView.af_setImage(withURL: url, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                                        }
-                                        else {
-                                            updateVideoFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                                        }
+                                        updateVideoFileMessageCell.profileImageView.setProfileImageView(for: sender)
                                         
                                         if response.error != nil {
                                             updateVideoFileMessageCell.imageMessagePlaceholderImageView.isHidden = false
@@ -842,12 +828,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                                 updateVideoFileMessageCell.videoMessagePlaceholderImageView.isHidden = false
                                 updateVideoFileMessageCell.setAnimated(image: nil, hash: 0)
                                 updateVideoFileMessageCell.setImage(nil)
-                                if let profileUrl = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                                    updateVideoFileMessageCell.profileImageView.af_setImage(withURL: profileUrl, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                                }
-                                else {
-                                    updateVideoFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                                }
+                               updateVideoFileMessageCell.profileImageView.setProfileImageView(for: sender)
                             }
                         }
                     }
@@ -866,12 +847,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                         guard let updateCell = tableView.cellForRow(at: indexPath) else { return }
                         guard let updateAudioFileMessageCell = updateCell as? OpenChannelAudioFileMessageTableViewCell else { return }
                         
-                        if let profileUrl = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                            updateAudioFileMessageCell.profileImageView.af_setImage(withURL: profileUrl, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                        }
-                        else {
-                            updateAudioFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                        }
+                        updateAudioFileMessageCell.profileImageView.setProfileImageView(for: sender)
                     }
                 }
                 else {
@@ -888,12 +864,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                         guard let updateCell = tableView.cellForRow(at: indexPath) else { return }
                         guard let updateGeneralFileMessageCell = updateCell as? OpenChannelGeneralFileMessageTableViewCell else { return }
                         
-                        if let profileUrl = URL(string: Utils.transformUserProfileImage(user: sender)) {
-                            updateGeneralFileMessageCell.profileImageView.af_setImage(withURL: profileUrl, placeholderImage: Utils.getDefaultUserProfileImage(user: sender))
-                        }
-                        else {
-                            updateGeneralFileMessageCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: sender)
-                        }
+                        updateGeneralFileMessageCell.profileImageView.setProfileImageView(for: sender)
                     }
                 }
             }
@@ -924,7 +895,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                 if timeDiff > 0.1 {
                     let distance = currentOffset.y - self.lastOffset.y
                     //The multiply by 10, / 1000 isn't really necessary.......
-                    let scrollSpeedNotAbs = distance * 10 / 1000
+                    let scrollSpeedNotAbs = distance / 100
                     let scrollSpeed = abs(scrollSpeedNotAbs)
                     if scrollSpeed > 1.0 {
                         self.isScrollingFast = true
@@ -1146,31 +1117,38 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
         }
     }
     
-    func didLongClickImageVideoFileMessage(_ message: SBDFileMessage) {
-        var vc: UIAlertController?
+    func didLongClickFileMessage(_ message: SBDFileMessage) {
+        var vc : UIAlertController?
         var deleteMessageActionTitle = ""
-        var saveImageVideoActionTitle = ""
+        var saveActionTitle = ""
+        
         if message.type.hasPrefix("image") {
             vc = UIAlertController(title: "Image", message: nil, preferredStyle: .actionSheet)
             deleteMessageActionTitle = "Delete image"
-            saveImageVideoActionTitle = "Save image to media library"
+            saveActionTitle = "Save image to media library"
         }
         else if message.type.hasPrefix("video") {
             vc = UIAlertController(title: "Video", message: nil, preferredStyle: .actionSheet)
             deleteMessageActionTitle = "Delete video"
-            saveImageVideoActionTitle = "Save video to media library"
+            saveActionTitle = "Save video to media library"
         }
-        else {
-            return
+        else if message.type.hasPrefix("audio"){
+            vc = UIAlertController(title: "Audio", message: nil, preferredStyle: .actionSheet)
+            deleteMessageActionTitle = "Delete audio"
+            saveActionTitle = "Save File"
+        } else {
+            vc = UIAlertController(title: "General File", message: nil, preferredStyle: .actionSheet)
+            deleteMessageActionTitle = "Delete file"
+            saveActionTitle = "Save File"
         }
         
         guard let currentUser = SBDMain.getCurrentUser() else { return }
         guard let sender = message.sender else { return }
         guard let channel = self.channel else { return }
         
-        var actionDeleteMessage: UIAlertAction?
+        var deleteMessageAction: UIAlertAction?
         if sender.userId == currentUser.userId || channel.isOperator(with: currentUser) {
-            actionDeleteMessage = UIAlertAction(title: deleteMessageActionTitle, style: .destructive, handler: { (action) in
+            deleteMessageAction = UIAlertAction(title: deleteMessageActionTitle, style: .destructive, handler: { (action) in
                 channel.delete(message, completionHandler: { (error) in
                     if error != nil {
                         let vc = UIAlertController(title: "Error", message: error!.domain, preferredStyle: .alert)
@@ -1189,47 +1167,51 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                 })
             })
         }
+        if let action = deleteMessageAction {
+            vc!.addAction(action)
+        }
         
-        let actionSaveImageVideo = UIAlertAction(title: saveImageVideoActionTitle, style: .default) { (action) in
+        let saveFileAction = UIAlertAction(title: saveActionTitle, style: .default) { (action) in
             guard let url = URL(string: message.url) else { return }
-            DownloadManager.download(url: url, filename: message.name, mimeType: message.type, addToMediaLibrary: true)
+            if message.type.hasPrefix("image") || message.type.hasPrefix("video") {
+                DownloadManager.download(url: url, filename: message.name, mimeType: message.type, addToMediaLibrary: true)
+            } else {
+                DownloadManager.download(url: url, filename: message.name, mimeType: message.type, addToMediaLibrary: false)
+            }
         }
-        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        vc!.addAction(saveFileAction)
         
-        vc!.addAction(actionSaveImageVideo)
-        if actionDeleteMessage != nil {
-            vc!.addAction(actionDeleteMessage!)
-        }
-        vc!.addAction(actionCancel)
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
+        vc!.addAction(cancelAction)
         
         DispatchQueue.main.async {
             self.present(vc!, animated: true, completion: nil)
         }
     }
-    
-    func didLongClickGeneralFileMessage(_ message: SBDFileMessage) {
-        let ac = UIAlertController(title: "General File", message: nil, preferredStyle: .actionSheet)
-        let saveFileAction = UIAlertAction(title: "Save File", style: .default) { (action) in
-            if let url = URL(string: message.url) {
-                DownloadManager.download(url: url, filename: message.name, mimeType: message.type, addToMediaLibrary: false)
-            }
-        }
-        var deleteAction: UIAlertAction?
+
+    func didLongClickMessage(_ message: SBDBaseMessage) {
+        var vc : UIAlertController?
+        var sender: SBDSender?
+        var messageText: String?
         
-        var deleteActionTitle: String?
-        if message.type.hasPrefix("audio") {
-            deleteActionTitle = "Delete audio"
-        }
-        else {
-            deleteActionTitle = "Delete file"
+        if let message = message as? SBDAdminMessage {
+            vc = UIAlertController(title: message.message, message: nil, preferredStyle: .actionSheet)
+            messageText = message.message
+        } else if let message = message as? SBDUserMessage {
+            vc = UIAlertController(title: message.message, message: nil, preferredStyle: .actionSheet)
+            sender = message.sender
+            messageText = message.message
+        } else {
+            return
         }
         
-        guard let sender = message.sender else { return }
-        guard let currentUser = SBDMain.getCurrentUser() else { return }
         guard let channel = self.channel else { return }
+        guard let currentUser = SBDMain.getCurrentUser() else { return }
+        guard messageText != nil else { return }
         
-        if sender.userId == currentUser.userId {
-            deleteAction = UIAlertAction(title: deleteActionTitle, style: .destructive, handler: { (action) in
+        var deleteMessageAction: UIAlertAction?
+        if channel.isOperator(with: currentUser) || sender?.userId == currentUser.userId{
+            deleteMessageAction = UIAlertAction(title: "Delete message", style: .destructive, handler: { (action) in
                 channel.delete(message, completionHandler: { (error) in
                     if error != nil {
                         let vc = UIAlertController(title: "Error", message: error!.domain, preferredStyle: .alert)
@@ -1241,114 +1223,33 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                         
                         return
                     }
+                    
+                    DispatchQueue.main.async {
+                        self.deleteMessageFromTableView(message.messageId)
+                    }
                 })
             })
+            
+            
         }
+        
+        let copyMessageAction = UIAlertAction(title: "Copy message", style: .default) { (action) in
+            let pasteboard = UIPasteboard.general
+            pasteboard.string = messageText
+            
+            self.showToast("Copied")
+        }
+        vc?.addAction(copyMessageAction)
         
         let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        ac.addAction(saveFileAction)
-        if deleteAction != nil {
-            ac.addAction(deleteAction!)
+        vc?.addAction(cancelAction)
+        
+        if let action = deleteMessageAction {
+            vc?.addAction(action)
         }
-        ac.addAction(cancelAction)
         
         DispatchQueue.main.async {
-            self.present(ac, animated: true, completion: nil)
-        }
-    }
-
-    func didLongClickAdminMessage(_ message: SBDAdminMessage) {
-        let vc = UIAlertController(title: message.message, message: nil, preferredStyle: .actionSheet)
-        
-        var actionDeleteMessage: UIAlertAction?
-        
-        guard let channel = self.channel else { return }
-        guard let currentUser = SBDMain.getCurrentUser() else { return }
-        
-        if channel.isOperator(with: currentUser) {
-            actionDeleteMessage = UIAlertAction(title: "Delete message", style: .destructive, handler: { (action) in
-                channel.delete(message, completionHandler: { (error) in
-                    if error != nil {
-                        let vc = UIAlertController(title: "Error", message: error!.domain, preferredStyle: .alert)
-                        let closeAction = UIAlertAction(title: "Close", style: .cancel, handler: nil)
-                        vc.addAction(closeAction)
-                        DispatchQueue.main.async {
-                            self.present(vc, animated: true, completion: nil)
-                        }
-                        
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.deleteMessageFromTableView(message.messageId)
-                    }
-                })
-            })
-        }
-        
-        let actionCopyMessage = UIAlertAction(title: "Copy message", style: .default) { (action) in
-            let pasteboard = UIPasteboard.general
-            pasteboard.string = message.message
-            
-            self.showToast("Copied")
-        }
-        
-        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        
-        vc.addAction(actionCopyMessage)
-        if actionDeleteMessage != nil {
-            vc.addAction(actionDeleteMessage!)
-        }
-        vc.addAction(actionCancel)
-        
-        DispatchQueue.main.async {
-            self.present(vc, animated: true, completion: nil)
-        }
-    }
-    
-    func didLongClickUserMessage(_ message: SBDUserMessage) {
-        let vc = UIAlertController(title: message.message, message: nil, preferredStyle: .actionSheet)
-        var actionDeleteMessage: UIAlertAction?
-        guard let channel = self.channel else { return }
-        guard let sender = message.sender else { return }
-        guard let currentUser = SBDMain.getCurrentUser() else { return }
-        
-        if channel.isOperator(with: currentUser) || sender.userId == currentUser.userId {
-            actionDeleteMessage = UIAlertAction(title: "Delete message", style: .destructive, handler: { (action) in
-                channel.delete(message, completionHandler: { (error) in
-                    if error != nil {
-                        let vc = UIAlertController(title: "Error", message: error!.domain, preferredStyle: .alert)
-                        let actionClose = UIAlertAction(title: "Close", style: .cancel, handler: nil)
-                        vc.addAction(actionClose)
-                        DispatchQueue.main.async {
-                            self.present(vc, animated: true, completion: nil)
-                        }
-                        
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.deleteMessageFromTableView(message.messageId)
-                    }
-                })
-            })
-        }
-        
-        let actionCopyMessage = UIAlertAction(title: "Copy message", style: .default) { (action) in
-            let pasteboard = UIPasteboard.general
-            pasteboard.string = message.message
-            
-            self.showToast("Copied")
-        }
-        let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-        vc.addAction(actionCopyMessage)
-        if actionDeleteMessage != nil {
-            vc.addAction(actionDeleteMessage!)
-        }
-        vc.addAction(actionCancel)
-        
-        DispatchQueue.main.async {
-            self.present(vc, animated: true, completion: nil)
+            self.present(vc!, animated: true, completion: nil)
         }
     }
     
@@ -1415,6 +1316,37 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
         }
     }
     
+    func channel(_ sender: SBDBaseChannel, userWasMuted user: SBDUser) {
+        guard let currentUser = SBDMain.getCurrentUser() else { return }
+        guard let channel = self.channel else { return }
+        
+        if user.userId == currentUser.userId, sender.channelUrl == channel.channelUrl {
+            let vc = UIAlertController(title: "You are muted.", message: "You are muted. You won't be able to send messages.", preferredStyle: .alert)
+            let action = UIAlertAction(title: "Okay", style: .cancel) { (action) in
+                self.sendUserMessageButton.isEnabled = false
+                self.inputMessageTextField.isEnabled = false
+                self.inputMessageTextField.placeholder = "You are muted"
+                self.sendFileMessageButton.isEnabled = false
+            }
+            vc.addAction(action)
+            DispatchQueue.main.async {
+                self.present(vc, animated: true, completion: nil)
+            }
+        }
+    }
+    
+    func channel(_ sender: SBDBaseChannel, userWasUnmuted user: SBDUser) {
+        guard let currentUser = SBDMain.getCurrentUser() else { return }
+        guard let channel = self.channel else { return }
+        
+        if user.userId == currentUser.userId, sender.channelUrl == channel.channelUrl {
+            self.sendUserMessageButton.isEnabled = true
+            self.inputMessageTextField.isEnabled = true
+            self.inputMessageTextField.placeholder = "Type a message.."
+            self.sendFileMessageButton.isEnabled = false
+        }
+    }
+    
     func channel(_ sender: SBDBaseChannel, userWasBanned user: SBDUser) {
         guard let currentUser = SBDMain.getCurrentUser() else { return }
         guard let channel = self.channel else { return }
@@ -1449,6 +1381,19 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
             
             if sender == channel {
                 self.deleteMessageFromTableView(messageId)
+            }
+        }
+    }
+    
+    func channel(_ sender: SBDBaseChannel, didUpdate message: SBDBaseMessage) {
+        for (i, prevMessage) in messages.enumerated() {
+            if prevMessage.messageId == message.messageId {
+                messages.remove(at: i)
+                messages.insert(message, at: i)
+                DispatchQueue.main.async {
+                    self.messageTableView.reloadRows(at: [IndexPath(row: i, section: 0)], with: .none)
+                }
+                break
             }
         }
     }

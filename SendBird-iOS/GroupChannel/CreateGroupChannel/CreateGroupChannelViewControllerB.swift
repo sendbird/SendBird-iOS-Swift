@@ -16,28 +16,20 @@ import Photos
 class CreateGroupChannelViewControllerB: UIViewController, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate, NotificationDelegate {
     var members: [SBDUser] = []
     
-    @IBOutlet weak var coverImageContainerView: UIView!
+    @IBOutlet weak var profileImageView: ProfileImageView!
+    
     @IBOutlet weak var channelNameTextField: UITextField!
     
-    @IBOutlet weak var singleCoverImageContainerView: UIView!
-    @IBOutlet weak var singleCoverImageView: UIImageView!
-    
-    @IBOutlet weak var doubleCoverImageContainerView: UIView!
-    @IBOutlet weak var doubleCoverImageView1: UIImageView!
-    @IBOutlet weak var doubleCoverImageView2: UIImageView!
-    
-    @IBOutlet weak var tripleCoverImageContainerView: UIView!
-    @IBOutlet weak var tripleCoverImageView1: UIImageView!
-    @IBOutlet weak var tripleCoverImageView2: UIImageView!
-    @IBOutlet weak var tripleCoverImageView3: UIImageView!
-    
-    @IBOutlet weak var quadrupleCoverImageContainerView: UIView!
-    @IBOutlet weak var quadrupleCoverImageView1: UIImageView!
-    @IBOutlet weak var quadrupleCoverImageView2: UIImageView!
-    @IBOutlet weak var quadrupleCoverImageView3: UIImageView!
-    @IBOutlet weak var quadrupleCoverImageView4: UIImageView!
-    
+    @IBOutlet weak var publicChannelSwitch: UISwitch!
     @IBOutlet weak var loadingIndicatorView: CustomActivityIndicatorView!
+    
+    @IBOutlet weak var accessCodeSwitch: UISwitch!
+    @IBOutlet weak var accessCodeTextField: UITextField!
+    
+    @IBOutlet weak var accessCodeSwitchContainerView: UIView!
+    @IBOutlet weak var accessCodeTextFieldContainerView: UIView!
+    @IBOutlet weak var accessCodeSwitchContainerConstraint: NSLayoutConstraint!
+    @IBOutlet weak var accessCodeTextFieldContainerConstraint: NSLayoutConstraint!
     
     var coverImageData: Data?
     var createButtonItem: UIBarButtonItem?
@@ -49,10 +41,7 @@ class CreateGroupChannelViewControllerB: UIViewController, UIImagePickerControll
         self.title = "Create Group Channel"
         
         self.navigationItem.largeTitleDisplayMode = .never
-        let barButtonItemBack = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
-        let prevVC = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 2]
-        prevVC!.navigationItem.backBarButtonItem = barButtonItemBack
-        
+
         self.createButtonItem = UIBarButtonItem(title: "Create", style: .done, target: self, action: #selector(CreateGroupChannelViewControllerB.clickCreateGroupChannel(_ :)))
         self.navigationItem.rightBarButtonItem = self.createButtonItem
         
@@ -75,48 +64,47 @@ class CreateGroupChannelViewControllerB: UIViewController, UIImagePickerControll
             NSAttributedString.Key.font: UIFont.systemFont(ofSize: 14.0, weight: .regular),
             NSAttributedString.Key.foregroundColor: UIColor(named: "color_channelname_nickname_placeholder") as Any
             ])
-        self.coverImageContainerView.isUserInteractionEnabled = true
+        self.profileImageView.isUserInteractionEnabled = true
         let tapCoverImageGesture = UITapGestureRecognizer(target: self, action: #selector(CreateGroupChannelViewControllerB.clickCoverImage(_ :)))
-        self.coverImageContainerView.addGestureRecognizer(tapCoverImageGesture)
+        self.profileImageView.addGestureRecognizer(tapCoverImageGesture)
         
-        self.singleCoverImageContainerView.isHidden = true
-        self.doubleCoverImageContainerView.isHidden = true
-        self.tripleCoverImageContainerView.isHidden = true
-        self.quadrupleCoverImageContainerView.isHidden = true
+        self.profileImageView.users = members
+        self.profileImageView.makeCircularWithSpacing(spacing: 1)
         
-        if members.count == 1 {
-            self.singleCoverImageContainerView.isHidden = false
-            Utils.setProfileImage(imageView: self.singleCoverImageView, user: members[0])
-        }
-        else if members.count == 2 {
-            self.doubleCoverImageContainerView.isHidden = false
-            Utils.setProfileImage(imageView: self.doubleCoverImageView1, user: members[0])
-            Utils.setProfileImage(imageView: self.doubleCoverImageView2, user: members[1])
-        }
-        else if members.count == 3 {
-            self.tripleCoverImageContainerView.isHidden = false
-            Utils.setProfileImage(imageView: self.tripleCoverImageView1, user: members[0])
-            Utils.setProfileImage(imageView: self.tripleCoverImageView2, user: members[1])
-            Utils.setProfileImage(imageView: self.tripleCoverImageView3, user: members[2])
-        }
-        else if members.count >= 4 {
-            self.quadrupleCoverImageContainerView.isHidden = false
-            Utils.setProfileImage(imageView: self.quadrupleCoverImageView1, user: members[0])
-            Utils.setProfileImage(imageView: self.quadrupleCoverImageView2, user: members[1])
-            Utils.setProfileImage(imageView: self.quadrupleCoverImageView3, user: members[2])
-            Utils.setProfileImage(imageView: self.quadrupleCoverImageView4, user: members[3])
-        }
+        accessCodeSwitchContainerConstraint.constant = -48
+        accessCodeTextFieldContainerConstraint.constant = -48
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    
+    @IBAction func togglePublicSwitch(_ sender: Any) {
+        guard let toggle = sender as? UISwitch else { return }
+        if toggle.isOn {
+            accessCodeSwitchContainerConstraint.constant = 0
+        } else {
+            accessCodeSwitchContainerConstraint.constant = -48
+            accessCodeTextFieldContainerConstraint.constant = -48
+            accessCodeSwitch.setOn(false, animated: false)
+        }
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
     }
-    */
+    
+    @IBAction func togglePasswordSwitch(_ sender: Any) {
+        guard let toggle = sender as? UISwitch else { return }
+        if toggle.isOn {
+            accessCodeTextFieldContainerConstraint.constant = 0
+        } else {
+            accessCodeTextFieldContainerConstraint.constant = -48
+        }
+        DispatchQueue.main.async {
+            UIView.animate(withDuration: 0.25, animations: {
+                self.view.layoutIfNeeded()
+            })
+        }
+    }
 
     @objc func clickCoverImage(_ sender: AnyObject) {
         let alertController = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
@@ -157,35 +145,45 @@ class CreateGroupChannelViewControllerB: UIViewController, UIImagePickerControll
         
         let params = SBDGroupChannelParams()
         params.coverImage = self.coverImageData
-        params.isDistinct = true
-        if let isDistinct = UserDefaults.standard.object(forKey: Constants.ID_CREATE_DISTINCT_CHANNEL) {
-            params.isDistinct = isDistinct as! Bool
+        
+        if publicChannelSwitch.isOn {
+            params.isDistinct = false
+            params.isPublic = true
+            if accessCodeSwitch.isOn {
+                if accessCodeTextField.text != nil {
+                    params.accessCode = accessCodeTextField.text
+                } else {
+                    return
+                }
+            }
+        } else {
+            let isDistinct = UserDefaults.standard.object(forKey: Constants.ID_CREATE_DISTINCT_CHANNEL) as? Bool
+            params.isDistinct = isDistinct ?? true
         }
+        
         params.add(self.members)
         params.name = channelName
         
         SBDGroupChannel.createChannel(with: params) { (channel, error) in
             self.hideLoadingIndicatorView()
             
-            if error != nil {
-                let alertController = UIAlertController(title: "Error", message: error?.domain, preferredStyle: .alert)
+            if let error = error {
+                let alertController = UIAlertController(title: "Error", message: error.domain, preferredStyle: .alert)
                 let actionClose = UIAlertAction(title: "Close", style: .cancel, handler: nil)
                 alertController.addAction(actionClose)
                 DispatchQueue.main.async {
                     self.present(alertController, animated: true, completion: nil)
                 }
-                
+            
                 return
             }
-            
-            let vc = GroupChannelChatViewController.init(nibName: "GroupChannelChatViewController", bundle: nil)
-            vc.channel = channel
 
-            if let navigationController = self.navigationController {
-                if (navigationController as! CreateGroupChannelNavigationController).channelCreationDelegate != nil && ((navigationController as! CreateGroupChannelNavigationController).channelCreationDelegate?.responds(to: #selector(CreateGroupChannelNavigationController.didChangeValue(forKey:))))! {
-                    (navigationController as! CreateGroupChannelNavigationController).channelCreationDelegate?.didCreateGroupChannel!(channel!)
+
+            if let navigationController = self.navigationController as? CreateGroupChannelNavigationController{
+                if (navigationController.channelCreationDelegate?.responds(to: #selector(CreateGroupChannelNavigationController.didChangeValue(forKey:))))! {
+                    navigationController.channelCreationDelegate?.didCreateGroupChannel!(channel!)
                 }
-                navigationController.pushViewController(vc, animated: true)
+                self.navigationController?.dismiss(animated: true, completion: nil)
             }
         }
     }
@@ -202,9 +200,8 @@ class CreateGroupChannelViewControllerB: UIViewController, UIImagePickerControll
     // MARK: - NotificationDelegate
     func openChat(_ channelUrl: String) {
         self.navigationController?.popViewController(animated: false)
-        let cvc = UIViewController.currentViewController()
-        if cvc is CreateGroupChannelViewControllerA {
-            (cvc as! CreateGroupChannelViewControllerA).openChat(channelUrl)
+        if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+            cvc.openChat(channelUrl)
         }
     }
     
@@ -236,11 +233,6 @@ class CreateGroupChannelViewControllerB: UIViewController, UIImagePickerControll
     
     // The original image has been cropped.
     func imageCropViewController(_ controller: RSKImageCropViewController, didCropImage croppedImage: UIImage, usingCropRect cropRect: CGRect, rotationAngle: CGFloat) {
-        self.singleCoverImageView.image = croppedImage
-        self.singleCoverImageContainerView.isHidden = false
-        self.doubleCoverImageContainerView.isHidden = true
-        self.tripleCoverImageContainerView.isHidden = true
-        self.quadrupleCoverImageContainerView.isHidden = true
         self.coverImageData = croppedImage.jpegData(compressionQuality: 0.5)
         controller.dismiss(animated: false, completion: nil)
     }

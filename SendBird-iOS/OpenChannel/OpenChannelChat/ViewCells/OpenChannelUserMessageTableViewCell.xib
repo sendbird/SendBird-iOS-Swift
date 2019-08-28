@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14313.18" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14283.14"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -101,7 +101,7 @@
                         <constraints>
                             <constraint firstItem="Sbi-gY-uU6" firstAttribute="leading" secondItem="3oU-Cp-gVE" secondAttribute="leading" id="Qg7-NG-dn7"/>
                             <constraint firstAttribute="bottom" secondItem="Sbi-gY-uU6" secondAttribute="bottom" id="eFM-Vc-1NM"/>
-                            <constraint firstItem="Sbi-gY-uU6" firstAttribute="top" secondItem="3oU-Cp-gVE" secondAttribute="top" id="fqc-96-Kjv"/>
+                            <constraint firstItem="Sbi-gY-uU6" firstAttribute="top" secondItem="3oU-Cp-gVE" secondAttribute="top" id="pBJ-yd-pnp"/>
                             <constraint firstAttribute="trailing" secondItem="Sbi-gY-uU6" secondAttribute="trailing" id="u9U-Rw-MXX"/>
                         </constraints>
                     </view>
@@ -156,6 +156,7 @@
                 <outlet property="messageContainerViewBottomMargin" destination="kLs-7j-RR0" id="pto-mS-x8w"/>
                 <outlet property="messageLabel" destination="QqX-bV-1Gg" id="xg5-DS-Hol"/>
                 <outlet property="nicknameLabel" destination="AMV-Uq-u95" id="lOL-Sh-C1y"/>
+                <outlet property="profileContainerView" destination="rRi-k6-J7v" id="ao4-jC-dHJ"/>
                 <outlet property="profileImageContainerView" destination="rRi-k6-J7v" id="rQV-tH-ycf"/>
                 <outlet property="profileImageView" destination="Hea-Tq-En2" id="Ng1-Pq-kju"/>
                 <outlet property="resendButton" destination="Sbi-gY-uU6" id="eqt-VV-4Uf"/>

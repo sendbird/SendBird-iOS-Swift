@@ -30,22 +30,10 @@ class GroupChannelSettingsViewController: UIViewController, UITableViewDelegate,
         // Do any additional setup after loading the view.
         self.title = "Group Channel Settings"
         
-        let barButtomItemBack = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
-        guard let navigationController = self.navigationController else { return }
-        let prevVC = navigationController.viewControllers[navigationController.viewControllers.count - 2]
-        prevVC.navigationItem.backBarButtonItem = barButtomItemBack
-        
         self.settingsTableView.delegate = self
         self.settingsTableView.dataSource = self
         
         SBDMain.add(self as SBDChannelDelegate, identifier: self.description)
-        self.settingsTableView.register(UINib(nibName: "GroupChannelSettingsChannelCoverNameTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupChannelSettingsChannelCoverNameTableViewCell")
-        self.settingsTableView.register(UINib(nibName: "GroupChannelSettingsBlankTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupChannelSettingsBlankTableViewCell")
-        self.settingsTableView.register(UINib(nibName: "GroupChannelSettingsNotificationsTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupChannelSettingsNotificationsTableViewCell")
-        self.settingsTableView.register(UINib(nibName: "GroupChannelSettingsInviteMemberTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupChannelSettingsInviteMemberTableViewCell")
-        self.settingsTableView.register(UINib(nibName: "GroupChannelSettingsMemberTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupChannelSettingsMemberTableViewCell")
-        self.settingsTableView.register(UINib(nibName: "GroupChannelSettingsLeaveChatTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupChannelSettingsLeaveChatTableViewCell")
-        self.settingsTableView.register(UINib(nibName: "GroupChannelSettingsSectionTableViewCell", bundle: nil), forCellReuseIdentifier: "GroupChannelSettingsSectionTableViewCell")
         
         self.loadingIndicatorView.isHidden = true
         self.view.bringSubviewToFront(self.loadingIndicatorView)
@@ -61,7 +49,7 @@ class GroupChannelSettingsViewController: UIViewController, UITableViewDelegate,
         guard let members = channel.members else { return }
         guard let currentUser = SBDMain.getCurrentUser() else { return }
         
-        for member in members as! [SBDMember] {
+        for member in members as? [SBDMember] ?? [] {
             if member.userId == currentUser.userId {
                 self.members.insert(member, at: 0)
             }
@@ -76,42 +64,50 @@ class GroupChannelSettingsViewController: UIViewController, UITableViewDelegate,
             navigationController.popViewController(animated: false)
         }
         
-        guard let cvc = UIViewController.currentViewController() else { return }
-        if cvc is GroupChannelChatViewController {
-            (cvc as! GroupChannelChatViewController).openChat(channelUrl)
+        if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+            cvc.openChat(channelUrl)
         }
     }
 
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
+  
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+        if segue.identifier == "GroupChannelInviteMember", let destination = segue.destination as? GroupChannelInviteMemberViewController {
+            destination.channel = self.channel
+            destination.delegate = self
+        } else if segue.identifier == "GroupChannelCoverSettings", let destination = segue.destination as? GroupChannelCoverImageNameSettingViewController {
+            destination.channel = self.channel
+            destination.delegate = self
+        } else if segue.identifier == "ShowUserProfile", let destination = segue.destination as? UserProfileViewController, let index = sender as? Int {
+            destination.user = self.members[index]
+        }
     }
-    */
 
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return (section == 2) ? "Members" : nil
+    }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 4
+    }
+    
     // MARK: - UITableViewDelegate
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.members.count + GroupChannelSettingsViewController.REGULAR_MEMBER_MENU_COUNT
+        if section == 2 {
+            return self.members.count + 1
+        } else {
+            return 1
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell = UITableViewCell()
-        guard let channel = self.channel else { return cell }
-        guard let currentUser = SBDMain.getCurrentUser() else { return cell }
-        
-        if indexPath.row == 0 {
-            guard let channelCoverNameCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsChannelCoverNameTableViewCell", for: indexPath) as? GroupChannelSettingsChannelCoverNameTableViewCell else { return cell }
+        guard let channel = self.channel, let currentUser = SBDMain.getCurrentUser() else { return UITableViewCell() }
+       
+        switch indexPath.section {
+        case 0:
+            guard let channelCoverNameCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsChannelCoverNameTableViewCell", for: indexPath) as? GroupChannelSettingsChannelCoverNameTableViewCell else { return UITableViewCell() }
             channelCoverNameCell.channelNameTextField.placeholder = Utils.createGroupChannelNameFromMembers(channel: channel)
             channelCoverNameCell.channelNameTextField.text = channel.name
             channelCoverNameCell.delegate = self
             
-            channelCoverNameCell.singleCoverImageContainerView.isHidden = true
-            channelCoverNameCell.doubleCoverImageContainerView.isHidden = true
-            channelCoverNameCell.tripleCoverImageContainerView.isHidden = true
-            channelCoverNameCell.quadrupleCoverImageContainerView.isHidden = true
             var currentMembers: [SBDMember] = []
             var count = 0
             if let members = channel.members as? [SBDMember] {
@@ -127,241 +123,111 @@ class GroupChannelSettingsViewController: UIViewController, UITableViewDelegate,
                 }
             }
             
-            guard let profileImagePlaceholder1 = UIImage(named: "img_default_profile_image_1") else { return cell }
-            guard let profileImagePlaceholder2 = UIImage(named: "img_default_profile_image_2") else { return cell }
-            guard let profileImagePlaceholder3 = UIImage(named: "img_default_profile_image_3") else { return cell }
-            guard let profileImagePlaceholder4 = UIImage(named: "img_default_profile_image_4") else { return cell }
+            if let url = channel.coverUrl, url.count > 0 && !url.hasPrefix("https://sendbird.com/main/img/cover/") {
+                channelCoverNameCell.profileImageView.setImage(withCoverUrl: url)
+            }
+            else {
+                channelCoverNameCell.profileImageView.users = members
+            }
+            channelCoverNameCell.profileImageView.makeCircularWithSpacing(spacing: 1)
             
-            if (channel.coverUrl?.count)! > 0 && !(channel.coverUrl?.hasPrefix("https://sendbird.com/main/img/cover/"))! {
-                if let url = URL(string: channel.coverUrl!) {
-                    channelCoverNameCell.singleCoverImageContainerView.isHidden = false
-                    channelCoverNameCell.singleCoverImageView.af_setImage(withURL: url, placeholderImage: UIImage(named: "img_cover_image_placeholder_1"))
+            return channelCoverNameCell
+        case 1:
+            guard let notiCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsNotificationsTableViewCell", for: indexPath) as? GroupChannelSettingsNotificationsTableViewCell else { return UITableViewCell() }
+            
+            let pushOption = channel.myPushTriggerOption
+            
+            switch pushOption {
+            case .all, .default, .mentionOnly:
+                notiCell.notificationSwitch.isOn = true
+                break
+            case .off:
+                notiCell.notificationSwitch.isOn = false
+                break
+            }
+
+            notiCell.delegate = self
+            
+            return notiCell
+        case 2:
+            if indexPath.row == 0{
+                return tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsInviteMemberTableViewCell", for: indexPath)
+            } else {
+                guard let memberCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsMemberTableViewCell", for: indexPath) as? GroupChannelSettingsMemberTableViewCell else { return UITableViewCell() }
+                
+                let member = self.members[indexPath.row - 1]
+                memberCell.nicknameLabel.text = member.nickname
+                if member.isBlockedByMe {
+                    memberCell.blockedUserCoverImageView.isHidden = false
+                    memberCell.statusLabel.isHidden = false
+                    memberCell.statusLabel.text = "Blocked"
                 }
                 else {
-                    channelCoverNameCell.singleCoverImageView.image = UIImage(named: "img_cover_image_placeholder_1")
+                    memberCell.blockedUserCoverImageView.isHidden = true
+                    memberCell.statusLabel.isHidden = true
+                    memberCell.statusLabel.text = ""
                 }
-            }
-            else {
-                if currentMembers.count == 0 {
-                    channelCoverNameCell.singleCoverImageContainerView.isHidden = false
-                    channelCoverNameCell.singleCoverImageView.image = profileImagePlaceholder1
+                
+                if member.userId == currentUser.userId {
+                    memberCell.accessoryType = .none
                 }
-                else if currentMembers.count == 1 {
-                    channelCoverNameCell.singleCoverImageContainerView.isHidden = false
-                    Utils.setProfileImage(imageView: channelCoverNameCell.singleCoverImageView, user: currentMembers[0])
+                else {
+                    memberCell.accessoryType = .disclosureIndicator
                 }
-                else if currentMembers.count == 2 {
-                    channelCoverNameCell.doubleCoverImageContainerView.isHidden = false
-                    Utils.setProfileImage(imageView: channelCoverNameCell.doubleCoverImageView1, user: currentMembers[0])
-                    Utils.setProfileImage(imageView: channelCoverNameCell.doubleCoverImageView2, user: currentMembers[1])
-                }
-                else if currentMembers.count == 3 {
-                    channelCoverNameCell.tripleCoverImageContainerView.isHidden = false
-                    Utils.setProfileImage(imageView: channelCoverNameCell.tripleCoverImageView1, user: currentMembers[0])
-                    Utils.setProfileImage(imageView: channelCoverNameCell.tripleCoverImageView2, user: currentMembers[1])
-                    Utils.setProfileImage(imageView: channelCoverNameCell.tripleCoverImageView3, user: currentMembers[2])
-                }
-                else if currentMembers.count >= 4 {
-                    channelCoverNameCell.quadrupleCoverImageContainerView.isHidden = false
-                    Utils.setProfileImage(imageView: channelCoverNameCell.quadrupleCoverImageView1, user: currentMembers[0])
-                    Utils.setProfileImage(imageView: channelCoverNameCell.quadrupleCoverImageView2, user: currentMembers[1])
-                    Utils.setProfileImage(imageView: channelCoverNameCell.quadrupleCoverImageView3, user: currentMembers[2])
-                    Utils.setProfileImage(imageView: channelCoverNameCell.quadrupleCoverImageView4, user: currentMembers[3])
-                }
-            }
-            
-            cell = channelCoverNameCell
-        }
-        else if indexPath.row == 1 {
-            guard let blankCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsBlankTableViewCell", for: indexPath) as? GroupChannelSettingsBlankTableViewCell else { return cell }
-            cell = blankCell
-        }
-        else if indexPath.row == 2 {
-            guard let notiCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsNotificationsTableViewCell", for: indexPath) as? GroupChannelSettingsNotificationsTableViewCell else { return cell }
-            notiCell.notificationSwitch.isOn = channel.isPushEnabled
-            notiCell.delegate = self
-            cell = notiCell
-        }
-        else if indexPath.row == 3 {
-            guard let memberSectionCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsSectionTableViewCell", for: indexPath) as? GroupChannelSettingsSectionTableViewCell else { return cell }
-            cell = memberSectionCell
-        }
-        else if indexPath.row == 4 {
-            guard let inviteCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsInviteMemberTableViewCell", for: indexPath) as? GroupChannelSettingsInviteMemberTableViewCell else { return cell }
-            cell = inviteCell
-        }
-        else if indexPath.row >= 5 {
-            if self.members.count > 0 {
-                if indexPath.row > 4 && indexPath.row < self.members.count + 5 {
-                    guard let memberCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsMemberTableViewCell", for: indexPath) as? GroupChannelSettingsMemberTableViewCell else { return cell }
+                
+                DispatchQueue.main.async {
+                    guard let updateCell = tableView.cellForRow(at: indexPath) as? GroupChannelSettingsMemberTableViewCell else { return }
                     
-                    let member = self.members[indexPath.row - 5]
-                    memberCell.nicknameLabel.text = member.nickname
-                    if member.isBlockedByMe {
-                        memberCell.blockedUserCoverImageView.isHidden = false
-                        memberCell.statusLabel.isHidden = false
-                        memberCell.statusLabel.text = "Blocked"
-                    }
-                    else {
-                        memberCell.blockedUserCoverImageView.isHidden = true
-                        memberCell.statusLabel.isHidden = true
-                        memberCell.statusLabel.text = ""
-                    }
+                    updateCell.profileImageView.setProfileImageView(for: member)
                     
                     if member.userId == currentUser.userId {
-                        memberCell.accessoryType = .none
+                        updateCell.myProfileImageCoverView.isHidden = false
                     }
                     else {
-                        memberCell.accessoryType = .disclosureIndicator
+                        updateCell.myProfileImageCoverView.isHidden = true
                     }
-                    
-                    DispatchQueue.main.async {
-                        guard let updateCell = tableView.cellForRow(at: indexPath) as? GroupChannelSettingsMemberTableViewCell else { return }
-                        
-                        if let url = URL(string: Utils.transformUserProfileImage(user: member)) {
-                            updateCell.profileImageView.af_setImage(withURL: url, placeholderImage: Utils.getDefaultUserProfileImage(user: member))
-                        }
-                        else {
-                            updateCell.profileImageView.image = Utils.getDefaultUserProfileImage(user: member)
-                        }
-                        
-                        if member.userId == currentUser.userId {
-                            updateCell.myProfileImageCoverView.isHidden = false
-                            updateCell.topBorderView.isHidden = false
-                        }
-                        else {
-                            updateCell.myProfileImageCoverView.isHidden = true
-                            updateCell.topBorderView.isHidden = true
-                        }
-                    }
-                    
-                    cell = memberCell
                 }
-                else if indexPath.row == self.members.count + 5 {
-                    guard let blankCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsBlankTableViewCell", for: indexPath) as? GroupChannelSettingsBlankTableViewCell else { return cell }
-                    cell = blankCell
-                }
-                else if indexPath.row == self.members.count + 6 {
-                    guard let leaveChannelCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsLeaveChatTableViewCell", for: indexPath) as? GroupChannelSettingsLeaveChatTableViewCell else { return cell }
-                    cell = leaveChannelCell
-                }
+                
+                return memberCell
             }
-            else {
-                if indexPath.row == 5 {
-                    guard let blankCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsBlankTableViewCell", for: indexPath) as? GroupChannelSettingsBlankTableViewCell else { return cell }
-                    cell = blankCell
-                }
-                else if indexPath.row == 6 {
-                    guard let leaveChannelCell = tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsLeaveChatTableViewCell", for: indexPath) as? GroupChannelSettingsLeaveChatTableViewCell else { return cell }
-                    cell = leaveChannelCell
-                }
-            }
+        case 3:
+            return tableView.dequeueReusableCell(withIdentifier: "GroupChannelSettingsLeaveChatTableViewCell", for: indexPath)
+        default:
+            return UITableViewCell()
         }
-        
-        return cell
     }
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
+        if indexPath.section == 0 {
             return 121
         }
-        else if indexPath.row == 1 {
-            return 34
+        else if indexPath.section == 1 {
+            return 48
         }
-        else if indexPath.row == 2 {
-            return 44
+        else {
+            return 48
         }
-        else if indexPath.row == 3 {
-            return 56
-        }
-        else if indexPath.row == 4 {
-            return 44
-        }
-        else if indexPath.row >= 5 {
-            if self.members.count > 0 {
-                if indexPath.row > 4 && indexPath.row < self.members.count + 5 {
-                    return 48
-                }
-                else if indexPath.row == self.members.count + 5 {
-                    return 34
-                }
-                else if indexPath.row == self.members.count + 6 {
-                    return 44
-                }
-            }
-            else {
-                if indexPath.row == 5 {
-                    return 34
-                }
-                else if indexPath.row == 6 {
-                    return 44
-                }
-            }
-        }
-        
-        return 0
     }
-    
+
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: false)
         
-        if indexPath.row == 4 {
+        if indexPath.section == 2, indexPath.row == 0 {
             // Invite member
-            let vc = GroupChannelInviteMemberViewController.init(nibName: "GroupChannelInviteMemberViewController", bundle: nil)
-            vc.channel = self.channel
-            vc.delegate = self
-            if let navigationController = self.navigationController {
-                navigationController.pushViewController(vc, animated: true)
-            }
+            performSegue(withIdentifier: "GroupChannelInviteMember", sender: nil)
         }
-        else if indexPath.row >= 5 {
-            if self.members.count > 0 {
-                if indexPath.row >= 6 && indexPath.row < self.members.count + 5 {
-                    // User Profile
-                    let vc = UserProfileViewController.init(nibName: "UserProfileViewController", bundle: nil)
-                    vc.user = self.members[indexPath.row - 5]
-                    if let navigationController = self.navigationController {
-                        navigationController.pushViewController(vc, animated: true)
-                    }
-                }
-                else if indexPath.row == self.members.count + 6 {
-                    // Leave channel
-                    guard let channel = self.channel else { return }
-                    channel.leave { (error) in
-                        if error != nil {
-                            return
-                        }
-                        
-                        DispatchQueue.main.async {
-                            if let navigationController = self.navigationController {
-                                navigationController.popViewController(animated: false)
-                                if let delegate = self.delegate {
-                                    if delegate.responds(to: #selector(GroupChannelSettingsDelegate.didLeaveChannel)) {
-                                        delegate.didLeaveChannel!()
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-            else {
-                // Leave channel
-                guard let channel = self.channel else { return }
-                channel.leave { (error) in
-                    if error != nil {
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        if let navigationController = self.navigationController {
-                            navigationController.popViewController(animated: false)
-                            if let delegate = self.delegate {
-                                if delegate.responds(to: #selector(GroupChannelSettingsDelegate.didLeaveChannel)) {
-                                    delegate.didLeaveChannel!()
-                                }
-                            }
-                        }
+        else if indexPath.section == 2 {
+            performSegue(withIdentifier: "ShowUserProfile", sender: (indexPath.row - 1))
+        } else if indexPath.section == 3 {
+            // Leave channel
+            guard let channel = self.channel else { return }
+            channel.leave { (error) in
+                guard error == nil else { return }
+                
+                DispatchQueue.main.async {
+                    self.navigationController?.popViewController(animated: false)
+                    if self.delegate?.responds(to: #selector(GroupChannelSettingsDelegate.didLeaveChannel)) ?? false{
+                        self.delegate?.didLeaveChannel!()
                     }
                 }
             }
@@ -376,13 +242,7 @@ class GroupChannelSettingsViewController: UIViewController, UITableViewDelegate,
     
     // MARK: - GroupChannelSettingsTableViewCellDelegate
     func willUpdateChannelNameAndCoverImage() {
-        let vc = GroupChannelCoverImageNameSettingViewController.init(nibName: "GroupChannelCoverImageNameSettingViewController", bundle: nil)
-        
-        vc.channel = self.channel
-        vc.delegate = self
-        
-        guard let navigationController = self.navigationController else { return }
-        navigationController.pushViewController(vc, animated: true)
+        performSegue(withIdentifier: "GroupChannelCoverSettings", sender: nil)
     }
     
     func didChangeNotificationSwitchButton(isOn: Bool) {

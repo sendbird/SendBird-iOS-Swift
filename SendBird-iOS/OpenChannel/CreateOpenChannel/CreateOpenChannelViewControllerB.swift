@@ -16,6 +16,8 @@ class CreateOpenChannelViewControllerB: UIViewController, SelectOperatorsDelegat
     var channelUrl: String?
     var doneButtonItem: UIBarButtonItem?
     var selectedUsers: [String:SBDUser] = [:]
+    var viewTapGestureRecognizer: UITapGestureRecognizer?
+    
     
     @IBOutlet weak var bottomMargin: NSLayoutConstraint!
     @IBOutlet weak var activityIndicatorView: CustomActivityIndicatorView!
@@ -27,26 +29,21 @@ class CreateOpenChannelViewControllerB: UIViewController, SelectOperatorsDelegat
         // Do any additional setup after loading the view.
         self.title = "Create Open Channel"
         self.navigationItem.largeTitleDisplayMode = .never
-        let barButtonItemBack = UIBarButtonItem(title: "Back", style: .plain, target: self, action: nil)
-        let prevVC = self.navigationController?.viewControllers[(self.navigationController?.viewControllers.count)! - 2]
-        prevVC?.navigationItem.backBarButtonItem = barButtonItemBack
-        
+       
         self.doneButtonItem = UIBarButtonItem(title: "Done", style: .done, target: self, action: #selector(CreateOpenChannelViewControllerB.clickDoneButton(_:)))
         self.navigationItem.rightBarButtonItem = self.doneButtonItem
         
-        self.channelUrl = String(UUID().uuidString[..<String.Index(encodedOffset: 8)])
+        self.channelUrl = String.randomUUIDString()
         
         self.activityIndicatorView.isHidden = true
         self.view.bringSubviewToFront(self.activityIndicatorView)
-        
-        self.tableView.register(UINib(nibName: "CreateOpenChannelChannelUrlTableViewCell", bundle: nil), forCellReuseIdentifier: "CreateOpenChannelChannelUrlTableViewCell")
-        self.tableView.register(UINib(nibName: "CreateOpenChannelOperatorSectionTableViewCell", bundle: nil), forCellReuseIdentifier: "CreateOpenChannelOperatorSectionTableViewCell")
-        self.tableView.register(UINib(nibName: "CreateOpenChannelAddOperatorTableViewCell", bundle: nil), forCellReuseIdentifier: "CreateOpenChannelAddOperatorTableViewCell")
-        self.tableView.register(UINib(nibName: "CreateOpenChannelCurrentUserTableViewCell", bundle: nil), forCellReuseIdentifier: "CreateOpenChannelCurrentUserTableViewCell")
-        self.tableView.register(UINib(nibName: "CreateOpenChannelOperatorTableViewCell", bundle: nil), forCellReuseIdentifier: "CreateOpenChannelOperatorTableViewCell")
-        
+
         NotificationCenter.default.addObserver(self, selector: #selector(CreateOpenChannelViewControllerB.keyboardWillShow(_:)), name: UIWindow.keyboardWillShowNotification, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(CreateOpenChannelViewControllerB.keyboardDidHide(_:)), name: UIWindow.keyboardDidHideNotification, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(CreateOpenChannelViewControllerB.keyboardWillHide(_:)), name: UIWindow.keyboardWillHideNotification, object: nil)
+        
+        viewTapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(hideKeyboard(recognizer:)))
+        self.tableView.addGestureRecognizer(viewTapGestureRecognizer!)
+        viewTapGestureRecognizer?.isEnabled = false
         
         self.tableView.delegate = self
         self.tableView.dataSource = self
@@ -59,18 +56,18 @@ class CreateOpenChannelViewControllerB: UIViewController, SelectOperatorsDelegat
         operatorIds += self.selectedUsers.keys
         operatorIds.append((SBDMain.getCurrentUser()?.userId)!)
         let channelUrl = self.channelUrl
+        
         SBDOpenChannel.createChannel(withName: self.channelName, channelUrl: channelUrl, coverImage: self.coverImageData!, coverImageName: "cover_image.jpg", data: nil, operatorUserIds: operatorIds, customType: nil, progressHandler: nil) { (channel, error) in
-            if error != nil {
+            if let error = error {
                 self.activityIndicatorView.isHidden = true
                 self.activityIndicatorView.stopAnimating()
                 
-                Utils.showAlertController(error: error!, viewController: self)
+                Utils.showAlertController(error: error, viewController: self)
                 
                 return
             }
             
-            if self.navigationController is CreateOpenChannelNavigationController {
-                let nc = self.navigationController as! CreateOpenChannelNavigationController
+            if let nc = self.navigationController as? CreateOpenChannelNavigationController {
                 
                 if let delegate = nc.createChannelDelegate {
                     delegate.didCreate!(channel!)
@@ -81,45 +78,51 @@ class CreateOpenChannelViewControllerB: UIViewController, SelectOperatorsDelegat
                 self.activityIndicatorView.isHidden = true
                 self.activityIndicatorView.stopAnimating()
                 
-                if error != nil {
-                    Utils.showAlertController(error: error!, viewController: self)
+                if let error = error {
+                    Utils.showAlertController(error: error, viewController: self)
                     
                     return
                 }
                 
-                let vc = OpenChannelChatViewController.init(nibName: "OpenChannelChatViewController", bundle: nil) as OpenChannelChatViewController
-                vc.channel = channel
-                vc.hidesBottomBarWhenPushed = true
-                guard let navigationController = self.navigationController else { return }
-                vc.createChannelDelegate = (navigationController as! CreateOpenChannelNavigationController).createChannelDelegate
-                navigationController.pushViewController(vc, animated: true)
+                self.navigationController?.dismiss(animated: true, completion: nil)
+                
             })
         }
     }
     
     @objc func keyboardWillShow(_ notification: Notification) {
-        if let keyboardFrameBegin: NSValue = notification.userInfo?[UIResponder.keyboardFrameEndUserInfoKey] as? NSValue {
-            let keyboardFrameBeginRect = keyboardFrameBegin.cgRectValue
-            DispatchQueue.main.async {
-                self.bottomMargin.constant = keyboardFrameBeginRect.size.height - self.view.safeAreaInsets.bottom
+        
+        let (height, _, _) = Utils.getKeyboardAnimationOptions(notification: notification)
+        
+        DispatchQueue.main.async {
+            self.bottomMargin.constant = (height ?? 0) - self.view.safeAreaInsets.bottom
+            self.view.layoutIfNeeded()
+        }
+        viewTapGestureRecognizer?.isEnabled = true
+    }
+    
+    
+    @objc func keyboardWillHide(_ notification: Notification) {
+        
+        DispatchQueue.main.async {
+                self.bottomMargin.constant = 0
                 self.view.layoutIfNeeded()
-            }
+        }
+        viewTapGestureRecognizer?.isEnabled = false
+    }
+    
+    @objc func hideKeyboard(recognizer: UITapGestureRecognizer) {
+        if recognizer.state == .ended {
+            self.view.endEditing(true)
         }
     }
     
-    @objc func keyboardDidHide(_ notification: Notification) {
-        DispatchQueue.main.async {
-            self.bottomMargin.constant = 0
-            self.view.layoutIfNeeded()
-        }
-    }
     
     // MARK: - NotificationDelegate
     func openChat(_ channelUrl: String) {
         self.navigationController?.popViewController(animated: false)
-        let cvc = UIViewController.currentViewController()
-        if cvc is CreateOpenChannelViewControllerA {
-            (cvc as! CreateOpenChannelViewControllerA).openChat(channelUrl)
+        if let cvc = UIViewController.currentViewController() as? NotificationDelegate {
+            cvc.openChat(channelUrl)
         }
     }
     
@@ -132,151 +135,100 @@ class CreateOpenChannelViewControllerB: UIViewController, SelectOperatorsDelegat
         }
     }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
+
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
+        if segue.identifier == "SelectOperators", let destination = segue.destination as? SelectOperatorsViewController{
+            destination.title = "Select an operator"
+            destination.delegate = self
+            destination.selectedUsers = self.selectedUsers
+        }
      }
-     */
-    
+ 
     // MARK: - UITableViewDelegate
-    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        if indexPath.row == 0 {
-            return UITableView.automaticDimension
-        }
-        else if indexPath.row == 1 {
-            return UITableView.automaticDimension
-        }
-        else {
-            return 48
+
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        tableView.deselectRow(at: indexPath, animated: false)
+        if indexPath.section == 1, indexPath.row == 0 {
+            performSegue(withIdentifier: "SelectOperators", sender: nil)
         }
     }
     
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        tableView.deselectRow(at: indexPath, animated: false)
-        if indexPath.row == 2 {
-            let vc = SelectOperatorsViewController.init(nibName: "SelectOperatorsViewController", bundle: nil)
-            vc.title = "Select an operator"
-            vc.delegate = self
-            vc.selectedUsers = self.selectedUsers
-            self.navigationController?.pushViewController(vc, animated: true)
-        }
+    func numberOfSections(in tableView: UITableView) -> Int {
+        return 2
     }
     
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return self.selectedUsers.count + 4
+        return (section == 0) ? 1 : self.selectedUsers.count + 2
+    }
+    
+    func tableView(_ tableView: UITableView, titleForHeaderInSection section: Int) -> String? {
+        return (section == 1) ? "Operators" : nil
+    }
+    
+    func tableView(_ tableView: UITableView, titleForFooterInSection section: Int) -> String? {
+        return (section == 0) ? "Channel URL is a unique value to identify a channel" : nil
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        var cell: UITableViewCell = UITableViewCell()
-        if indexPath.row == 0 {
-            if let channelUrlCell = tableView.dequeueReusableCell(withIdentifier: "CreateOpenChannelChannelUrlTableViewCell") as? CreateOpenChannelChannelUrlTableViewCell {
+        if indexPath.section == 0, let channelUrlCell = tableView.dequeueReusableCell(withIdentifier: "CreateOpenChannelChannelUrlTableViewCell") as? CreateOpenChannelChannelUrlTableViewCell {
                 channelUrlCell.channelUrlTextField.text = self.channelUrl
                 channelUrlCell.channelUrlTextField.addTarget(self, action: #selector(CreateOpenChannelViewControllerB.channelUrlChanged(_:)), for: .editingChanged)
                 
-                cell = channelUrlCell
-            }
+                return channelUrlCell
         }
-        else if indexPath.row == 1 {
-            if let operatorSectionCell = tableView.dequeueReusableCell(withIdentifier: "CreateOpenChannelOperatorSectionTableViewCell") as? CreateOpenChannelOperatorSectionTableViewCell {
-                cell = operatorSectionCell
-            }
-        }
-        else if indexPath.row == 2 {
-            if let addOperatorCell = tableView.dequeueReusableCell(withIdentifier: "CreateOpenChannelAddOperatorTableViewCell") as? CreateOpenChannelAddOperatorTableViewCell {
-                cell = addOperatorCell
-            }
-        }
-        else if indexPath.row == 3 {
-            if let currentUserCell = tableView.dequeueReusableCell(withIdentifier: "CreateOpenChannelCurrentUserTableViewCell") as? CreateOpenChannelCurrentUserTableViewCell {
-                currentUserCell.nicknameLabel.text = SBDMain.getCurrentUser()?.nickname
-                DispatchQueue.main.async {
-                    if let updateCell = tableView.cellForRow(at: indexPath) {
-                        if updateCell is CreateOpenChannelCurrentUserTableViewCell {
-                            if let url = URL(string: Utils.transformUserProfileImage(user: SBDMain.getCurrentUser()!)) {
-                                (updateCell as! CreateOpenChannelCurrentUserTableViewCell).profileImageView.af_setImage(withURL: url, placeholderImage: Utils.getDefaultUserProfileImage(user: SBDMain.getCurrentUser()!))
-                            }
-                            else {
-                                (updateCell as! CreateOpenChannelCurrentUserTableViewCell).profileImageView.image = Utils.getDefaultUserProfileImage(user: SBDMain.getCurrentUser()!)
-                            }
+        else if indexPath.section == 1 {
+            switch indexPath.row{
+            case 0:
+                return tableView.dequeueReusableCell(withIdentifier: "CreateOpenChannelAddOperatorTableViewCell") ?? UITableViewCell()
+            case 1:
+                if let currentUserCell = tableView.dequeueReusableCell(withIdentifier: "CreateOpenChannelUserTableViewCell") as? CreateOpenChannelUserTableViewCell {
+                    currentUserCell.nicknameLabel.text = SBDMain.getCurrentUser()?.nickname
+                    DispatchQueue.main.async {
+                        if let updateCell = tableView.cellForRow(at: indexPath) as? CreateOpenChannelUserTableViewCell {
+                            updateCell.profileImageView.setProfileImageView(for: SBDMain.getCurrentUser()!)
                         }
                     }
+                    
+                    return currentUserCell
                 }
-                
-                if selectedUsers.count == 0 {
-                    currentUserCell.bottomBorderView.isHidden = false
-                }
-                else {
-                    currentUserCell.bottomBorderView.isHidden = true
-                }
-                
-                cell = currentUserCell
-            }
-        }
-        else {
-            if let operatorCell = tableView.dequeueReusableCell(withIdentifier: "CreateOpenChannelOperatorTableViewCell") as? CreateOpenChannelOperatorTableViewCell {
-                let op = Array(self.selectedUsers.values)[indexPath.row - 4]
-                operatorCell.op = op
-                operatorCell.nicknameLabel.text = op.nickname
-                DispatchQueue.main.async {
-                    if let updateCell = tableView.cellForRow(at: indexPath) {
-                        if updateCell is CreateOpenChannelOperatorTableViewCell {
-                            if let url = URL(string: Utils.transformUserProfileImage(user: op)) {
-                                (updateCell as! CreateOpenChannelOperatorTableViewCell).profileImageView.af_setImage(withURL: url, placeholderImage: Utils.getDefaultUserProfileImage(user: op))
-                            }
-                            else {
-                                (updateCell as! CreateOpenChannelOperatorTableViewCell).profileImageView.image = Utils.getDefaultUserProfileImage(user: op)
-                            }
+            default:
+                if let operatorCell = tableView.dequeueReusableCell(withIdentifier: "CreateOpenChannelUserTableViewCell") as? CreateOpenChannelUserTableViewCell {
+                    let op = Array(self.selectedUsers.values)[indexPath.row - 2]
+                    operatorCell.user = op
+                    operatorCell.nicknameLabel.text = op.nickname
+                    operatorCell.meLabel.isHidden = true
+                    operatorCell.profileCoverView.isHidden = true
+                    DispatchQueue.main.async {
+                        if let updateCell = tableView.cellForRow(at: indexPath) as? CreateOpenChannelUserTableViewCell{
+                            updateCell.profileImageView.setProfileImageView(for: op)
                         }
                     }
+
+                    return operatorCell
                 }
-                
-                if self.selectedUsers.count - 1 == indexPath.row - 4 {
-                    operatorCell.bottomBorderView.isHidden = false
-                }
-                else {
-                    operatorCell.bottomBorderView.isHidden = true
-                }
-                
-                let longPress = UILongPressGestureRecognizer(target: self, action: #selector(CreateOpenChannelViewControllerB.openOperatorActionSheet(_:)))
-                operatorCell.addGestureRecognizer(longPress)
-                
-                cell = operatorCell
             }
         }
-        
-        return cell
+        return UITableViewCell()
+    }
+    
+    func tableView(_ tableView: UITableView, trailingSwipeActionsConfigurationForRowAt indexPath: IndexPath) -> UISwipeActionsConfiguration? {
+        if indexPath.section == 1, indexPath.row > 1 {
+            let delete = UIContextualAction(style: .destructive, title: "Remove") { (action, view, completionHandler) in
+                if let op = (view as? CreateOpenChannelUserTableViewCell)?.user {
+                    self.selectedUsers.removeValue(forKey: op.userId)
+                }
+                completionHandler(true)
+            }
+            return UISwipeActionsConfiguration(actions: [delete])
+        }
+        return UISwipeActionsConfiguration(actions: [])
     }
     
     @objc func channelUrlChanged(_ sender: AnyObject) {
-        if sender is UITextField {
-            let textField = sender as! UITextField
+        if let textField = sender as? UITextField {
             self.channelUrl = textField.text
-        }
-    }
-    
-    @objc func openOperatorActionSheet(_ sender: UILongPressGestureRecognizer) {
-        if sender.view is CreateOpenChannelOperatorTableViewCell {
-            if let op = (sender.view as? CreateOpenChannelOperatorTableViewCell)!.op {
-                let ac = UIAlertController(title: op.nickname, message: nil, preferredStyle: .actionSheet)
-                let removeFromOperatorsAction = UIAlertAction(title: "Remove from operators", style: .destructive) { (action) in
-                    DispatchQueue.main.async {
-                        if let op = (sender.view as? CreateOpenChannelOperatorTableViewCell)!.op {
-                            self.selectedUsers.removeValue(forKey: op.userId)
-                            self.tableView.reloadData()
-                        }
-                    }
-                }
-                let cancelAction = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
-                ac.addAction(removeFromOperatorsAction)
-                ac.addAction(cancelAction)
-                self.present(ac, animated: true, completion: nil)
-            }
-            
         }
     }
 }

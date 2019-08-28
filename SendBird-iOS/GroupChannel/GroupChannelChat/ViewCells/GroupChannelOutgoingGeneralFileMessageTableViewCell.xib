@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14460.31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina4_7" orientation="portrait">
         <adaptation id="fullscreen"/>
     </device>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14460.20"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -72,20 +72,20 @@
                         <rect key="frame" x="11" y="140.5" width="298" height="14"/>
                         <subviews>
                             <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_outgoing_sending_flag" translatesAutoresizingMaskIntoConstraints="NO" id="erh-Xr-Qif" userLabel="Sending Flag Image View">
-                                <rect key="frame" x="228" y="1" width="14" height="13"/>
+                                <rect key="frame" x="195.5" y="1" width="14" height="13"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="13" id="ouU-mC-j00"/>
                                     <constraint firstAttribute="width" constant="14" id="z3J-Jm-AsC"/>
                                 </constraints>
                             </imageView>
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="11:45 PM" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="bsk-GW-eeM" userLabel="Message Date Label">
-                                <rect key="frame" x="250" y="0.5" width="48" height="13.5"/>
+                                <rect key="frame" x="217.5" y="0.5" width="48" height="13.5"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
                                 <color key="textColor" red="0.66666666669999997" green="0.69019607839999997" blue="0.74117647060000003" alpha="1" colorSpace="calibratedRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="EPf-m0-86f" userLabel="Read Status Container View">
-                                <rect key="frame" x="190" y="0.5" width="57" height="13.5"/>
+                                <rect key="frame" x="157.5" y="0.5" width="57" height="13.5"/>
                                 <subviews>
                                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_read" translatesAutoresizingMaskIntoConstraints="NO" id="gmW-h9-7P3" userLabel="Read Icon Image View">
                                         <rect key="frame" x="0.0" y="1" width="12" height="12"/>
@@ -131,6 +131,7 @@
                                 </subviews>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
+                                    <constraint firstAttribute="width" constant="32.5" id="FOK-Lz-EJ2"/>
                                     <constraint firstItem="OS2-lR-Zme" firstAttribute="centerY" secondItem="X23-TI-2tT" secondAttribute="centerY" id="FhN-SB-rly"/>
                                     <constraint firstItem="MHf-EQ-8r9" firstAttribute="leading" secondItem="X23-TI-2tT" secondAttribute="leading" id="NcL-Xo-WMS"/>
                                     <constraint firstAttribute="trailing" secondItem="OS2-lR-Zme" secondAttribute="trailing" id="PUL-v7-Fx4"/>
@@ -175,11 +176,12 @@
                             <constraint firstAttribute="trailing" secondItem="g84-E2-auT" secondAttribute="trailing" id="HFL-Yn-Wwh"/>
                             <constraint firstAttribute="bottom" secondItem="EPf-m0-86f" secondAttribute="bottom" id="Nv8-hz-E0S"/>
                             <constraint firstAttribute="height" constant="14" id="SYY-HG-ChY"/>
-                            <constraint firstAttribute="trailing" secondItem="bsk-GW-eeM" secondAttribute="trailing" id="XT7-7d-bMx"/>
+                            <constraint firstAttribute="trailing" secondItem="bsk-GW-eeM" secondAttribute="trailing" priority="999" id="XT7-7d-bMx"/>
                             <constraint firstAttribute="bottom" secondItem="g84-E2-auT" secondAttribute="bottom" id="aeg-zB-jqY"/>
                             <constraint firstItem="bsk-GW-eeM" firstAttribute="leading" secondItem="erh-Xr-Qif" secondAttribute="trailing" constant="8" id="eI3-Zb-EVa"/>
                             <constraint firstItem="bsk-GW-eeM" firstAttribute="centerY" secondItem="erh-Xr-Qif" secondAttribute="centerY" id="fbV-C0-AeR"/>
                             <constraint firstAttribute="trailing" secondItem="X23-TI-2tT" secondAttribute="trailing" id="kD9-0L-bW7"/>
+                            <constraint firstItem="X23-TI-2tT" firstAttribute="leading" secondItem="bsk-GW-eeM" secondAttribute="trailing" id="osI-tR-97t"/>
                             <constraint firstItem="bsk-GW-eeM" firstAttribute="leading" secondItem="EPf-m0-86f" secondAttribute="trailing" constant="3" id="sTm-li-Q2e"/>
                         </constraints>
                     </view>
@@ -240,9 +242,10 @@
                 <outlet property="resendButton" destination="REG-f5-cnu" id="jo8-ai-Ci4"/>
                 <outlet property="resendButtonContainerView" destination="gzG-vx-r8C" id="WEr-Lx-4Ip"/>
                 <outlet property="sendingFailureContainerView" destination="X23-TI-2tT" id="cPE-sg-Pl0"/>
+                <outlet property="sendingFailureContainerViewConstraint" destination="osI-tR-97t" id="kaX-rA-nFE"/>
                 <outlet property="sendingFlagImageView" destination="erh-Xr-Qif" id="2zF-GH-k1N"/>
             </connections>
-            <point key="canvasLocation" x="132.80000000000001" y="204.64767616191907"/>
+            <point key="canvasLocation" x="134" y="204"/>
         </tableViewCell>
     </objects>
     <resources>

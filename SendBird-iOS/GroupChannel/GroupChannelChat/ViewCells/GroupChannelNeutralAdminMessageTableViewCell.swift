@@ -29,7 +29,6 @@ class GroupChannelNeutralAdminMessageTableViewCell: UITableViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
     }
 
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -38,12 +37,17 @@ class GroupChannelNeutralAdminMessageTableViewCell: UITableViewCell {
         // Configure the view for the selected state
     }
     
+    static func nib() -> UINib {
+        return UINib(nibName: String(describing: self), bundle: Bundle(for: self))
+    }
+    
     func setMessage(currMessage: SBDAdminMessage, prevMessage: SBDBaseMessage?) {
         var showDateSeperator = false
         var hasPrevMessage = false
         self.msg = currMessage
         
         let longClickMessageContainerGesture = UILongPressGestureRecognizer(target: self, action: #selector(GroupChannelNeutralAdminMessageTableViewCell.longClickAdminMessage(_:)))
+        self.messageContainerView.addGestureRecognizer(longClickMessageContainerGesture)
         
         self.dateSeperatorLabel.text = Utils.getDateStringForDateSeperatorFromTimestamp((self.msg?.createdAt)!)
         self.textMessageLabel.text = self.msg?.message
