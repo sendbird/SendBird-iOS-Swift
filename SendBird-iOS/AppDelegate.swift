@@ -182,11 +182,11 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     }
     
     func didFinishAuthentication(with user: SBDUser?, error: SBDError?) {
-        if error == nil {
+        if error == nil, let pendingPushToken = SBDMain.getPendingPushToken() {
             UserDefaults.standard.setValue(true, forKey: "sendbird_auto_login")
             UserDefaults.standard.synchronize()
-            
-            SBDMain.registerDevicePushToken(SBDMain.getPendingPushToken()!, unique: true) { (status, error) in
+        
+            SBDMain.registerDevicePushToken(pendingPushToken, unique: true) { (status, error) in
                 if error != nil {
                     print("APNS registration failed with error: \(String(describing: error))")
                     return

@@ -1469,6 +1469,32 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
+    func didClickGeneralFileMessage(_ message: SBDFileMessage) {
+        if message.requestId == nil ||  self.resendableFileData[message.requestId!] == nil{
+            if let url = URL(string: message.url) {
+                let viewController = WebViewController()
+                viewController.url = url
+            
+                self.navigationController?.pushViewController(viewController, animated: true)
+            } else {
+                let alert = UIAlertController(title: "Error", message: "We do not support this file!", preferredStyle: .alert)
+                let actionCancel = UIAlertAction(title: "Close", style: .cancel, handler: nil)
+                alert.addAction(actionCancel)
+                
+                if let presenter = alert.popoverPresentationController {
+                    presenter.sourceView = self.view
+                    presenter.sourceRect = CGRect(x: self.view.bounds.midX, y: self.view.bounds.maxY, width: 0, height: 0)
+                    presenter.permittedArrowDirections = []
+                }
+                
+                DispatchQueue.main.async {
+                    self.present(alert, animated: true, completion: nil)
+                }
+            }
+        }
+    }
+    
+    
     func didLongClickGeneralFileMessage(_ message: SBDFileMessage) {
         guard let requestId = message.requestId else { return }
         guard let url = URL(string: message.url) else { return }

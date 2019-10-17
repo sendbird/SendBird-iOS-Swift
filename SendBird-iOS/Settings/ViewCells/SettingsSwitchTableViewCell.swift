@@ -29,9 +29,8 @@ class SettingsSwitchTableViewCell: UITableViewCell {
     }
     
     @IBAction func clickSwitch(_ sender: Any) {
-        let sw = sender as! UISwitch
-        if let delegate = self.delegate {
-            delegate.didChangeSwitchButton(isOn: sw.isOn, identifier: self.switchIdentifier!)
+        if let sender = sender as? UISwitch, let delegate = self.delegate {
+            delegate.didChangeSwitchButton(isOn: sender.isOn, identifier: self.switchIdentifier!)
         }
     }
 }

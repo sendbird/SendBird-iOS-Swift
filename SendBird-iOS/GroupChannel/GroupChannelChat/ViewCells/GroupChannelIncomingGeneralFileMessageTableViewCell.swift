@@ -18,11 +18,10 @@ class GroupChannelIncomingGeneralFileMessageTableViewCell: GroupChannelIncomingM
     override func awakeFromNib() {
         self.messageCellType = .file
         
-        let clickMessageContainteGesture = UITapGestureRecognizer(target: self, action: #selector(GroupChannelIncomingGeneralFileMessageTableViewCell.longClickGeneralFileMessage(_:)))
+        let clickMessageContainteGesture = UITapGestureRecognizer(target: self, action: #selector(GroupChannelIncomingGeneralFileMessageTableViewCell.clickGeneralFileMessage(_:)))
         self.messageContainerView.addGestureRecognizer(clickMessageContainteGesture)
-        super.awakeFromNib()
         
-        let longClickMessageContainteGesture = UITapGestureRecognizer(target: self, action: #selector(GroupChannelIncomingGeneralFileMessageTableViewCell.clickGeneralFileMessage(_:)))
+        let longClickMessageContainteGesture = UILongPressGestureRecognizer(target: self, action: #selector(GroupChannelIncomingGeneralFileMessageTableViewCell.longClickGeneralFileMessage(_:)))
         self.messageContainerView.addGestureRecognizer(longClickMessageContainteGesture)
         super.awakeFromNib()
     }
@@ -34,19 +33,24 @@ class GroupChannelIncomingGeneralFileMessageTableViewCell: GroupChannelIncomingM
     
     @objc func longClickGeneralFileMessage(_ recognizer: UILongPressGestureRecognizer) {
         if recognizer.state == .began {
-            guard let delegate = self.delegate, let msg = (self.msg as? SBDFileMessage) else { return }
+            if let delegate = self.delegate, let msg = (self.msg as? SBDFileMessage) {
                 if delegate.responds(to: #selector(GroupChannelMessageTableViewCellDelegate.didLongClickGeneralFileMessage(_:))) {
                     delegate.didLongClickGeneralFileMessage!(msg)
                 }
-
+            }
         }
     }
     
     @objc func clickGeneralFileMessage(_ recognizer: UITapGestureRecognizer) {
-        if let delegate = self.delegate {
-            guard let msg = (self.msg as? SBDFileMessage) else { return }
-            if delegate.responds(to: #selector(GroupChannelMessageTableViewCellDelegate.didClickVideoFileMessage(_:))) {
-                delegate.didClickVideoFileMessage!(msg)
+        if let msg = (self.msg as? SBDFileMessage), let delegate = self.delegate {
+            if msg.type.hasPrefix("video") {
+                if delegate.responds(to: #selector(GroupChannelMessageTableViewCellDelegate.didClickVideoFileMessage(_:))) {
+                    delegate.didClickVideoFileMessage!(msg)
+                }
+            } else {
+                if delegate.responds(to: #selector(GroupChannelMessageTableViewCellDelegate.didClickGeneralFileMessage(_:))) {
+                    delegate.didClickGeneralFileMessage!(msg)
+                }
             }
         }
     }

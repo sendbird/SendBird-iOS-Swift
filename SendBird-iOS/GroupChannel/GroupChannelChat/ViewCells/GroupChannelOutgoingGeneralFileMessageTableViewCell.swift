@@ -36,11 +36,8 @@ class GroupChannelOutgoingGeneralFileMessageTableViewCell: GroupChannelOutgoingM
 
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
-
         // Configure the view for the selected state
     }
-    
-
     
     func setMessage(currMessage: SBDFileMessage, prevMessage: SBDBaseMessage?, nextMessage: SBDBaseMessage?, failed: Bool) {
         
@@ -120,10 +117,14 @@ class GroupChannelOutgoingGeneralFileMessageTableViewCell: GroupChannelOutgoingM
     }
     
     @objc func clickGeneralFileMessage(_ recognizer: UITapGestureRecognizer) {
-        if let msg = (self.msg as? SBDFileMessage), msg.type.hasPrefix("video") {
-            if let delegate = self.delegate {
+        if let msg = (self.msg as? SBDFileMessage), let delegate = self.delegate {
+            if msg.type.hasPrefix("video") {
                 if delegate.responds(to: #selector(GroupChannelMessageTableViewCellDelegate.didClickVideoFileMessage(_:))) {
                     delegate.didClickVideoFileMessage!(msg)
+                }
+            } else {
+                if delegate.responds(to: #selector(GroupChannelMessageTableViewCellDelegate.didClickGeneralFileMessage(_:))) {
+                    delegate.didClickGeneralFileMessage!(msg)
                 }
             }
         }

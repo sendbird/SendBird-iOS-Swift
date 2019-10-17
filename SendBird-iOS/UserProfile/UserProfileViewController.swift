@@ -25,10 +25,11 @@ class UserProfileViewController: UIViewController, NotificationDelegate {
         self.title = "Profile"
         self.navigationItem.largeTitleDisplayMode = .automatic
         
-        self.refreshUserInfo(self.user!)
+        guard let user = self.user else { return }
+        self.refreshUserInfo(user)
         
         let query = SBDMain.createApplicationUserListQuery()
-        query?.userIdsFilter = [self.user!.userId]
+        query?.userIdsFilter = [user.userId]
         query?.loadNextPage(completionHandler: { (users, error) in
             if error != nil {
                 Utils.showAlertController(error: error!, viewController: self)

@@ -22,4 +22,5 @@ import SendBirdSDK
     @objc optional func didClickAudioFileMessage(_ message: SBDFileMessage);
     @objc optional func didClickVideoFileMessage(_ message: SBDFileMessage);
     @objc optional func didClickUserProfile(_ user: SBDUser);
+    @objc optional func didClickGeneralFileMessage(_ message: SBDFileMessage);
 }
