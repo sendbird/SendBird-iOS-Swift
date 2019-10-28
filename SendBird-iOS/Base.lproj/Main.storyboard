@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="S9L-1m-OVn">
-    <device id="ipad10_5" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="S9L-1m-OVn">
+    <device id="ipad10_5" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -29,7 +28,7 @@
                 <navigationController id="VJn-E4-QtT" sceneMemberID="viewController">
                     <tabBarItem key="tabBarItem" title="Settings" image="img_tab_settings_normal" selectedImage="img_tab_settings_selected" id="xS1-Ce-e1a"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="zBv-dV-f0W">
-                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <connections>
@@ -54,10 +53,10 @@
         <scene sceneID="7vI-bI-CRC">
             <objects>
                 <navigationController title="Group Channels" automaticallyAdjustsScrollViewInsets="NO" id="DrR-bG-R9w" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Group Channels" image="img_tab_group_channel_normal" selectedImage="img_tab_group_channel_selected" id="UG7-4M-Qex"/>
+                    <tabBarItem key="tabBarItem" title="Group" image="img_tab_group_channel_normal" selectedImage="img_tab_group_channel_selected" id="UG7-4M-Qex"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="V7M-ox-ejG">
-                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -79,14 +78,14 @@
             </objects>
             <point key="canvasLocation" x="-1131" y="1739"/>
         </scene>
-        <!--Open Channels-->
+        <!--Open-->
         <scene sceneID="tOc-8p-ATl">
             <objects>
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="Ttg-zc-uyH" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Open Channels" image="img_tab_open_channel_normal" selectedImage="img_tab_open_channel_selected" id="lLC-vp-hPk"/>
+                    <tabBarItem key="tabBarItem" title="Open" image="img_tab_open_channel_normal" selectedImage="img_tab_open_channel_selected" id="lLC-vp-hPk"/>
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="SqT-th-dBd">
-                        <rect key="frame" x="0.0" y="20" width="320" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -137,13 +136,13 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" spacing="28" translatesAutoresizingMaskIntoConstraints="NO" id="Bg0-yD-WnX">
-                                <rect key="frame" x="358.5" y="531" width="117" height="120.5"/>
+                                <rect key="frame" x="345" y="485" width="144" height="192.5"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="logoSb" translatesAutoresizingMaskIntoConstraints="NO" id="wpf-Km-aS8">
-                                        <rect key="frame" x="0.0" y="0.0" width="117" height="72"/>
+                                        <rect key="frame" x="0.0" y="0.0" width="144" height="144"/>
                                     </imageView>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Start New Chat" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ags-ji-wIz">
-                                        <rect key="frame" x="0.0" y="100" width="117" height="20.5"/>
+                                        <rect key="frame" x="0.0" y="172" width="144" height="20.5"/>
                                         <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                         <color key="textColor" name="color_group_channel_outgoing_message_bg"/>
                                         <nil key="highlightedColor"/>
@@ -374,7 +373,7 @@
                         <outlet property="userIdLabelTop" destination="kiL-DY-eZD" id="OoO-ba-u7d"/>
                         <outlet property="userIdTextField" destination="Aio-RQ-2EP" id="ZiN-Fy-n3D"/>
                         <outlet property="versionInfoLabel" destination="Ahx-RJ-o8b" id="L9Q-28-nI0"/>
-                        <segue destination="9Ij-bI-faQ" kind="showDetail" identifier="LoggedIn" id="fET-Wa-lgY"/>
+                        <segue destination="9Ij-bI-faQ" kind="presentation" identifier="LoggedIn" modalPresentationStyle="fullScreen" id="fET-Wa-lgY"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="Rri-EV-7Xw" sceneMemberID="firstResponder"/>
@@ -387,7 +386,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="uZQ-r8-lb6" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Hhb-ze-Lcs">
-                        <rect key="frame" x="0.0" y="20" width="834" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>

@@ -9,7 +9,11 @@
 import UIKit
 import SendBirdSDK
 
-class GroupChannelInviteMemberViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, NotificationDelegate {
+class GroupChannelInviteMemberViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, NotificationDelegate {
+    @IBOutlet weak var selectedUserListView: UICollectionView!
+    @IBOutlet weak var selectedUserListHeight: NSLayoutConstraint!
+    @IBOutlet weak var tableView: UITableView!
+    @IBOutlet weak var updatingIndicatorView: CustomActivityIndicatorView!
 
     weak var delegate: GroupChannelInviteMemberDelegate?
     
@@ -21,9 +25,6 @@ class GroupChannelInviteMemberViewController: UIViewController, UITableViewDeleg
     var searchController: UISearchController?
     var okButtonItem: UIBarButtonItem?
     
-    @IBOutlet weak var tableView: UITableView!
-    @IBOutlet weak var updatingIndicatorView: CustomActivityIndicatorView!
-
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -40,6 +41,20 @@ class GroupChannelInviteMemberViewController: UIViewController, UITableViewDeleg
         self.tableView.dataSource = self
         
         self.tableView.register(SelectableUserTableViewCell.nib(), forCellReuseIdentifier: "SelectableUserTableViewCell")
+        
+        self.selectedUserListView.contentInset = UIEdgeInsets.init(top: 0, left: 14, bottom: 0, right: 14)
+        self.selectedUserListView.delegate = self
+        self.selectedUserListView.dataSource = self
+        self.selectedUserListView.register(SelectedUserCollectionViewCell.nib(), forCellWithReuseIdentifier: SelectedUserCollectionViewCell.cellReuseIdentifier())
+        self.selectedUserListHeight.constant = 0
+        self.selectedUserListView.isHidden = true
+        
+        self.selectedUserListView.showsHorizontalScrollIndicator = false
+        self.selectedUserListView.showsVerticalScrollIndicator = false
+        
+        if let layout = self.selectedUserListView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
         
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: #selector(refreshUserList), for: .valueChanged)
@@ -62,7 +77,7 @@ class GroupChannelInviteMemberViewController: UIViewController, UITableViewDeleg
             self.okButtonItem?.isEnabled = true
         }
         
-        self.okButtonItem?.title = String(format: "OK(%d)", self.selectedUsers.count)
+        self.okButtonItem?.title = "OK\(Int(self.selectedUsers.count))"
         
         self.refreshUserList()
     }
@@ -124,7 +139,9 @@ class GroupChannelInviteMemberViewController: UIViewController, UITableViewDeleg
     
     @objc func clickOkButton(_ sender: Any) {
         guard let channel = self.channel else { return }
-            
+        
+        self.updatingIndicatorView.superViewSize = self.view.frame.size
+        self.updatingIndicatorView.updateFrame()
         self.updatingIndicatorView.isHidden = false
         self.updatingIndicatorView.startAnimating()
         
@@ -150,12 +167,55 @@ class GroupChannelInviteMemberViewController: UIViewController, UITableViewDeleg
             }
         }
     }
+    
+    
+    // MARK: UICollectionViewDataSource
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.selectedUsers.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: SelectedUserCollectionViewCell.cellReuseIdentifier(), for: indexPath)) as! SelectedUserCollectionViewCell
+        
+        let selectedUserKeys = self.selectedUsers.keys
+        let key = Array(selectedUserKeys)[indexPath.row]
+        
+        cell.setModel(aUser: selectedUsers[key]!)
+        
+        return cell
+    }
+    
+    // MARK: UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedUserKeys = self.selectedUsers.keys
+        let key = Array(selectedUserKeys)[indexPath.row]
+        
+        self.selectedUsers.removeValue(forKey: key)
+        
+        DispatchQueue.main.async {
+            if self.selectedUsers.count == 0 {
+                self.selectedUserListHeight.constant = 0
+                self.selectedUserListView.isHidden = true
+            }
+            collectionView.reloadData()
+            self.tableView.reloadData()
+        }
+    }
+    
 
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectableUserTableViewCell", for: indexPath) as! SelectableUserTableViewCell
         
         cell.user = self.users[indexPath.row]
+        self.okButtonItem?.title = "OK (\(Int(self.selectedUsers.count)))"
+        
+        if self.selectedUsers.count == 0 {
+            self.okButtonItem?.isEnabled = false
+        }
+        else {
+            self.okButtonItem?.isEnabled = true
+        }
         
         DispatchQueue.main.async {
             if let updateCell = tableView.cellForRow(at: indexPath) as? SelectableUserTableViewCell {
@@ -197,7 +257,7 @@ class GroupChannelInviteMemberViewController: UIViewController, UITableViewDeleg
             self.selectedUsers[user.userId] = user
         }
         
-        self.okButtonItem!.title = String(format: "OK(%d)", self.selectedUsers.count)
+        self.okButtonItem?.title = "OK(\(Int(self.selectedUsers.count)))"
         
         if self.selectedUsers.count == 0 {
             self.okButtonItem?.isEnabled = false
@@ -206,7 +266,19 @@ class GroupChannelInviteMemberViewController: UIViewController, UITableViewDeleg
             self.okButtonItem?.isEnabled = true
         }
         
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            if self.selectedUsers.keys.count > 0 {
+                self.selectedUserListHeight.constant = 70
+                self.selectedUserListView.isHidden = false
+            }
+            else {
+                self.selectedUserListHeight.constant = 0
+                self.selectedUserListView.isHidden = true
+            }
+            
+            self.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
+            self.selectedUserListView.reloadData()
+        }
     }
     
     // MARK: - UISearchBarDelegate

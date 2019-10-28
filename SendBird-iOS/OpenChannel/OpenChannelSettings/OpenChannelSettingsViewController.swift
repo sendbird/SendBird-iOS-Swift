@@ -545,6 +545,9 @@ class OpenChannelSettingsViewController: UIViewController, UITableViewDelegate, 
     
     // MARK: - Utilities
     private func showLoadingIndicatorView() {
+        self.loadingIndicatorView.superViewSize = self.view.frame.size
+        self.loadingIndicatorView.updateFrame()
+        
         DispatchQueue.main.async {
             self.loadingIndicatorView.isHidden = false
             self.loadingIndicatorView.startAnimating()

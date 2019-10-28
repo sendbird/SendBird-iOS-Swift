@@ -41,8 +41,6 @@ class GroupChannelSettingsViewController: UIViewController, UITableViewDelegate,
         self.rearrangeMembers()
         
         self.settingsTableView.reloadData()
-        
-        print("viewDidLoad \(self.view.frame.size.width)")
     }
     
     private func rearrangeMembers() {

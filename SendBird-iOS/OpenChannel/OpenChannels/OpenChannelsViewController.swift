@@ -27,6 +27,7 @@ class OpenChannelsViewController: UIViewController, UITableViewDelegate, UITable
 
         // Do any additional setup after loading the view.
         self.title = "Open Channels"
+        self.navigationController?.title = "Open"
         self.navigationItem.largeTitleDisplayMode = .automatic
         
         self.createChannelBarButton = UIBarButtonItem(image: UIImage(named: "img_btn_create_public_group_channel_blue"), style: .plain, target: self, action: #selector(OpenChannelsViewController.clickCreateOpenChannel(_:)))

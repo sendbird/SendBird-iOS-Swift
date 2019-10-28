@@ -9,9 +9,11 @@
 import UIKit
 import SendBirdSDK
 
-class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, NotificationDelegate {
-    var selectedUsers: [String : SBDUser] = [:]
+class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, UITableViewDataSource, UICollectionViewDataSource, UICollectionViewDelegate, UISearchBarDelegate, NotificationDelegate {
+    var selectedUsers: [SBDUser] = []
     
+    @IBOutlet weak var selectedUserListView: UICollectionView!
+    @IBOutlet weak var selectedUserListHeight: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     var users: [SBDUser] = []
     var userListQuery: SBDApplicationUserListQuery?
@@ -48,6 +50,8 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
         
         self.tableView.register(SelectableUserTableViewCell.nib(), forCellReuseIdentifier: "SelectableUserTableViewCell")
 
+        self.setupScrollView()
+        
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: #selector(CreateGroupChannelViewControllerA.refreshUserList), for: .valueChanged)
         
@@ -62,9 +66,25 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
             self.okButtonItem?.isEnabled = true
         }
         
-        self.okButtonItem?.title = String(format: "OK(%d)", Int(self.selectedUsers.count))
+        self.okButtonItem?.title = "OK(\(Int(self.selectedUsers.count))"
         
         self.refreshUserList()
+    }
+    
+    func setupScrollView() {
+        self.selectedUserListView.contentInset = UIEdgeInsets.init(top: 0, left: 14, bottom: 0, right: 14)
+        self.selectedUserListView.delegate = self
+        self.selectedUserListView.dataSource = self
+        self.selectedUserListView.register(SelectedUserCollectionViewCell.nib(), forCellWithReuseIdentifier: SelectedUserCollectionViewCell.cellReuseIdentifier())
+        self.selectedUserListHeight.constant = 0
+        self.selectedUserListView.isHidden = true
+        
+        self.selectedUserListView.showsHorizontalScrollIndicator = false
+        self.selectedUserListView.showsVerticalScrollIndicator = false
+        
+        if let layout = self.selectedUserListView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
     }
     
     @objc func clickCancelCreateGroupChannel(_ sender: AnyObject) {
@@ -86,7 +106,7 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
 
      override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "ConfigureGroupChannel", let destination = segue.destination as? CreateGroupChannelViewControllerB{
-            destination.members = Array(self.selectedUsers.values)
+            destination.members = self.selectedUsers
         }
      }
     
@@ -136,6 +156,44 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
         })
     }
 
+    // MARK: UICollectionViewDataSource
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.selectedUsers.count
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: SelectedUserCollectionViewCell.cellReuseIdentifier(), for: indexPath)) as! SelectedUserCollectionViewCell
+        
+        cell.profileImageView.setProfileImageView(for: selectedUsers[indexPath.row])
+        cell.nicknameLabel.text = selectedUsers[indexPath.row].nickname
+        
+        return cell
+    }
+    
+    // MARK: UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.selectedUsers.remove(at: indexPath.row)
+        self.okButtonItem?.title = "OK(\(Int(self.selectedUsers.count)))"
+        
+        if self.selectedUsers.count == 0 {
+            self.okButtonItem?.isEnabled = false
+        }
+        else {
+            self.okButtonItem?.isEnabled = true
+        }
+        
+        DispatchQueue.main.async {
+            if self.selectedUsers.count == 0 {
+                self.selectedUserListHeight.constant = 0
+                self.selectedUserListView.isHidden = true
+            }
+            collectionView.reloadData()
+            self.tableView.reloadData()
+        }
+    }
+    
+    
+    
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectableUserTableViewCell") as! SelectableUserTableViewCell
@@ -145,15 +203,15 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
             if let updateCell = tableView.cellForRow(at: indexPath) as? SelectableUserTableViewCell {
                 updateCell.nicknameLabel.text = self.users[indexPath.row].nickname
                 updateCell.profileImageView.setProfileImageView(for: self.users[indexPath.row])
-//                updateCell.profileImageView = ImageUtil.getProfileImageView(user: self.users[indexPath.row])
-//                ImageUtil.setProfileImage(imageView: updateCell.profileImageView, user: self.users[indexPath.row])
                 
-                if self.selectedUsers[self.users[indexPath.row].userId] != nil {
-                    updateCell.selectedUser = true
+                if let user = self.users[exists: indexPath.row] {
+                    if self.selectedUsers.contains(user) {
+                        updateCell.selectedUser = true
+                    } else {
+                        updateCell.selectedUser = false
+                    }
                 }
-                else {
-                    updateCell.selectedUser = false
-                }
+                
             }
         }
         
@@ -174,11 +232,17 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
     }
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        if self.selectedUsers.removeValue(forKey: self.users[indexPath.row].userId) == nil {
-            self.selectedUsers[self.users[indexPath.row].userId] = self.users[indexPath.row]
+        tableView.deselectRow(at: indexPath, animated: true)
+        
+        if let user = self.users[exists: indexPath.row] {
+            if self.selectedUsers.contains(user) {
+                self.selectedUsers.removeObject(user)
+            } else {
+                self.selectedUsers.append(user)
+            }
         }
         
-        self.okButtonItem?.title = String(format: "OK\(Int(self.selectedUsers.count))")
+        self.okButtonItem?.title = "OK(\(Int(self.selectedUsers.count)))"
         
         if self.selectedUsers.count == 0 {
             self.okButtonItem?.isEnabled = false
@@ -187,7 +251,19 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
             self.okButtonItem?.isEnabled = true
         }
         
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            if self.selectedUsers.count > 0 {
+                self.selectedUserListHeight.constant = 70
+                self.selectedUserListView.isHidden = false
+            }
+            else {
+                self.selectedUserListHeight.constant = 0
+                self.selectedUserListView.isHidden = true
+            }
+            
+            self.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
+            self.selectedUserListView.reloadData()
+        }
     }
     
     // MARK: - UISearchBarDelegate

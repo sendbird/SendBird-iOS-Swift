@@ -29,9 +29,11 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         
         // Do any additional setup after loading the view.
         self.title = "Group Channels"
+        self.navigationController?.title = "Group"
         self.navigationItem.largeTitleDisplayMode = .automatic
         
         let createChannelBarButton = UIBarButtonItem.init(image: UIImage(named: "img_btn_create_group_channel_blue"), style: .plain, target: self, action: #selector(GroupChannelsViewController.clickCreateGroupChannel(_:)))
+        
         self.navigationItem.rightBarButtonItem = createChannelBarButton
         
         self.groupChannelsTableView.delegate = self
@@ -53,8 +55,8 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         
         self.loadChannelListNextPage(true)
         
-        SBDMain.add(self as SBDChannelDelegate, identifier: self.description)
-        SBDMain.add(self as SBDConnectionDelegate, identifier: self.description)
+        SBDMain.add(self as SBDChannelDelegate, identifier: NSUUID().uuidString)
+        SBDMain.add(self as SBDConnectionDelegate, identifier: NSUUID().uuidString)
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -94,17 +96,10 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
             destination.delegate = self
         }
     }
+    
 
     @objc func clickCreateGroupChannel(_ sender: Any) {
         performSegue(withIdentifier: "CreateGroupChannel", sender: self)
-    }
-    
-    @objc func showHiddenGroupChannels(_ sender: Any) {
-        performSegue(withIdentifier: "ShowHiddenChannels", sender: self)
-    }
-    
-    @objc func showPublicGroupChannels(_ sender: Any) {
-        performSegue(withIdentifier: "ShowPublicChannels", sender: self)
     }
     
     @objc func longPressChannel(_ recognizer: UILongPressGestureRecognizer) {
@@ -113,28 +108,6 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         if recognizer.state == .began {
             let channel = self.channels[indexPath.row]
             let alert = UIAlertController(title: Utils.createGroupChannelName(channel: channel), message: nil, preferredStyle: .actionSheet)
-            let actionHide = UIAlertAction(title: "Hide Channel", style: .default) { (action) in
-                channel.hide(withHidePreviousMessages: true, completionHandler: { (error) in
-                    if let error = error {
-                        Utils.showAlertController(error: error, viewController: self)
-                        return
-                    }
-                    
-                    DispatchQueue.main.async {
-                        self.showToast(message: "Hidden", completion: {
-                            if self.channels.count == 0 && self.toastCompleted {
-                                self.emptyLabel.isHidden = false
-                            }
-                            else {
-                                self.emptyLabel.isHidden = true
-                            }
-                        })
-                        
-                        self.channels.remove(at: indexPath.row)
-                        self.groupChannelsTableView.reloadData()
-                    }
-                })
-            }
             
             let actionLeave = UIAlertAction(title: "Leave Channel", style: .destructive) { (action) in
                 channel.leave(completionHandler: { (error) in
@@ -148,7 +121,6 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
             let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             
             alert.modalPresentationStyle = .popover
-            alert.addAction(actionHide)
             alert.addAction(actionLeave)
             alert.addAction(actionCancel)
             
@@ -247,33 +219,29 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         cell.channelNameLabel.text = Utils.createGroupChannelName(channel: channel)
         
         let lastMessageDateFormatter = DateFormatter()
-        var lastMessageDate: Date?
-        var lastUpdatedTimestamp: Int64 = 0
+        var lastUpdatedAt: Date?
         
         /// Marking Date on the Group Channel List
-        
         if channel.lastMessage != nil {
-            lastUpdatedTimestamp = (channel.lastMessage?.createdAt)!
-            lastMessageDate = Date(timeIntervalSince1970: Double(lastUpdatedTimestamp))
+            lastUpdatedAt = Date(timeIntervalSince1970: Double((channel.lastMessage?.createdAt)! / 1000))
         } else {
-            lastUpdatedTimestamp = Int64(channel.createdAt * 1000)
-            lastMessageDate = Date(timeIntervalSince1970: Double(lastUpdatedTimestamp) / 1000.0)
+            lastUpdatedAt = Date(timeIntervalSince1970: Double(channel.createdAt))
         }
         
         let currDate = Date()
         
-        let lastMessageDateComponents = Calendar.current.dateComponents([.day, .month, .year], from: lastMessageDate!)
+        let lastMessageDateComponents = Calendar.current.dateComponents([.day, .month, .year], from: lastUpdatedAt!)
         let currDateComponents = Calendar.current.dateComponents([.day, .month, .year], from: currDate)
         
         if lastMessageDateComponents.year != currDateComponents.year || lastMessageDateComponents.month != currDateComponents.month || lastMessageDateComponents.day != currDateComponents.day {
             lastMessageDateFormatter.dateStyle = .short
             lastMessageDateFormatter.timeStyle = .none
-            cell.lastUpdatedDateLabel.text = lastMessageDateFormatter.string(from: lastMessageDate!)
+            cell.lastUpdatedDateLabel.text = lastMessageDateFormatter.string(from: lastUpdatedAt!)
         }
         else {
             lastMessageDateFormatter.dateStyle = .none
             lastMessageDateFormatter.timeStyle = .short
-            cell.lastUpdatedDateLabel.text = lastMessageDateFormatter.string(from: lastMessageDate!)
+            cell.lastUpdatedDateLabel.text = lastMessageDateFormatter.string(from: lastUpdatedAt!)
         }
         
         let typingIndicatorText = self.buildTypingIndicatorLabel(channel: channel)
@@ -426,31 +394,7 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         }
         leaveAction.backgroundColor = UIColor(named: "color_leave_group_channel_bg")
         
-        let hideAction: UIContextualAction = UIContextualAction.init(style: .normal, title: "Hide") { (action, sourceView, completionHandler) in
-            self.channels[indexPath.row].hide(withHidePreviousMessages: true, completionHandler: { (error) in
-                if let error = error {
-                    Utils.showAlertController(error: error, viewController: self)
-                    return
-                }
-            })
-            DispatchQueue.main.async {
-                self.showToast(message: "Hidden", completion: {
-                    if self.channels.count == 0 && self.toastCompleted {
-                        self.emptyLabel.isHidden = false
-                    }
-                    else {
-                        self.emptyLabel.isHidden = true
-                    }
-                })
-                
-                self.channels.remove(at: indexPath.row)
-                self.groupChannelsTableView.reloadData()
-            }
-            completionHandler(true)
-        }
-        hideAction.backgroundColor = UIColor(named: "color_hide_group_channel_bg")
-        
-        return UISwipeActionsConfiguration(actions: [leaveAction, hideAction])
+        return UISwipeActionsConfiguration(actions: [leaveAction])
     }
     
     // MARK: - Load channels

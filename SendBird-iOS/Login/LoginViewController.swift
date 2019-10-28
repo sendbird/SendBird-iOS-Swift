@@ -10,7 +10,7 @@ import UIKit
 import SendBirdSDK
 import Photos
 
-class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticateDelegate, NotificationDelegate {
+class LoginViewController: UIViewController, UITextFieldDelegate, NotificationDelegate {
     
     private var keyboardShown: Bool = false
     private var logoChanged: Bool = false
@@ -29,7 +29,8 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        SBDConnectionManager.setAuthenticateDelegate(self)
+        ConnectionManager.login { (user, error) in
+        }
         
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillShow(_:)), name: UIWindow.keyboardWillShowNotification, object: nil)
         NotificationCenter.default.addObserver(self, selector: #selector(LoginViewController.keyboardWillHide(_:)), name: UIWindow.keyboardWillHideNotification, object: nil)
@@ -137,7 +138,7 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
             let userId = self.userIdTextField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             let nickname = self.nicknameTextField.text?.trimmingCharacters(in: CharacterSet.whitespacesAndNewlines)
             
-            if userId?.count == 0 || nickname?.count == 0 {
+            guard let id = userId, let nick = nickname else {
                 Utils.showAlertController(title: "Error", message: "User ID and Nickname are required.", viewController: self)
                 
                 return
@@ -149,8 +150,22 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
             
             self.setUIsWhileConnecting()
             
-            SBDConnectionManager.setAuthenticateDelegate(self)
-            SBDConnectionManager.authenticate()
+            ConnectionManager.login(userId: id, nickname: nick) { user, error in
+                guard error == nil else {
+                    DispatchQueue.main.async {
+                        self.setUIsForDefault()
+                    }
+                    Utils.showAlertController(error: error as! SBDError, viewController: self)
+                    
+                    return
+                }
+                
+                DispatchQueue.main.async {
+                    self.setUIsForDefault()
+                    
+                    self.performSegue(withIdentifier: "LoggedIn", sender: self)
+                }
+            }
         }
     }
     
@@ -165,70 +180,9 @@ class LoginViewController: UIViewController, UITextFieldDelegate, SBDAuthenticat
         
         return true
     }
+
     
-    // MARK: - SBDAuthenticateDelegate
-    func shouldHandleAuthInfo(completionHandler: @escaping (String?, String?, String?, String?) -> Void) {
-        let userId = UserDefaults.standard.object(forKey: "sendbird_user_id") as? String
-        completionHandler(userId, nil, nil, nil)
-    }
-    
-    func didFinishAuthentication(with user: SBDUser?, error: SBDError?) {
-        if error != nil {
-            DispatchQueue.main.async {
-                self.setUIsForDefault()
-            }
-            Utils.showAlertController(error: error!, viewController: self)
-            
-            return
-        }
-        
-        UserDefaults.standard.setValue(true, forKey: "sendbird_auto_login")
-        
-        DispatchQueue.main.async {
-            self.setUIsForDefault()
-            
-            self.performSegue(withIdentifier: "LoggedIn", sender: self)
-        }
-        
-        SBDMain.getDoNotDisturb { (isDoNotDisturbOn, startHour, startMin, endHour, endMin, timezone, error) in
-            UserDefaults.standard.set(startHour, forKey: "sendbird_dnd_start_hour")
-            UserDefaults.standard.set(startMin, forKey: "sendbird_dnd_start_min")
-            UserDefaults.standard.set(endHour, forKey: "sendbird_dnd_end_hour")
-            UserDefaults.standard.set(endMin, forKey: "sendbird_dnd_end_min")
-            UserDefaults.standard.set(isDoNotDisturbOn, forKey: "sendbird_dnd_on")
-            UserDefaults.standard.synchronize()
-        }
-        
-        if let deviceToken = SBDMain.getPendingPushToken() {
-            SBDMain.registerDevicePushToken(deviceToken, unique: true) { (status, error) in
-                if error == nil {
-                    if status == SBDPushTokenRegistrationStatus.pending {
-                        print("Push registration is pending.")
-                    }
-                    else {
-                        print("APNS Token is registered.")
-                    }
-                }
-                else {
-                    print("APNS registration failed with error: \(String(describing: error))")
-                }
-            }
-        }
-        
-        if let nickname = UserDefaults.standard.object(forKey: "sendbird_user_nickname") as? String, nickname != SBDMain.getCurrentUser()?.nickname {
-            SBDMain.updateCurrentUserInfo(withNickname: nickname, profileUrl: nil) { (error) in
-                if error != nil {
-                    SBDMain.disconnect(completionHandler: {
-                        Utils.showAlertController(error: error!, viewController: self)
-                    })
-                    
-                    return
-                }
-            }
-        }
-    }
-    
-    // MARK: NotificationDelegate
+    // MARK: - NotificationDelegate
     func openChat(_ channelUrl: String) {
         self.navigationController?.popViewController(animated: false)
         let tabBarVC = MainTabBarController.init(nibName: "MainTabBarController", bundle: nil)

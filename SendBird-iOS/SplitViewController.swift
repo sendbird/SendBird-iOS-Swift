@@ -14,6 +14,7 @@ class SplitViewController: UISplitViewController {
         super.viewDidLoad()
 
         self.preferredDisplayMode = .allVisible
+        self.modalPresentationStyle = .fullScreen
         // Do any additional setup after loading the view.
     }
     

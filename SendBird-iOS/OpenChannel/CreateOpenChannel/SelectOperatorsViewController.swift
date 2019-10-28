@@ -9,7 +9,9 @@
 import UIKit
 import SendBirdSDK
 
-class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, NotificationDelegate {
+class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, UICollectionViewDataSource, UICollectionViewDelegate, NotificationDelegate {
+    @IBOutlet weak var selectedUserListView: UICollectionView!
+    @IBOutlet weak var selectedUserListHeight: NSLayoutConstraint!
     @IBOutlet weak var tableView: UITableView!
     
     weak var delegate: SelectOperatorsDelegate?
@@ -36,6 +38,20 @@ class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITa
         
         self.tableView.register(SelectableUserTableViewCell.nib(), forCellReuseIdentifier: "SelectableUserTableViewCell")
         
+        self.selectedUserListView.contentInset = UIEdgeInsets.init(top: 0, left: 14, bottom: 0, right: 14)
+        self.selectedUserListView.delegate = self
+        self.selectedUserListView.dataSource = self
+        self.selectedUserListView.register(SelectedUserCollectionViewCell.nib(), forCellWithReuseIdentifier: SelectedUserCollectionViewCell.cellReuseIdentifier())
+        self.selectedUserListHeight.constant = 0
+        self.selectedUserListView.isHidden = true
+        
+        self.selectedUserListView.showsHorizontalScrollIndicator = false
+        self.selectedUserListView.showsVerticalScrollIndicator = false
+        
+        if let layout = self.selectedUserListView.collectionViewLayout as? UICollectionViewFlowLayout {
+            layout.scrollDirection = .horizontal
+        }
+        
         self.refreshControl = UIRefreshControl()
         self.refreshControl?.addTarget(self, action: #selector(SelectOperatorsViewController.refreshUserList), for: .valueChanged)
         
@@ -57,7 +73,7 @@ class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITa
             self.okButtonItem?.isEnabled = true
         }
         
-        self.okButtonItem?.title = String(format: "OK(%d)", Int(self.selectedUsers.count))
+        self.okButtonItem?.title = "OK(\(Int(self.selectedUsers.count)))"
         
         self.refreshUserList()
     }
@@ -126,17 +142,51 @@ class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITa
         
         self.navigationController?.popViewController(animated: true)
     }
+
     
-    /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
+    // MARK: UICollectionViewDataSource
+    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+        return self.selectedUsers.count
     }
-    */
-
+    
+    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+        let cell = (collectionView.dequeueReusableCell(withReuseIdentifier: SelectedUserCollectionViewCell.cellReuseIdentifier(), for: indexPath)) as! SelectedUserCollectionViewCell
+        
+        let selectedUserKeys = self.selectedUsers.keys
+        let key = Array(selectedUserKeys)[indexPath.row]
+        
+        cell.setModel(aUser: selectedUsers[key]!)
+        
+        return cell
+    }
+    
+    // MARK: UICollectionViewDelegate
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        let selectedUserKeys = self.selectedUsers.keys
+        let key = Array(selectedUserKeys)[indexPath.row]
+       
+        self.selectedUsers.removeValue(forKey: key)
+        self.okButtonItem?.title = "OK(\(Int(self.selectedUsers.count)))"
+        
+        if self.selectedUsers.count == 0 {
+            self.okButtonItem?.isEnabled = false
+        }
+        else {
+            self.okButtonItem?.isEnabled = true
+        }
+        
+        DispatchQueue.main.async {
+            if self.selectedUsers.count == 0 {
+                self.selectedUserListHeight.constant = 0
+                self.selectedUserListView.isHidden = true
+            }
+            collectionView.reloadData()
+            self.tableView.reloadData()
+        }
+    }
+    
+    
+    
     // MARK: - UITableViewDataSource
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = tableView.dequeueReusableCell(withIdentifier: "SelectableUserTableViewCell") as! SelectableUserTableViewCell
@@ -175,7 +225,7 @@ class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITa
             self.selectedUsers[self.users[indexPath.row].userId] = self.users[indexPath.row]
         }
         
-        self.okButtonItem?.title = String(format: "OK(%d)", Int(self.selectedUsers.count))
+        self.okButtonItem?.title = "OK(\(Int(self.selectedUsers.count)))"
         
         if self.selectedUsers.count == 0 {
             self.okButtonItem?.isEnabled = false
@@ -184,7 +234,19 @@ class SelectOperatorsViewController: UIViewController, UITableViewDelegate, UITa
             self.okButtonItem?.isEnabled = true
         }
         
-        tableView.reloadData()
+        DispatchQueue.main.async {
+            if self.selectedUsers.count > 0 {
+                self.selectedUserListHeight.constant = 70
+                self.selectedUserListView.isHidden = false
+            }
+            else {
+                self.selectedUserListHeight.constant = 0
+                self.selectedUserListView.isHidden = true
+            }
+            
+            self.tableView.reloadRows(at: [indexPath], with: UITableView.RowAnimation.none)
+            self.selectedUserListView.reloadData()
+        }
     }
     
     // MARK: - UITableViewDelegate

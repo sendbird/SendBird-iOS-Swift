@@ -96,20 +96,9 @@ class SettingsViewController: UITableViewController, SettingsTableViewCellDelega
                     })
                 }
                 
-                
-                SBDMain.disconnect(completionHandler: {
-                    self.dismiss(animated: true, completion: {
-                        UserDefaults.standard.setValue(false, forKey: "sendbird_auto_login")
-                        UserDefaults.standard.removeObject(forKey: "sendbird_dnd_start_hour")
-                        UserDefaults.standard.removeObject(forKey: "sendbird_dnd_start_min")
-                        UserDefaults.standard.removeObject(forKey: "sendbird_dnd_end_hour")
-                        UserDefaults.standard.removeObject(forKey: "sendbird_dnd_end_min")
-                        UserDefaults.standard.removeObject(forKey: "sendbird_dnd_on")
-                        UserDefaults.standard.synchronize()
-                        
-                        UIApplication.shared.applicationIconBadgeNumber = 0
-                    })
-                })
+                ConnectionManager.logout {
+                    self.dismiss(animated: true, completion: nil)
+                }
             }
             let actionCancel = UIAlertAction(title: "Cancel", style: .cancel, handler: nil)
             

@@ -1,10 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14490.70" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EhS-Sz-WvI">
-    <device id="ipad11_0rounded" orientation="portrait">
-        <adaptation id="fullscreen"/>
-    </device>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="EhS-Sz-WvI">
+    <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14490.49"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -195,7 +194,7 @@
                                 <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                             </activityIndicatorView>
                             <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="There are no group channels" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="x8e-Li-fJv" userLabel="Empty Label">
-                                <rect key="frame" x="316.5" y="590" width="201" height="18"/>
+                                <rect key="frame" x="316.5" y="578" width="201" height="18"/>
                                 <fontDescription key="fontDescription" type="system" weight="medium" pointSize="15"/>
                                 <color key="textColor" name="color_empty_list_label"/>
                                 <nil key="highlightedColor"/>
@@ -273,22 +272,42 @@
                         <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="N5j-M9-aNl">
+                                <rect key="frame" x="0.0" y="56" width="540" height="70"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="J97-tB-yn8"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="wmD-Nv-A1M">
+                                    <size key="itemSize" width="40" height="70"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="YkM-GI-1K1">
-                                <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
+                                <rect key="frame" x="0.0" y="126" width="540" height="494"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="YkM-GI-1K1" firstAttribute="top" secondItem="N5j-M9-aNl" secondAttribute="bottom" id="2bD-Hn-JFz"/>
                             <constraint firstItem="YkM-GI-1K1" firstAttribute="leading" secondItem="CZZ-Nk-GZ1" secondAttribute="leading" id="6Dd-iG-T3v"/>
+                            <constraint firstItem="N5j-M9-aNl" firstAttribute="leading" secondItem="ZJ6-9D-ZfO" secondAttribute="leading" id="8fM-fM-1Rw"/>
+                            <constraint firstItem="N5j-M9-aNl" firstAttribute="trailing" secondItem="ZJ6-9D-ZfO" secondAttribute="trailing" id="DyF-Bi-x7x"/>
+                            <constraint firstItem="YkM-GI-1K1" firstAttribute="top" secondItem="N5j-M9-aNl" secondAttribute="bottom" id="NcP-Or-N7D"/>
                             <constraint firstAttribute="trailing" secondItem="YkM-GI-1K1" secondAttribute="trailing" id="Z8k-dB-ZqJ"/>
                             <constraint firstAttribute="bottom" secondItem="YkM-GI-1K1" secondAttribute="bottom" id="hha-ii-2ze"/>
-                            <constraint firstItem="YkM-GI-1K1" firstAttribute="top" secondItem="CZZ-Nk-GZ1" secondAttribute="top" id="hzr-kM-zLG"/>
+                            <constraint firstItem="N5j-M9-aNl" firstAttribute="top" secondItem="ZJ6-9D-ZfO" secondAttribute="top" id="yY1-Id-vjz"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="ZJ6-9D-ZfO"/>
                     </view>
                     <navigationItem key="navigationItem" id="5zt-gQ-XVg"/>
                     <connections>
+                        <outlet property="selectedUserListHeight" destination="J97-tB-yn8" id="ba0-Tj-odE"/>
+                        <outlet property="selectedUserListView" destination="N5j-M9-aNl" id="eOd-Rd-goM"/>
                         <outlet property="tableView" destination="YkM-GI-1K1" id="WnU-dG-Xpr"/>
                         <segue destination="tAb-gt-fTY" kind="show" identifier="ConfigureGroupChannel" id="LXj-xR-o0W"/>
                     </connections>
@@ -306,7 +325,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="rMO-jW-QoD" userLabel="Channel Cover Container View">
-                                <rect key="frame" x="0.0" y="50" width="540" height="120"/>
+                                <rect key="frame" x="0.0" y="56" width="540" height="120"/>
                                 <subviews>
                                     <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="ruK-df-cYO" userLabel="Bottom Border View">
                                         <rect key="frame" x="0.0" y="119" width="540" height="1"/>
@@ -337,7 +356,6 @@
                                     </imageView>
                                     <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Channel Name" textAlignment="natural" minimumFontSize="17" clearButtonMode="always" translatesAutoresizingMaskIntoConstraints="NO" id="KkF-zt-Z0B" userLabel="Channel Name Text Field">
                                         <rect key="frame" x="133" y="49" width="391" height="22"/>
-                                        <nil key="textColor"/>
                                         <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                         <textInputTraits key="textInputTraits"/>
                                     </textField>
@@ -399,7 +417,7 @@
                                         <rect key="frame" x="0.0" y="55.5" width="834" height="139"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="8Gx-IQ-dRY" id="jq0-6n-4DY">
-                                            <rect key="frame" x="0.0" y="0.0" width="834" height="138.5"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="834" height="139"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N1o-o4-DhA" customClass="ProfileImageView" customModule="SendBird_iOS" customModuleProvider="target">
@@ -417,7 +435,6 @@
                                                 </view>
                                                 <textField opaque="NO" contentMode="scaleToFill" enabled="NO" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="Channel Name" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="z39-88-Mvd" userLabel="Channel Name Text Field">
                                                     <rect key="frame" x="132" y="58.5" width="638" height="22"/>
-                                                    <nil key="textColor"/>
                                                     <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="18"/>
                                                     <textInputTraits key="textInputTraits"/>
                                                 </textField>
@@ -451,7 +468,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelSettingsNotificationsTableViewCell" id="3iE-b0-fOz" customClass="GroupChannelSettingsNotificationsTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="194.5" width="834" height="44"/>
+                                        <rect key="frame" x="0.0" y="194.5" width="834" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="3iE-b0-fOz" id="ExI-Tt-16h">
                                             <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
@@ -503,7 +520,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelSettingsInviteMemberTableViewCell" id="hCz-xY-8Ou" customClass="GroupChannelSettingsInviteMemberTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="238.5" width="834" height="44"/>
+                                        <rect key="frame" x="0.0" y="238" width="834" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="hCz-xY-8Ou" id="Cs5-rT-v66">
                                             <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
@@ -544,7 +561,7 @@
                                         <viewLayoutGuide key="safeArea" id="V39-Qs-5aR"/>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelSettingsMemberTableViewCell" id="QcM-9p-84f" customClass="GroupChannelSettingsMemberTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="282.5" width="834" height="44"/>
+                                        <rect key="frame" x="0.0" y="281.5" width="834" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QcM-9p-84f" id="i1s-eD-u4C">
                                             <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
@@ -638,7 +655,7 @@
                                         </connections>
                                     </tableViewCell>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="GroupChannelSettingsLeaveChatTableViewCell" id="p2Q-Ab-WjV" customClass="GroupChannelSettingsLeaveChatTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
-                                        <rect key="frame" x="0.0" y="326.5" width="834" height="44"/>
+                                        <rect key="frame" x="0.0" y="325" width="834" height="43.5"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="p2Q-Ab-WjV" id="O31-ib-vWw">
                                             <rect key="frame" x="0.0" y="0.0" width="834" height="43.5"/>
@@ -719,8 +736,22 @@
                         <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
+                            <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="5aH-4L-jnK">
+                                <rect key="frame" x="0.0" y="50" width="834" height="70"/>
+                                <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="70" id="6ZO-Sb-zpO"/>
+                                </constraints>
+                                <collectionViewFlowLayout key="collectionViewLayout" minimumLineSpacing="10" minimumInteritemSpacing="10" id="y9V-Cl-rTN">
+                                    <size key="itemSize" width="40" height="70"/>
+                                    <size key="headerReferenceSize" width="0.0" height="0.0"/>
+                                    <size key="footerReferenceSize" width="0.0" height="0.0"/>
+                                    <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
+                                </collectionViewFlowLayout>
+                                <cells/>
+                            </collectionView>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="WWa-Ua-705">
-                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                                <rect key="frame" x="0.0" y="120" width="834" height="1074"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="s9c-PZ-Xm6" customClass="CustomActivityIndicatorView" customModule="SendBird_iOS" customModuleProvider="target">
@@ -729,11 +760,15 @@
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
+                            <constraint firstItem="5aH-4L-jnK" firstAttribute="top" secondItem="zmx-p1-mte" secondAttribute="top" id="48F-3b-Laf"/>
+                            <constraint firstItem="WWa-Ua-705" firstAttribute="top" secondItem="5aH-4L-jnK" secondAttribute="bottom" id="5wE-5Y-6qX"/>
                             <constraint firstItem="s9c-PZ-Xm6" firstAttribute="leading" secondItem="hLs-Cx-SLb" secondAttribute="leading" id="H82-n9-H5G"/>
+                            <constraint firstItem="5aH-4L-jnK" firstAttribute="trailing" secondItem="zmx-p1-mte" secondAttribute="trailing" id="Ij3-CR-W5T"/>
+                            <constraint firstItem="5aH-4L-jnK" firstAttribute="leading" secondItem="zmx-p1-mte" secondAttribute="leading" id="Ohe-0z-4qa"/>
                             <constraint firstAttribute="trailing" secondItem="WWa-Ua-705" secondAttribute="trailing" id="Org-KZ-Vgi"/>
+                            <constraint firstItem="WWa-Ua-705" firstAttribute="top" secondItem="5aH-4L-jnK" secondAttribute="bottom" id="Tkh-Tn-b6m"/>
                             <constraint firstItem="WWa-Ua-705" firstAttribute="leading" secondItem="hLs-Cx-SLb" secondAttribute="leading" id="e5n-MN-zBc"/>
                             <constraint firstAttribute="bottom" secondItem="WWa-Ua-705" secondAttribute="bottom" id="gUg-7v-dVg"/>
-                            <constraint firstItem="WWa-Ua-705" firstAttribute="top" secondItem="hLs-Cx-SLb" secondAttribute="top" id="jPg-Ze-bqH"/>
                             <constraint firstAttribute="trailing" secondItem="s9c-PZ-Xm6" secondAttribute="trailing" id="mdS-jj-OqC"/>
                             <constraint firstAttribute="bottom" secondItem="s9c-PZ-Xm6" secondAttribute="bottom" id="t7r-Bf-Rq1"/>
                             <constraint firstItem="s9c-PZ-Xm6" firstAttribute="top" secondItem="hLs-Cx-SLb" secondAttribute="top" id="yvJ-K4-hui"/>
@@ -741,13 +776,15 @@
                         <viewLayoutGuide key="safeArea" id="zmx-p1-mte"/>
                     </view>
                     <connections>
+                        <outlet property="selectedUserListHeight" destination="6ZO-Sb-zpO" id="fNs-xN-OnF"/>
+                        <outlet property="selectedUserListView" destination="5aH-4L-jnK" id="rfW-k6-u1o"/>
                         <outlet property="tableView" destination="WWa-Ua-705" id="mjf-8F-bp0"/>
                         <outlet property="updatingIndicatorView" destination="s9c-PZ-Xm6" id="qEF-Pi-q5h"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="hdJ-JE-ldd" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="-3729" y="4555"/>
+            <point key="canvasLocation" x="-3729.4964028776981" y="4554.7738693467336"/>
         </scene>
         <!--User Profile View Controller-->
         <scene sceneID="0NW-gW-V8x">
@@ -758,7 +795,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3AJ-Lz-z0z">
-                                <rect key="frame" x="0.0" y="74" width="834" height="121"/>
+                                <rect key="frame" x="0.0" y="50" width="834" height="121"/>
                                 <subviews>
                                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_default_profile_image_4" translatesAutoresizingMaskIntoConstraints="NO" id="Y0j-cL-ZOc" userLabel="Profile Image View">
                                         <rect key="frame" x="15" y="10.5" width="100" height="100"/>
@@ -845,7 +882,7 @@
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="0du-kn-47v" userLabel="Container View">
-                                <rect key="frame" x="0.0" y="74" width="834" height="120"/>
+                                <rect key="frame" x="0.0" y="50" width="834" height="120"/>
                                 <subviews>
                                     <view clipsSubviews="YES" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="hgc-FM-u7u" customClass="ProfileImageView" customModule="SendBird_iOS" customModuleProvider="target">
                                         <rect key="frame" x="15" y="10" width="100" height="100"/>
@@ -1007,7 +1044,6 @@
                                                         <constraints>
                                                             <constraint firstAttribute="height" constant="40" id="LCn-55-tVz"/>
                                                         </constraints>
-                                                        <nil key="textColor"/>
                                                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                                         <textInputTraits key="textInputTraits"/>
                                                         <userDefinedRuntimeAttributes>
@@ -1152,7 +1188,7 @@
                 <navigationController automaticallyAdjustsScrollViewInsets="NO" id="efp-2W-Ywn" customClass="CreateGroupChannelNavigationController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="Sbo-AA-peK">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="540" height="56"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
@@ -1167,10 +1203,10 @@
         <!--Navigation Controller-->
         <scene sceneID="tGZ-Sa-mO9">
             <objects>
-                <navigationController automaticallyAdjustsScrollViewInsets="NO" id="oiI-8W-aFC" sceneMemberID="viewController">
+                <navigationController automaticallyAdjustsScrollViewInsets="NO" modalPresentationStyle="fullScreen" id="oiI-8W-aFC" sceneMemberID="viewController">
                     <toolbarItems/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" insetsLayoutMarginsFromSafeArea="NO" id="MRH-Gs-gcK">
-                        <rect key="frame" x="0.0" y="24" width="834" height="50"/>
+                        <rect key="frame" x="0.0" y="0.0" width="834" height="50"/>
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
                     <nil name="viewControllers"/>
