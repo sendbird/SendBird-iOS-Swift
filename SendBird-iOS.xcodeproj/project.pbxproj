@@ -21,6 +21,10 @@
 		52E3D35B22E6D8E00099D67D /* GroupChannelIncomingMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D35A22E6D8E00099D67D /* GroupChannelIncomingMessageTableViewCell.swift */; };
 		52E3D35F22E6FCBD0099D67D /* GroupChannelOutgoingMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D35E22E6FCBC0099D67D /* GroupChannelOutgoingMessageTableViewCell.swift */; };
 		875BF66943D4A22B9064F1B1 /* Pods_SendBird_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2F8289F5E5EFDE1D2C9038 /* Pods_SendBird_iOS.framework */; };
+		A92B79E6230F964A008C522A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92B79E5230F964A008C522A /* SceneDelegate.swift */; };
+		A94CC22823669E7500608E27 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94CC22723669E7500608E27 /* ConnectionManager.swift */; };
+		A9EB20102314ED7300FC3FC8 /* SelectedUserCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9EB200F2314ED7300FC3FC8 /* SelectedUserCollectionViewCell.xib */; };
+		A9EB20122314EDF000FC3FC8 /* SelectedUserCollectioViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9EB20112314EDF000FC3FC8 /* SelectedUserCollectioViewCell.swift */; };
 		A9FBF70E22FCFB10000E146B /* SplitViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9FBF70D22FCFB10000E146B /* SplitViewController.swift */; };
 		E21C53E52195DB7900782B60 /* GroupChannelSettingsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21C53E32195DB7900782B60 /* GroupChannelSettingsViewController.swift */; };
 		E21CDFC52165619000839683 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = E21CDFC42165619000839683 /* AppDelegate.swift */; };
@@ -144,6 +148,10 @@
 		52E3D35822E6D8820099D67D /* ImageUtil.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageUtil.swift; sourceTree = "<group>"; };
 		52E3D35A22E6D8E00099D67D /* GroupChannelIncomingMessageTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelIncomingMessageTableViewCell.swift; sourceTree = "<group>"; };
 		52E3D35E22E6FCBC0099D67D /* GroupChannelOutgoingMessageTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = GroupChannelOutgoingMessageTableViewCell.swift; sourceTree = "<group>"; };
+		A92B79E5230F964A008C522A /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		A94CC22723669E7500608E27 /* ConnectionManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ConnectionManager.swift; sourceTree = "<group>"; };
+		A9EB200F2314ED7300FC3FC8 /* SelectedUserCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedUserCollectionViewCell.xib; sourceTree = "<group>"; };
+		A9EB20112314EDF000FC3FC8 /* SelectedUserCollectioViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedUserCollectioViewCell.swift; sourceTree = "<group>"; };
 		A9FBF70D22FCFB10000E146B /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
 		E21C53E32195DB7900782B60 /* GroupChannelSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelSettingsViewController.swift; sourceTree = "<group>"; };
 		E21CDFC12165619000839683 /* SendBird-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SendBird-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -271,6 +279,8 @@
 			children = (
 				52A7297C22E689B6004BD1CB /* SelectableUserTableViewCell.xib */,
 				5215271B22E01AF000F2F011 /* SelectableUserTableViewCell.swift */,
+				A9EB200F2314ED7300FC3FC8 /* SelectedUserCollectionViewCell.xib */,
+				A9EB20112314EDF000FC3FC8 /* SelectedUserCollectioViewCell.swift */,
 			);
 			path = ViewCells;
 			sourceTree = "<group>";
@@ -325,6 +335,7 @@
 				E21CDFD9216575EF00839683 /* Login */,
 				E21CDFD6216574F300839683 /* Images */,
 				E21CDFC42165619000839683 /* AppDelegate.swift */,
+				A92B79E5230F964A008C522A /* SceneDelegate.swift */,
 				E21CDFC62165619000839683 /* ViewController.swift */,
 				E21CDFC82165619000839683 /* Main.storyboard */,
 				A9FBF70D22FCFB10000E146B /* SplitViewController.swift */,
@@ -350,6 +361,7 @@
 		E21CDFD9216575EF00839683 /* Login */ = {
 			isa = PBXGroup;
 			children = (
+				A94CC22723669E7500608E27 /* ConnectionManager.swift */,
 				E21CDFDA2165761300839683 /* LoginViewController.swift */,
 			);
 			path = Login;
@@ -755,6 +767,7 @@
 				E27E3F92217910F50082C91C /* OpenChannelUserMessageTableViewCell.xib in Resources */,
 				E27E3F9A217911240082C91C /* OpenChannelGeneralFileMessageTableViewCell.xib in Resources */,
 				520FF86A22E6869F00A9D7F4 /* OpenChannel.storyboard in Resources */,
+				A9EB20102314ED7300FC3FC8 /* SelectedUserCollectionViewCell.xib in Resources */,
 				E2D0C15221935A580080A5F3 /* GroupChannelIncomingAudioFileMessageTableViewCell.xib in Resources */,
 				E21CDFCA2165619000839683 /* Main.storyboard in Resources */,
 				E2D0C14621924A5D0080A5F3 /* GroupChannelOutgoingGeneralFileMessageTableViewCell.xib in Resources */,
@@ -814,12 +827,15 @@
 			files = (
 				E2D0C0D2218B82B80080A5F3 /* OpenChannelCoverImageNameSettingViewController.swift in Sources */,
 				E2D0C14521924A5D0080A5F3 /* GroupChannelOutgoingGeneralFileMessageTableViewCell.swift in Sources */,
+				A92B79E6230F964A008C522A /* SceneDelegate.swift in Sources */,
 				E27E3EEC217159E30082C91C /* CustomActivityIndicatorView.swift in Sources */,
 				E27E3FB4217E83D10082C91C /* DownloadManager.swift in Sources */,
+				A94CC22823669E7500608E27 /* ConnectionManager.swift in Sources */,
 				E298FFE5219F1FCC009F83D0 /* GroupChannelSettingsChannelCoverNameTableViewCell.swift in Sources */,
 				E27E3FAC217A7A190082C91C /* FLAnimatedImageView+ImageLoader.swift in Sources */,
 				E27E3FAA21793E7E0082C91C /* CustomProgressCircle.swift in Sources */,
 				E27E3F952179110E0082C91C /* OpenChannelImageVideoFileMessageTableViewCell.swift in Sources */,
+				A9EB20122314EDF000FC3FC8 /* SelectedUserCollectioViewCell.swift in Sources */,
 				E2D0C0E4218B83370080A5F3 /* OpenChannelSettingsUserTableViewCell.swift in Sources */,
 				E27E3F3A217692BA0082C91C /* CreateOpenChannelUserTableViewCell.swift in Sources */,
 				E27E3FA721793D480082C91C /* OpenChannelChatViewController.swift in Sources */,
@@ -1060,7 +1076,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mininny.sendbird.sample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sendbird.sample.syncmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				"SWIFT_ACTIVE_COMPILATION_CONDITIONS[arch=*]" = SIMULATOR;
@@ -1083,7 +1099,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = com.mininny.sendbird.sample;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sendbird.sample.syncmanager;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_VERSION = 4.2;
