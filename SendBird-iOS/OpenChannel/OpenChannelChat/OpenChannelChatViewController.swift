@@ -169,10 +169,6 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
             super.viewWillDisappear(animated)
         }
     }
-
-    deinit {
-        SBDConnectionManager.removeNetworkDelegate(forIdentifier: self.description)
-    }
     
     func showToast(_ message: String) {
         self.toastView.alpha = 1

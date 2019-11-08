@@ -15,15 +15,13 @@ import Alamofire
 import AlamofireImage
 
 @UIApplicationMain
-class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, SBDAuthenticateDelegate, SBDChannelDelegate {
+class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterDelegate, SBDChannelDelegate {
 
     var window: UIWindow?
     var receivedPushChannelUrl: String?
     var pushReceivedGroupChannel: String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        SBDOptions.setConnectionTimeout(5)
-        SBDOptions.setAuthenticationTimeout(10)
         
         SBDMain.initWithApplicationId("9880C4C1-E6C8-46E8-A8F1-D5890D598C08")
         SBDMain.add(self as SBDChannelDelegate, identifier: self.description)
@@ -42,11 +40,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         }
         self.window = UIWindow(frame: UIScreen.main.bounds)
         if let window = self.window {
-            let launchScreenStoryboard = UIStoryboard.init(name: "LaunchScreen", bundle: nil)
-            let launchViewController = launchScreenStoryboard.instantiateViewController(withIdentifier: "LaunchScreenViewController")
-            window.rootViewController = launchViewController
-            window.makeKeyAndVisible()
-
             let mainStoryboard = UIStoryboard.init(name: "Main", bundle: nil)
             let viewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController")
             window.rootViewController = viewController
@@ -305,10 +298,37 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         guard let channelDict = sendbirdDict["channel"] as? [String:Any] else { return }
         guard let channelUrl = channelDict["channel_url"] as? String else { return }
         self.pushReceivedGroupChannel = channelUrl
-
-        SBDConnectionManager.setAuthenticateDelegate(self)
-        SBDConnectionManager.authenticate()
-
+        
+        ConnectionManager.login { user, error in
+            if error == nil {
+                if self.pushReceivedGroupChannel != nil {
+                    if let vc = UIViewController.currentViewController() {
+                        vc.dismiss(animated: false) {
+                            self.jumpToGroupChannel(self.pushReceivedGroupChannel)
+                        }
+                    }
+                    else {
+                        let viewController = UIStoryboard(name: "main", bundle: nil).instantiateViewController(withIdentifier: "MainTabBarViewController")
+                        self.window = UIWindow(frame: UIScreen.main.bounds)
+                        if let window = self.window {
+                            window.rootViewController = viewController
+                            window.makeKeyAndVisible()
+                        }
+                        self.jumpToGroupChannel(self.pushReceivedGroupChannel)
+                    }
+                    
+                    self.pushReceivedGroupChannel = nil
+                } else {
+                    let viewController = UIStoryboard(name: "main", bundle: nil).instantiateInitialViewController()
+                    
+                    self.window = UIWindow(frame: UIScreen.main.bounds)
+                    if let window = self.window {
+                        window.rootViewController = viewController
+                        window.makeKeyAndVisible()
+                    }
+                }
+            }
+        }
         completionHandler()
     }
     
@@ -320,60 +340,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     func jumpToGroupChannel(_ channelUrl: String?) -> Void {
         if let vc = UIViewController.currentViewController() as? NotificationDelegate, let url = channelUrl{
             vc.openChat(url)
-        }
-    }
-
-    // MARK: SBDAuthenticateDelegate
-    func shouldHandleAuthInfo(completionHandler: @escaping (String?, String?, String?, String?) -> Void) {
-        let userId = UserDefaults.standard.value(forKey: "sendbird_user_id") as? String
-        completionHandler(userId, nil, nil, nil)
-    }
-    
-    func didFinishAuthentication(with user: SBDUser?, error: SBDError?) {
-        if error == nil {
-            UserDefaults.standard.setValue(true, forKey: "sendbird_auto_login")
-            UserDefaults.standard.synchronize()
-            
-            if let pushToken = SBDMain.getPendingPushToken() {
-                SBDMain.registerDevicePushToken(pushToken, unique: true) { (status, error) in
-                    if error != nil {
-                        print("APNS registration failed with error: \(String(describing: error))")
-                        return
-                    }
-                    
-                    if status == SBDPushTokenRegistrationStatus.pending {
-                        print("Push registration is pending.")
-                    }
-                    else {
-                        print("APNS Token is registered.")
-                    }
-                }
-                
-                if self.pushReceivedGroupChannel != nil {
-                    guard let vc = UIViewController.currentViewController() else {
-                        self.pushReceivedGroupChannel = nil
-                        return
-                    }
-                    
-                    if vc is UIAlertController {
-                        vc.dismiss(animated: false) {
-                            self.jumpToGroupChannel(self.pushReceivedGroupChannel)
-                        }
-                    }
-                    else {
-                        self.jumpToGroupChannel(self.pushReceivedGroupChannel)
-                    }
-                    
-                    self.pushReceivedGroupChannel = nil
-                }
-                else {
-                    if let currentViewController = UIViewController.currentViewController() {
-                        let mainTabBarController = MainTabBarController.init(nibName: "MainTabBarController", bundle: nil)
-                        currentViewController.present(mainTabBarController, animated: false, completion: nil)
-                    }
-                }
-            }
-            
         }
     }
     

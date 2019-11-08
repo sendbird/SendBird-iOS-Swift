@@ -90,9 +90,6 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
         SBDMain.add(self as SBDChannelDelegate, identifier: self.description)
         SBDMain.add(self as SBDConnectionDelegate, identifier: self.description)
         
-        // TODO: Fix bug in SDK.
-        SBDConnectionManager.add(self, identifier: self.description)
-        
         self.title = Utils.createGroupChannelName(channel: self.channel!)
         
         let image = FLAnimatedImage.init(animatedGIFData: NSData(contentsOfFile: Bundle.main.path(forResource: "loading_typing", ofType: "gif")!) as Data?)
@@ -139,10 +136,6 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
         self.loadingIndicatorView.isHidden = true
         
         self.loadPreviousMessages(initial: true)
-    }
-    
-    deinit {
-        SBDConnectionManager.removeNetworkDelegate(forIdentifier: self.description)
     }
     
     override func viewWillDisappear(_ animated: Bool) {

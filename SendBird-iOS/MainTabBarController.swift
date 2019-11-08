@@ -18,7 +18,6 @@ class MainTabBarController: UITabBarController, SBDConnectionDelegate, SBDNetwor
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        SBDConnectionManager.add(self as SBDNetworkDelegate, identifier: self.description)
         self.tabBar.tintColor = UIColor(named: "color_bar_item")
     }
 
