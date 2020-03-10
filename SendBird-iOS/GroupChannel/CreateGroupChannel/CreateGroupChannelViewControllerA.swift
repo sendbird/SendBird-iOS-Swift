@@ -66,7 +66,7 @@ class CreateGroupChannelViewControllerA: UIViewController, UITableViewDelegate, 
             self.okButtonItem?.isEnabled = true
         }
         
-        self.okButtonItem?.title = "OK(\(Int(self.selectedUsers.count))"
+        self.okButtonItem?.title = "OK(\(Int(self.selectedUsers.count)))"
         
         self.refreshUserList()
     }

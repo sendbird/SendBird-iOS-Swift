@@ -179,6 +179,7 @@ class OpenChannelsViewController: UIViewController, UITableViewDelegate, UITable
             }
             
             self.performSegue(withIdentifier: "ShowOpenChat", sender: selectedChannel)
+            tableView.deselectRow(at: indexPath, animated: true)
         }
     }
     
