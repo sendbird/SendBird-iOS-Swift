@@ -67,7 +67,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
         super.viewDidLoad()
 
         // Do any additional setup after loading the view.
-        SBDMain.add(self as SBDChannelDelegate, identifier: self.description)
+        SBDMain.add(self, identifier: self.description)
         
         if let channel = self.channel {
             self.title = channel.name
@@ -519,13 +519,6 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
     
     @objc func clickOpenChannelSettingsButton(_ sender: AnyObject) {
         performSegue(withIdentifier: "ShowOpenChannelSettings", sender: self)
-        
-//        if let navigationController = self.navigationController {
-//            let vc = OpenChannelSettingsViewController.init(nibName: "OpenChannelSettingsViewController", bundle: nil)
-//            vc.delegate = self
-//            vc.channel = self.channel
-//            navigationController.pushViewController(vc, animated: true)
-//        }
     }
     
     @objc func clickBackButton(_ sender: AnyObject) {
@@ -585,13 +578,12 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                 cell = userMessageCell
             }
         }
-        else if self.messages[indexPath.row] is SBDFileMessage {
-            let fileMessage = self.messages[indexPath.row] as! SBDFileMessage
+        else if let fileMessage = self.messages[indexPath.row] as? SBDFileMessage {
             guard let sender = fileMessage.sender else { return cell }
             guard let fileMessageRequestId = fileMessage.requestId else { return cell }
             guard let currentUser = SBDMain.getCurrentUser() else { return cell }
-
-            if sender.userId == currentUser.userId && self.preSendMessages[fileMessageRequestId] != nil {
+            
+            if sender.userId == currentUser.userId, self.preSendMessages[fileMessageRequestId] != nil {
                 guard let fileDataDict = self.preSendFileData[fileMessageRequestId] else { return cell }
                 // Outgoing & Pre send file message
                 if (fileDataDict["type"] as! String).hasPrefix("image") {
@@ -613,9 +605,6 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                             guard let imageData = fileDataDict["data"] as? Data else { return }
                             
                             updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
-                            
-                           updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
-                            
                             updateImageFileMessageCell.fileImageView.animatedImage = FLAnimatedImage(animatedGIFData: imageData)
                         }
                     }
@@ -626,7 +615,6 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                             guard let imageData = fileDataDict["data"] as? Data else { return }
                             
                             updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
-                            
                             updateImageFileMessageCell.fileImageView.image = UIImage(data: imageData)
                         }
                     }
@@ -752,21 +740,29 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                             guard let updateCell = tableView.cellForRow(at: indexPath) else { return }
                             guard let updateImageFileMessageCell = updateCell as? OpenChannelImageVideoFileMessageTableViewCell else { return }
                             
-                            if let thumbnails = fileMessage.thumbnails {
-                                if thumbnails.count > 0 {
-                                    if let url = URL(string: thumbnails[0].url) {
-                                        updateImageFileMessageCell.fileImageView.af_setImage(withURL: url, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: UIImageView.ImageTransition.noTransition, runImageTransitionIfCached: false, completion: { (response) in
-                                            updateImageFileMessageCell.hideAllPlaceholders()
-                                            updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
-                                            if response.error != nil {
-                                                updateImageFileMessageCell.imageMessagePlaceholderImageView.isHidden = false
-                                                updateImageFileMessageCell.setImage(nil)
-                                                updateImageFileMessageCell.setAnimated(image: nil, hash: 0)
-                                                self.loadedImageHash.removeValue(forKey: String(format: "%lld", fileMessage.messageId))
-                                                
-                                                return
-                                            }
-                                        })
+                            if let thumbnails = fileMessage.thumbnails,thumbnails.count > 0 {
+                                if let url = URL(string: thumbnails[0].url) {
+                                    updateImageFileMessageCell.fileImageView.af_setImage(withURL: url, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: UIImageView.ImageTransition.noTransition, runImageTransitionIfCached: false, completion: { (response) in
+                                        updateImageFileMessageCell.hideAllPlaceholders()
+                                        updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
+                                        if response.error != nil {
+                                            updateImageFileMessageCell.imageMessagePlaceholderImageView.isHidden = false
+                                            updateImageFileMessageCell.setImage(nil)
+                                            updateImageFileMessageCell.setAnimated(image: nil, hash: 0)
+                                            self.loadedImageHash.removeValue(forKey: String(format: "%lld", fileMessage.messageId))
+                                        }
+                                    })
+                                }
+                            } else if let url = URL(string: fileMessage.url) {
+                                updateImageFileMessageCell.fileImageView.af_setImage(withURL: url, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: UIImageView.ImageTransition.noTransition, runImageTransitionIfCached: false) { (response) in
+                                    if response.error != nil {
+                                        updateImageFileMessageCell.imageMessagePlaceholderImageView.isHidden = false
+                                        updateImageFileMessageCell.setImage(nil)
+                                        updateImageFileMessageCell.setAnimated(image: nil, hash: 0)
+                                        self.loadedImageHash.removeValue(forKey: String(format: "%lld", fileMessage.messageId))
+                                    } else {
+                                        updateImageFileMessageCell.hideAllPlaceholders()
+                                        updateImageFileMessageCell.profileImageView.setProfileImageView(for: sender)
                                     }
                                 }
                             }
@@ -807,32 +803,28 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                         guard let updateCell = tableView.cellForRow(at: indexPath) else { return }
                         guard let updateVideoFileMessageCell = updateCell as? OpenChannelImageVideoFileMessageTableViewCell else { return }
 
-                        if let thumbnails = fileMessage.thumbnails {
-                            if thumbnails.count > 0 {
-                                if let url = URL(string: thumbnails[0].url) {
-                                    updateVideoFileMessageCell.fileImageView.af_setImage(withURL: url, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: UIImageView.ImageTransition.noTransition, runImageTransitionIfCached: false, completion: { (response) in
-                                        updateVideoFileMessageCell.hideAllPlaceholders()
-                                        updateVideoFileMessageCell.videoPlayIconImageView.isHidden = false
-                                        
-                                        updateVideoFileMessageCell.profileImageView.setProfileImageView(for: sender)
-                                        
-                                        if response.error != nil {
-                                            updateVideoFileMessageCell.imageMessagePlaceholderImageView.isHidden = false
-                                            updateVideoFileMessageCell.setImage(nil)
-                                            updateVideoFileMessageCell.setAnimated(image: nil, hash: 0)
-                                            self.loadedImageHash.removeValue(forKey: String(format: "%lld", fileMessage.messageId))
-                                            
-                                            return
-                                        }
-                                    })
-                                }
+                        if let thumbnails = fileMessage.thumbnails, thumbnails.count > 0 {
+                            if let url = URL(string: thumbnails[0].url) {
+                                updateVideoFileMessageCell.fileImageView.af_setImage(withURL: url, placeholderImage: nil, filter: nil, progress: nil, progressQueue: DispatchQueue.main, imageTransition: UIImageView.ImageTransition.noTransition, runImageTransitionIfCached: false, completion: { (response) in
+                                    updateVideoFileMessageCell.hideAllPlaceholders()
+                                    updateVideoFileMessageCell.videoPlayIconImageView.isHidden = false
+                                    
+                                    updateVideoFileMessageCell.profileImageView.setProfileImageView(for: sender)
+                                    
+                                    if response.error != nil {
+                                        updateVideoFileMessageCell.imageMessagePlaceholderImageView.isHidden = false
+                                        updateVideoFileMessageCell.setImage(nil)
+                                        updateVideoFileMessageCell.setAnimated(image: nil, hash: 0)
+                                        self.loadedImageHash.removeValue(forKey: String(format: "%lld", fileMessage.messageId))
+                                    }
+                                })
                             }
                             else {
                                 updateVideoFileMessageCell.hideAllPlaceholders()
                                 updateVideoFileMessageCell.videoMessagePlaceholderImageView.isHidden = false
                                 updateVideoFileMessageCell.setAnimated(image: nil, hash: 0)
                                 updateVideoFileMessageCell.setImage(nil)
-                               updateVideoFileMessageCell.profileImageView.setProfileImageView(for: sender)
+                                updateVideoFileMessageCell.profileImageView.setProfileImageView(for: sender)
                             }
                         }
                     }
@@ -1287,7 +1279,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                         
                         DispatchQueue.main.async {
                             let photosViewController = CustomPhotosViewController(photos: [photo])
-                            
+
                             self.loadingIndicatorView.isHidden = true
                             self.loadingIndicatorView.stopAnimating()
                             

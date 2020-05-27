@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="14868" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YxL-Kp-KCL">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="15705" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="YxL-Kp-KCL">
     <device id="ipad11_0rounded" orientation="portrait" layout="fullscreen" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="14824"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="15706"/>
         <capability name="Named colors" minToolsVersion="9.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -24,14 +24,14 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="bzG-Qy-SeE" userLabel="Open Channels Table View">
-                                <rect key="frame" x="0.0" y="0.0" width="834" height="1194"/>
+                                <rect key="frame" x="0.0" y="0.0" width="834" height="1174"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell contentMode="scaleToFill" selectionStyle="gray" accessoryType="disclosureIndicator" indentationWidth="10" reuseIdentifier="OpenChannelTableViewCell" rowHeight="84" id="QTf-wu-F7B" customClass="OpenChannelTableViewCell" customModule="SendBird_iOS" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="834" height="84"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="QTf-wu-F7B" id="pOh-GI-oXV">
-                                            <rect key="frame" x="0.0" y="0.0" width="807.5" height="84"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="808" height="84"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="img_icon_operator" translatesAutoresizingMaskIntoConstraints="NO" id="FNE-eg-xrV" userLabel="Opearator Mark Image View">
@@ -48,7 +48,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="0 Participant" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hDw-vV-aDE" userLabel="Participant Count Label">
-                                                    <rect key="frame" x="72" y="42" width="714.5" height="18"/>
+                                                    <rect key="frame" x="72" y="42" width="715" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="color_open_channel_participants_count_label"/>
                                                     <nil key="highlightedColor"/>
@@ -107,16 +107,16 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <constraints>
-                            <constraint firstItem="bzG-Qy-SeE" firstAttribute="top" secondItem="efT-c8-IJ1" secondAttribute="top" id="1qG-8F-rek"/>
+                            <constraint firstItem="bzG-Qy-SeE" firstAttribute="top" secondItem="8mE-4e-ITR" secondAttribute="top" id="0zQ-vG-AcQ"/>
                             <constraint firstItem="A52-uj-hxU" firstAttribute="centerY" secondItem="8mE-4e-ITR" secondAttribute="centerY" id="5tv-Vy-dyC"/>
                             <constraint firstItem="VFC-ri-NII" firstAttribute="top" secondItem="efT-c8-IJ1" secondAttribute="top" id="IYk-0E-lVf"/>
                             <constraint firstAttribute="bottom" secondItem="VFC-ri-NII" secondAttribute="bottom" id="K4k-fx-2kH"/>
-                            <constraint firstAttribute="trailing" secondItem="bzG-Qy-SeE" secondAttribute="trailing" id="O2x-az-Icx"/>
+                            <constraint firstAttribute="bottom" secondItem="bzG-Qy-SeE" secondAttribute="bottom" constant="20" symbolic="YES" id="Y0d-aq-AaY"/>
                             <constraint firstItem="VFC-ri-NII" firstAttribute="leading" secondItem="efT-c8-IJ1" secondAttribute="leading" id="gNN-rz-LDx"/>
-                            <constraint firstAttribute="bottom" secondItem="bzG-Qy-SeE" secondAttribute="bottom" id="ouz-7J-RWJ"/>
                             <constraint firstAttribute="trailing" secondItem="VFC-ri-NII" secondAttribute="trailing" id="rMr-Uj-Ws1"/>
                             <constraint firstItem="bzG-Qy-SeE" firstAttribute="leading" secondItem="8mE-4e-ITR" secondAttribute="leading" id="uHL-rz-9hI"/>
                             <constraint firstItem="A52-uj-hxU" firstAttribute="centerX" secondItem="8mE-4e-ITR" secondAttribute="centerX" id="wzB-5p-yfp"/>
+                            <constraint firstItem="bzG-Qy-SeE" firstAttribute="trailing" secondItem="8mE-4e-ITR" secondAttribute="trailing" id="xa9-M2-UKY"/>
                         </constraints>
                         <viewLayoutGuide key="safeArea" id="8mE-4e-ITR"/>
                     </view>
@@ -337,13 +337,13 @@
                                 <rect key="frame" x="0.0" y="176.5" width="540" height="443.5"/>
                                 <subviews>
                                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" usesAttributedText="YES" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="sIR-hV-aNg" userLabel="Description A Label">
-                                        <rect key="frame" x="16" y="28" width="540" height="50.5"/>
+                                        <rect key="frame" x="16" y="28" width="508" height="50.5"/>
                                         <attributedString key="attributedText">
                                             <fragment>
                                                 <string key="content">Open Channel is a public chat. In this channel type, anyone can enter and participate in the chat without permission. A single channel can handle thousands of simultaneous users like Twitch-style public chat.</string>
                                                 <attributes>
                                                     <color key="NSColor" red="0.52941176470588236" green="0.55294117647058827" blue="0.59999999999999998" alpha="1" colorSpace="calibratedRGB"/>
-                                                    <font key="NSFont" metaFont="system" size="14"/>
+                                                    <font key="NSFont" metaFont="menu" size="14"/>
                                                 </attributes>
                                             </fragment>
                                         </attributedString>
@@ -352,6 +352,7 @@
                                 </subviews>
                                 <color key="backgroundColor" red="0.93725490199999995" green="0.93725490199999995" blue="0.95686274510000002" alpha="1" colorSpace="calibratedRGB"/>
                                 <constraints>
+                                    <constraint firstAttribute="trailing" secondItem="sIR-hV-aNg" secondAttribute="trailing" constant="16" id="TQ9-bj-XDc"/>
                                     <constraint firstItem="sIR-hV-aNg" firstAttribute="top" secondItem="Run-Sr-ppP" secondAttribute="top" constant="28" id="Xbw-Mn-axW"/>
                                 </constraints>
                             </view>
@@ -389,7 +390,6 @@
                         <constraints>
                             <constraint firstItem="bmp-rS-zB9" firstAttribute="leading" secondItem="ljo-IV-3m3" secondAttribute="trailing" constant="16" id="2s0-Tn-Hwn"/>
                             <constraint firstItem="Fyi-Lb-Lhh" firstAttribute="bottom" secondItem="ljo-IV-3m3" secondAttribute="bottom" id="3vN-Dh-OeG"/>
-                            <constraint firstItem="sIR-hV-aNg" firstAttribute="trailing" secondItem="mRj-UO-Ki3" secondAttribute="trailing" constant="16" id="4h7-Tw-uDm"/>
                             <constraint firstItem="bmp-rS-zB9" firstAttribute="centerY" secondItem="ljo-IV-3m3" secondAttribute="centerY" id="7Gq-LK-22e"/>
                             <constraint firstItem="sIR-hV-aNg" firstAttribute="leading" secondItem="mRj-UO-Ki3" secondAttribute="leading" constant="16" id="FhR-gs-EdB"/>
                             <constraint firstItem="Run-Sr-ppP" firstAttribute="top" secondItem="moe-Sp-lKq" secondAttribute="bottom" id="JNu-bJ-529"/>
@@ -695,15 +695,15 @@
             <objects>
                 <viewController id="Sgh-zm-VIi" customClass="SelectOperatorsViewController" customModule="SendBird_iOS" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="COt-Al-Zs1">
-                        <rect key="frame" x="0.0" y="0.0" width="540" height="620"/>
+                        <rect key="frame" x="0.0" y="0.0" width="712" height="1006.5"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="none" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="8Bz-uS-K6P">
-                                <rect key="frame" x="0.0" y="126" width="540" height="494"/>
+                                <rect key="frame" x="0.0" y="126" width="712" height="880.5"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                             </tableView>
                             <collectionView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" dataMode="prototypes" translatesAutoresizingMaskIntoConstraints="NO" id="yPk-4D-zRC">
-                                <rect key="frame" x="0.0" y="56" width="540" height="70"/>
+                                <rect key="frame" x="0.0" y="56" width="712" height="70"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="70" id="WJz-AF-5Cp"/>
@@ -982,7 +982,7 @@
                                         <rect key="frame" x="0.0" y="207.5" width="712" height="44"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="s3X-vW-jFa" id="M86-m6-pOG">
-                                            <rect key="frame" x="0.0" y="0.0" width="685.5" height="44"/>
+                                            <rect key="frame" x="0.0" y="0.0" width="686" height="44"/>
                                             <autoresizingMask key="autoresizingMask"/>
                                             <subviews>
                                                 <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="agc-8s-iyQ" userLabel="Setting Menu Icon Image View">
@@ -999,7 +999,7 @@
                                                     <nil key="highlightedColor"/>
                                                 </label>
                                                 <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GEY-az-qOv" userLabel="Count Label">
-                                                    <rect key="frame" x="666.5" y="13" width="19" height="18"/>
+                                                    <rect key="frame" x="667" y="13" width="19" height="18"/>
                                                     <fontDescription key="fontDescription" type="system" pointSize="15"/>
                                                     <color key="textColor" name="open_channe_settings_count_label_color"/>
                                                     <nil key="highlightedColor"/>
@@ -1232,6 +1232,6 @@
         </namedColor>
     </resources>
     <inferredMetricsTieBreakers>
-        <segue reference="zpF-0N-ngL"/>
+        <segue reference="gmn-Sg-5KT"/>
     </inferredMetricsTieBreakers>
 </document>
