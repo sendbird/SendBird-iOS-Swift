@@ -40,16 +40,64 @@
 @property (strong, nonatomic, readonly, nullable) NSDictionary *translations;
 
 /**
- Serializes message object.
- 
- @return Serialized <span>data</span>.
+ *  Represents the dispatch state of the message.
+ *  If message is not dispatched completely to the Sendbird server, the value is `SBDMessageRequestStatePending`.
+ *  If failed to send the message, the value is `SBDMessageRequestStateFailed`.
+ *  And if success to send the message, the value is `SBDMessageRequestStateSucceeded`.
+ *
+ *  @since 3.0.141
+ *  @deprecated 3.0.173. Use `sendingStatus` instead.
+ */
+@property (assign, nonatomic, readonly, getter=getRequestState) SBDMessageRequestState requestState DEPRECATED_ATTRIBUTE;
+
+/**
+ *  Represents the dispatch state of the message.
+ *  If message is not dispatched completely to the Sendbird server, the value is `SBDMessageSendingStatusPending`.
+ *  If failed to send the message, the value is `SBDMessageSendingStatusFailed`.
+ *  And if success to send the message, the value is `SBDMessageSendingStatusSucceeded`.
+ *
+ *  @since 3.0.173
+ */
+@property (assign, nonatomic, readonly) SBDMessageSendingStatus sendingStatus;
+
+/**
+ * Represents target user ids to mention when success to send the message.
+ * This value is valid only when the message is a pending message or failed message.
+ * If the message is a succeeded message, see `mentionedUserIds`
+ *
+ * @since 3.0.147
+ * @see see `mentionedUserIds` when the message is a succeeded message.
+ */
+@property (strong, nonatomic, readonly, nonnull) NSArray<NSString *> *requestedMentionUserIds;
+
+/**
+ * The error code of file.
+ * This value generated only when message send fails.
+ *
+ * @since 3.0.161
+ */
+@property (assign, nonatomic, readonly) NSUInteger errorCode;
+
+/**
+ *  Checks message can resend.
+ *  The message can only resend if the problem is due to network related error.
+ *
+ *  @return If YES, this message can resend.
+ *  @since 3.0.161
+ */
+- (BOOL)isResendable;
+
+/**
+ * Serializes message object.
+ *
+ * @return Serialized <span>data</span>.
  */
 - (nullable NSData *)serialize;
 
 /**
- Returns sender.
- 
- @return Sender of the message.
+ * Returns sender.
+ *
+ * @return Sender of the message.
  */
 - (nonnull SBDSender *)sender;
 

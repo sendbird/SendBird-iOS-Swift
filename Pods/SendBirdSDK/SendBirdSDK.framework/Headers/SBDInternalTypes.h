@@ -35,6 +35,7 @@ typedef NS_ENUM(NSInteger, SBDChannelEventCategory) {
     
     SBDChannelEventCategoryChannelJoin = 10000,
     SBDChannelEventCategoryChannelLeave = 10001,
+    SBDChannelEventCategoryUpdateOperator = 10002,
     
     SBDChannelEventCategoryChannelInvite = 10020,
 //    SBDChannelEventCategoryChannelAcceptInvite = 10021,
@@ -70,6 +71,15 @@ typedef NS_ENUM(NSInteger, SBDLogLevel) {
     SBDLogLevelError = 1,
     SBDLogLevelWarning = 2,
     SBDLogLevelInfo = 3,
+};
+
+typedef NS_OPTIONS(NSUInteger, SBDChannelQueryIncludeOption) {
+    SBDChannelQueryIncludeOptionNone                    = (1 << 0),
+    SBDChannelQueryIncludeOptionEmptyChannel            = (1 << 1),
+    SBDChannelQueryIncludeOptionMemberList              = (1 << 2),
+    SBDChannelQueryIncludeOptionFrozenChannel           = (1 << 3),
+    SBDChannelQueryIncludeOptionReadReceipt             = (1 << 4),
+    SBDChannelQueryIncludeOptionDeliveryReceipt         = (1 << 5)
 };
 
 #endif /* SBDInternalTypes_h */

@@ -11,7 +11,7 @@
 #import "SBDSender.h"
 #import "SBDTypes.h"
 
-NS_ASSUME_NONNULL_BEGIN
+@class SBDMessageMetaArray;
 
 /**
  Represents a scheduled user message.
@@ -106,8 +106,19 @@ NS_ASSUME_NONNULL_BEGIN
 
 /**
  Meta array.
+ If you want to get a sorted meta array, refer to -metaArrays 
+ 
+ @deprecated 3.0.148
  */
-@property (nonatomic, nonnull, readonly, getter=getAllMetaArray) NSDictionary<NSString *, NSArray<NSString *> *> *metaArray;
+@property (nonatomic, nonnull, readonly, getter=getAllMetaArray) NSDictionary<NSString *, NSArray<NSString *> *> *metaArray
+DEPRECATED_ATTRIBUTE;
+
+/**
+ Gets an array of meta arrays sorted by chronological order.
+ 
+ @since 3.0.148
+ */
+@property (strong, nonatomic, readonly, nonnull) NSArray<SBDMessageMetaArray *> *metaArrays;
 
 /**
  Checks the channel type is open channel or not.
@@ -128,9 +139,24 @@ NS_ASSUME_NONNULL_BEGIN
  
  @param keys Keys of the meta array.
  @return Meta array of the keys.
+ @see -metaArraysWithKeys:
+ @deprecated 3.0.148
  */
-- (nonnull NSDictionary<NSString *, NSArray<NSString *> *> *)getMetaArrayWithKeys:(NSArray<NSString *> * _Nonnull)keys;
+- (nonnull NSDictionary<NSString *, NSArray<NSString *> *> *)getMetaArrayWithKeys:(NSArray<NSString *> * _Nonnull)keys
+DEPRECATED_MSG_ATTRIBUTE("Use -metaArraysWithKeys:");
+
+/**
+ Returns an array of meta arrays for keys.
+ 
+ @param keys Keys of the meta array.
+ @return An Array of meta array with keys.
+ @since 3.0.148
+ 
+ @code
+ NSArray<NSString *> *keys = meta_array_keys;
+ NSArray<SBDMessageMetaArray *> *subMetaArrays = [message metaArraysWithKeys:keys];
+ @endcode
+ */
+- (nonnull NSArray<SBDMessageMetaArray *> *)metaArraysWithKeys:(nonnull NSArray<NSString *> *)keys;
 
 @end
-
-NS_ASSUME_NONNULL_END

@@ -1226,6 +1226,10 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
         }
     }
     
+    func channelDidUpdateDeliveryReceipt(_ sender: SBDGroupChannel) {
+
+    }
+    
     // MARK: - Crop Image
     func cropImage(_ imageData: Data) {
         if let image = UIImage(data: imageData) {

@@ -22,11 +22,10 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
     var pushReceivedGroupChannel: String?
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
-        
         SBDMain.initWithApplicationId("9880C4C1-E6C8-46E8-A8F1-D5890D598C08")
         SBDMain.add(self as SBDChannelDelegate, identifier: self.description)
         self.registerForRemoteNotification()
-        
+        SBDMain.setAppGroup("group.com.sendbird.sample4");
         
         DataRequest.addAcceptableImageContentTypes(["binary/octet-stream"])
         

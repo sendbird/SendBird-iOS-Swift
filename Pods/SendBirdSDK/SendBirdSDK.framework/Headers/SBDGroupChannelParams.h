@@ -12,13 +12,9 @@
 
 /**
  *  The `SBDGroupChannelParams` class contain parameters for `group channel`. When you want to create a group channel or update a group channel, use this class. Add what you want to create with, add which properties you want to update, and pass this class to `SBDGroupChannel`. You can use this class with apis that are `[SBDGroupChannel createChannel:completionHandler:]` or `[SBDGroupChannel updateChannel:completionHandler:]`.
- *
- *  *
- *
  *  For more information, see [Group Channel](https://docs.sendbird.com/ios#group_channel).
  *
  */
-
 @interface SBDGroupChannelParams : NSObject<NSCopying>
 
 /**
@@ -32,6 +28,14 @@
  *  NO by default.
  */
 @property (nonatomic, setter=setSuper:) BOOL isSuper;
+
+/**
+ *  Represents the channel is broadcast channel or not.
+ *  NO by default.
+ *
+ *  @since 3.0.171
+ */
+@property (nonatomic, setter=setBroadcast:) BOOL isBroadcast;
 
 /**
  *  Represents the channel is public channel or not.
@@ -53,6 +57,22 @@
  *  @since 3.0.90
  */
 @property (nonatomic, setter=setEphemeral:) BOOL isEphemeral;
+
+/**
+ *  Represents a boolean whether the public group channel is discoverable.
+ *  It is only for creating or updating a public group channel. If the value is YES(true) and `isPublic` is NO(false), you will get an error from call-back of creating/updateing channel.
+ *  The default value is YES(true).
+ *
+ *  @since 3.0.136
+ */
+@property (nonatomic, getter=isDiscoverable) BOOL discoverable;
+
+/**
+ The boolean that can cause an error if any of the users is not valid when creating the channel. If you have two valid users and 'strict` is true, the channel is created successfully when you create a channel with users. If one valid user, one invalid user, and `strict` are true, you will get an error creating the channel. However, if you have one valid user, one invalid user, and `strict` is false, you can create a channel without errors without a user.
+ 
+ @since 3.0.148
+ */
+@property (nonatomic, getter=isStrict) BOOL strict;
 
 /**
  *  Represents the custom type of group channel.
@@ -92,6 +112,11 @@
  *  @since 3.0.116
  */
 @property (nonatomic, copy, nullable) NSString *accessCode;
+
+/// A value that sets the message survival time in seconds. In the channel that is created or updated with this option, the read messages are automatically deleted after a determined amount of time. The default value is `-1` that represents the disappearing message is disabled.
+/// @discussion This feature is available in a 1-on-1 group channel.
+/// @since 3.0.172
+@property (nonatomic, setter=setMessageSurvivalSeconds:) NSInteger messageSurvivalSeconds;
 
 /**
  *  Add user with SBDUser class to be member of the group channel.

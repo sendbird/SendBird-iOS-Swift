@@ -11,13 +11,19 @@
 
 #import <Foundation/Foundation.h>
 #import "SBDError.h"
+#import "SBDTypes.h"
 
 @class SBDGroupChannel, SBDOpenChannel;
-@class SBDBaseMessage, SBDFileMessage;
+@class SBDBaseMessage, SBDUserMessage, SBDFileMessage;
+@class SBDUser;
 @class SBDError;
+@class SBDReactionEvent;
 
 typedef void (^SBDOpenChannelHandler)(SBDOpenChannel * _Nullable channel, SBDError * _Nullable error);
+typedef void (^SBDUserMessageHandler)(SBDUserMessage * _Nullable message, SBDError * _Nullable error);
 typedef void (^SBDFileMessageHandler)(SBDFileMessage * _Nullable message, SBDError * _Nullable error);
+typedef void (^SBDBaseMessageHandler)(SBDBaseMessage * _Nullable message, SBDError * _Nullable error);
+typedef void (^SBDGetMessagesHandler)(NSArray<SBDBaseMessage *> * _Nullable messages, SBDError * _Nullable error);
 typedef void (^SBDBinaryProgressHandler)(int64_t bytesSent, int64_t totalBytesSent, int64_t totalBytesExpectedToSend);
 typedef void (^SBDMessageChangeLogsHandler)(NSArray<SBDBaseMessage *> * _Nullable updatedMessages,
                                             NSArray<NSNumber *> * _Nullable deletedMessageIds,
@@ -35,8 +41,15 @@ typedef void(^SBDSnoozePeriodHandler)(BOOL enabled,
                                       SBDError * _Nullable error);
 typedef void(^SBDPushTriggerOptionHandler)(SBDPushTriggerOption pushTriggerOption,
                                            SBDError * _Nullable error);
+typedef void(^SBDGetPushTokensHandler)(NSArray<NSString *> * _Nonnull pushTokens,
+                                       SBDPushTokenType pushTokenType,
+                                       BOOL hasMore,
+                                       NSString * _Nullable token,
+                                       SBDError * _Nullable error);
 typedef void(^SBDGroupChannelPushTriggerOptionHandler)(SBDGroupChannelPushTriggerOption pushTriggerOption,
                                                        SBDError * _Nullable error);
 typedef void(^SBDErrorHandler)(SBDError * _Nullable error);
+typedef void(^SBDVoidHandler)(void);
+typedef void(^SBDUserHandler)(SBDUser * _Nullable user, SBDError * _Nullable error);
 
 #endif /* SBDConstants_h */

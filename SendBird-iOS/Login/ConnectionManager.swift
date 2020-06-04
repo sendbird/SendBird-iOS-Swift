@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 import SendBirdSDK
 
 let ErrorDomainConnection = "com.sendbird.sample.connection"
