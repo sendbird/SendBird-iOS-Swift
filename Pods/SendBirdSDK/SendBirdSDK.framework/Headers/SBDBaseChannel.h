@@ -361,14 +361,6 @@
 @property (nonatomic, readonly) BOOL isEphemeral;
 
 /**
- *  Internal use only.
- *
- *  @param dict dict
- *  @warning *Important*: DON'T use this method. This method will be unavailable.
- */
-- (nullable instancetype)initWithDictionary:(NSDictionary * _Nonnull)dict;
-
-/**
  Sends a user message without <span>data</span>.
  
  @param message           The message text.
@@ -2293,5 +2285,25 @@ Reports a malicious message in the channel
 - (void)deleteReactionWithMessage:(nonnull SBDBaseMessage *)message
                               key:(nonnull NSString *)key
                 completionHandler:(nullable void (^)(SBDReactionEvent * _Nullable reactionEvent, SBDError * _Nullable error))completionHandler;
+
+#pragma mark - Operator
+/// Adds operators to the channel.
+/// @param userIds The user IDs to be operators.
+/// @param completionHandler The handler block to be executed.
+/// @since 3.0.189
+- (void)addOperatorsWithUserIds:(nonnull NSArray<NSString *> *)userIds
+              completionHandler:(nullable void (^)(SBDError * _Nullable error))completionHandler;
+
+/// Removes operators from the channel.
+/// @param userIds The user IDs to be removed from the operators.
+/// @param completionHandler The handler block to be executed.
+/// @since 3.0.189
+- (void)removeOperatorsWithUserIds:(nonnull NSArray<NSString *> *)userIds
+                 completionHandler:(nullable void (^)(SBDError * _Nullable error))completionHandler;
+
+/// Removes all operators from the channel.
+/// @param completionHandler The handler block to be executed.
+/// @since 3.0.189
+- (void)removeAllOperatorsWithCompletionHandler:(nullable void (^)(SBDError * _Nullable error))completionHandler;
 
 @end

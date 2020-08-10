@@ -33,7 +33,7 @@
 /**
  *  The `SBDUser` class represents a user. The user is identified by the `userId`, so the `userId` has to be unique. The `userId`, `nickname` and `profileUrl` are valid in every `SBDUser` instance, however the `connectionStatus` and `lastSeenAt` is valid in `SBDUser` instance from `SBDUserListQuery`.
  */
-@interface SBDUser : NSObject
+@interface SBDUser : NSObject <NSCopying>
 
 /**
  *  User ID. This has to be unique.
@@ -55,6 +55,10 @@
  */
 @property (strong, nonatomic, nullable) NSString *originalProfileUrl;
 
+/// The profile image URL without the `ekey`.
+/// @since 3.0.194
+@property (strong, nonatomic, readonly, nullable) NSString *plainProfileImageUrl;
+
 /**
  *  User connection status. This is defined in `SBDUserConnectionStatus`.
  */
@@ -74,7 +78,6 @@
 
 @property (strong, nullable) NSString *friendName;
 
-
 /**
  * User's preferred language. Used for translating messages.
  *
@@ -82,14 +85,6 @@
  */
 @property (nonatomic, strong, nullable, readonly) NSArray<NSString *> *preferredLanguages;
     
-/**
- *  Internal use only.
- *
- *  @param dict dict
- *  @warning *Important*: DON'T use this method. This method will be unavailable.
- */
-- (nullable instancetype)initWithDictionary:(NSDictionary * _Nonnull)dict;
-
 /**
  Builds a user object from serialized data.
  

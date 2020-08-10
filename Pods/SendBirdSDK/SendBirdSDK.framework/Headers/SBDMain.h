@@ -132,7 +132,7 @@ typedef void(^SBDBackgroundSessionBlock)(void);
  *
  *  @return If YES, this instance is debug mode.
  */
-+ (BOOL)getDebugMode;
++ (BOOL)getDebugMode DEPRECATED_ATTRIBUTE;
 
 /**
  *  Gets a singleton instance of `SBDMain`.
@@ -701,6 +701,8 @@ typedef void(^SBDBackgroundSessionBlock)(void);
 + (void)getChannelInvitationPreferenceAutoAcceptWithCompletionHandler:(nullable void (^)(BOOL autoAccept, SBDError * _Nullable error))completionHandler;
 
 #pragma mark - User Event
++ (nullable id<SBDUserEventDelegate>)userEventDelegateForIdentifier:(NSString * _Nonnull)identifier;
+
 + (void)addUserEventDelegate:(id<SBDUserEventDelegate> _Nonnull)delegate
                   identifier:(NSString * _Nonnull)identifier;
 
@@ -805,14 +807,13 @@ typedef void(^SBDBackgroundSessionBlock)(void);
 + (NSInteger)getSubscribedCustomTypeTotalUnreadMessageCount;
 + (NSInteger)getSubscribedCustomTypeUnreadMessageCountWithCustomType:(nonnull NSString *)customType;
 
-/**
- * Marks as delivered a group channel of the current user.
- *
- * @param channelUrl The channel URL.
- *
- * @since 3.0.162
- */
-+ (void)markAsDeliveredWithChannelUrl:(nonnull NSString *)channelUrl;
+/// Marks as delivered a group channel of the current user.
+/// @param channelUrl The channel URL.
+/// @since 3.0.162
+/// @deprecated 3.0.185
+/// @note The client doesn't have to call this method any longer.
++ (void)markAsDeliveredWithChannelUrl:(nonnull NSString *)channelUrl
+DEPRECATED_ATTRIBUTE;
 
 #pragma mark - channel change logs
 /**
@@ -970,6 +971,12 @@ completionHandler:(nullable void (^)(SBDEmoji * _Nullable emoji, SBDError * _Nul
 /// @since 3.0.183
 + (void)markAsDeliveredWithRemoteNotificationPayload:(nonnull NSDictionary *)payload
                                    completionHandler:(nullable void (^)(SBDError * _Nullable error))completionHandler;
+
+#pragma mark - Key for file encryption
+/// Gets the key to authenticate the file URL. This has to be put into the HTTP header when the client needs to access it.
+/// @return The key to authenticate the file URL
+/// @since 3.0.194
++ (nullable NSString *)ekey;
 
 @end
 
