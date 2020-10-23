@@ -155,7 +155,10 @@ class LoginViewController: UIViewController, UITextFieldDelegate, NotificationDe
                     DispatchQueue.main.async {
                         self.setUIsForDefault()
                     }
-                    Utils.showAlertController(error: error as! SBDError, viewController: self)
+                    
+                    if let error = error {
+                        Utils.showAlertController(error: SBDError.init(nsError: error), viewController: self)
+                    }
                     
                     return
                 }
