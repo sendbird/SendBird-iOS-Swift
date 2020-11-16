@@ -142,7 +142,7 @@ Here are the steps to sending your first message using Chat SDK:
 
 ### Step 1: Initialize the Chat SDK
 
-Initializing the Chat SDK allows the Chat SDK to respond to the connection and state changes in your client app. Pass the `APP_ID` of your Sendbird application as an argument to a parameter in the `initWithApplicationId:`. The `initWithApplicationId:` creates a `SBDMain` instance, thus should be called a single time across your client app. It is recommended that the code for initialization be implemented in the user login view. The Chat SDK should be initialized in the `application:didFinishLaunchingWithOptions:` method of the AppDelegate instance. 
+Initializing the Chat SDK allows the Chat SDK to respond to the connection and state changes in your client app. Pass the `APP_ID` of your Sendbird application as an argument to a parameter in the `initWithApplicationId()`. The `initWithApplicationId()` creates a `SBDMain` instance, thus should be called a single time across your client app. It is recommended that the code for initialization be implemented in the user login view. The Chat SDK should be initialized in the `application:didFinishLaunchingWithOptions:` method of the `AppDelegate` instance. 
 
 ```swift
 SBDMain.initWithApplicationId(APP_ID)
@@ -198,9 +198,9 @@ SBDOpenChannel.createChannel(completionHandler: { (openChannel, error) in
 
 You can also create a [group channel](https://sendbird.com/docs/chat/v3/ios/guides/group-channel#2-create-a-channel) by [inviting users as new members](https://sendbird.com/docs/chat/v3/ios/guides/group-channel#2-invite-users-as-members) to the channel.
 
-> Note: The majority of the methods used in the following steps are all asynchronous except initWithApplicationId:. This means with asynchronous methods, your client app must receive success callbacks from Sendbird server through completion handlers  before moving on to the next step.  
+> Note: The majority of the methods used in the following steps are all asynchronous except the `initWithApplicationId()`. This means with asynchronous methods, your client app must receive success callbacks from Sendbird server through completion handlers before moving on to the next step.  
 
-A good way to do this is the nesting of methods: [Go to Step 4: Enter the channel](#step-4-enter-the-channel) to learn more about how to nest the `enterChannelWithCompletionHandler:` in the `getChannelWithUrl:completionHandler:` method.
+A good way to do this is the nesting of methods: [Go to Step 4: Enter the channel](#step-4-enter-the-channel) to learn more about how to nest the `enter()` in the `getChannelWithUrl()` method.
 
 ### Step 4: Enter the channel
 
