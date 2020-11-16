@@ -168,7 +168,7 @@ By using Chat Platform API, you can [create a user](https://sendbird.com/docs/ch
 
 1. Using the [Chat Platform API](https://sendbird.com/docs/chat/v3/platform-api/guides/user#2-create-a-user), create a Sendbird user account with the information submitted when a user signs up or signs in to your service.
 2. Save the user ID along with the issued access token to your securely managed persistent storage. 
-3. When a user attempts to log in to the application, load the user ID and access token from the storage, and then pass them to `connectWithUserId:accessToken:completionHandler:` method.
+3. When a user attempts to log in to the application, load the user ID and access token from the storage, and then pass them to `connect()` method.
 4. Periodically replacing the user's access token is recommended for account security.
 
 ```swift
