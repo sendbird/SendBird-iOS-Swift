@@ -56,8 +56,9 @@ Try building your Sendbird application with these two add-ons.
 
 ### Try the sample app
 
-The fastest way to test Chat SDK is to build your chat app on top of our sample app. To create a project for the sample app, download the app from our GitHub repository.
+The fastest way to test Chat SDK is to build your chat app on top of our sample app. To create a project for the sample app, download the app from our GitHub repository. The link is down below. 
 
+- https://github.com/sendbird/SendBird-iOS-Swift/pull/5
 
 ### Step 1: Create a Sendbird application from your dashboard
 
