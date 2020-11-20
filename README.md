@@ -54,7 +54,7 @@ Try building your Sendbird application with these two add-ons.
 
 ## Getting started
 
-This section gives you information you need to get started with Sendbird Chat SDK for iOS.
+This section gives you information you need to get started with Sendbird Chat SDK for iOS. Follow the simple steps below to build the Chat SDK into your client app.
 
 ### Try the sample app
 
