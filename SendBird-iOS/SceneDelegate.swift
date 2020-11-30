@@ -22,16 +22,16 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
     
     @available(iOS 13.0, *)
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        guard let windowScene = (scene as? UIWindowScene) else { return }
-        self.window = UIWindow(windowScene: windowScene)
-
-        if let window = self.window {
-            let mainStoryboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController")
-            window.rootViewController = viewController
-            window.makeKeyAndVisible()
-            identifier = session.persistentIdentifier
-        }
+//        guard let windowScene = (scene as? UIWindowScene) else { return }
+//        self.window = UIWindow(windowScene: windowScene)
+//
+//        if let window = self.window {
+//            let mainStoryboard = UIStoryboard.init(name: "Main", bundle: nil)
+//            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController")
+//            window.rootViewController = viewController
+//            window.makeKeyAndVisible()
+//            identifier = session.persistentIdentifier
+//        }
     }
 
     @available(iOS 13.0, *)

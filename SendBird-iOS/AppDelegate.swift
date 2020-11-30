@@ -37,13 +37,13 @@ class AppDelegate: UIResponder, UIApplicationDelegate, UNUserNotificationCenterD
         } catch {
             print("Setting category to AVAudioSessionCategoryPlayback failed.")
         }
-        self.window = UIWindow(frame: UIScreen.main.bounds)
-        if let window = self.window {
-            let mainStoryboard = UIStoryboard.init(name: "Main", bundle: nil)
-            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController")
-            window.rootViewController = viewController
-            window.makeKeyAndVisible()
-        }
+//        self.window = UIWindow(frame: UIScreen.main.bounds)
+//        if let window = self.window {
+//            let mainStoryboard = UIStoryboard.init(name: "Main", bundle: nil)
+//            let viewController = mainStoryboard.instantiateViewController(withIdentifier: "LoginViewController")
+//            window.rootViewController = viewController
+//            window.makeKeyAndVisible()
+//        }
         
         return true
     }

@@ -125,6 +125,10 @@ DEPRECATED_ATTRIBUTE;
 /// @since 3.0.193
 @property (nonatomic, strong, readonly, nullable) SBDOGMetaData *ogMetaData;
 
+/// Represents whether this message was created by an operator.
+/// @since 3.0.198
+@property (atomic, readonly) BOOL isOperatorMessage;
+
 /// Checks the channel type is open channel or not.
 ///
 /// @return Returns YES, when this is open channel.
@@ -144,9 +148,18 @@ DEPRECATED_ATTRIBUTE;
 
 /// Builds a message object from serialized <span>data</span>.
 ///
-///  @param data Serialized <span>data</span>.
-///  @return SBDBaseMessage object.
+/// @param data Serialized <span>data</span>.
+/// @return SBDBaseMessage object.
 + (nullable instancetype)buildFromSerializedData:(NSData * _Nonnull)data;
+
+/// Builds a message object from serialized <span>data</span>.
+///
+/// @param data Serialized <span>data</span>.
+/// @param desiredState The sending status that a message object will have.
+/// @return SBDBaseMessage object.
+/// @since 3.0.203
++ (nullable instancetype)buildFromSerializedData:(NSData * _Nonnull)data
+                                    desiredState:(SBDMessageSendingStatus)desiredState;
 
 ///  Serializes message object.
 ///

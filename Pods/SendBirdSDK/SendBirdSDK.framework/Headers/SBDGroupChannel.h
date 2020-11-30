@@ -971,8 +971,18 @@ DEPRECATED_ATTRIBUTE;
  *  Returns the <span>members</span> who are typing now.
  *
  *  @return The <span>members</span> who are typing now.
+ *  @deprecated 3.0.202 Use `getTypingUsers` instead.
  */
-- (nullable NSArray<SBDMember *> *)getTypingMembers;
+- (nullable NSArray<SBDMember *> *)getTypingMembers
+DEPRECATED_ATTRIBUTE;
+
+/**
+ *  Returns the users who are typing now.
+ *
+ *  @return The users who are typing now.
+ *  @since 3.0.202
+ */
+- (nullable NSArray<SBDUser *> *)getTypingUsers;
 
 /**
  *  Sets push notification on or off on the channel.
@@ -1249,7 +1259,7 @@ DEPRECATED_ATTRIBUTE;
 - (void)muteUser:(nonnull SBDUser *)user
           seconds:(NSInteger)seconds
       description:(nullable NSString *)description
-completionHandler:(nullable void (^)(SBDError * _Nullable error))completionHandler;;
+completionHandler:(nullable void (^)(SBDError * _Nullable error))completionHandler;
 
 /**
  Mute the user with additional options. Muted user cannot send any messages to the group channel.

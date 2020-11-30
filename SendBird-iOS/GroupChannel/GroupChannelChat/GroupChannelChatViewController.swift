@@ -16,9 +16,7 @@ import Alamofire
 import AlamofireImage
 import FLAnimatedImage
 
-
 class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UIImagePickerControllerDelegate, UINavigationControllerDelegate, RSKImageCropViewControllerDelegate, SBDChannelDelegate, GroupChannelMessageTableViewCellDelegate, GroupChannelSettingsDelegate, UIDocumentPickerDelegate, NotificationDelegate, SBDNetworkDelegate, SBDConnectionDelegate {
-    
     @IBOutlet weak var inputMessageTextField: UITextField!
     @IBOutlet weak var messageTableView: UITableView!
     @IBOutlet weak var typingIndicatorContainerView: UIView!
@@ -1256,33 +1254,8 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
                     guard let retainedValueMimeType = UTTypeCopyPreferredTagWithClass(UTI, kUTTagClassMIMEType)?.takeRetainedValue() else { return }
                     let mimeType = retainedValueMimeType as String
                     
-                    guard let imageAsset = info[UIImagePickerController.InfoKey.phAsset] as? PHAsset else { return }
-                    let options = PHImageRequestOptions()
-                    options.isSynchronous = true
-                    options.isNetworkAccessAllowed = true
-                    options.deliveryMode = .highQualityFormat
-                    
-                    if mimeType == "image/gif" {
-                        PHImageManager.default().requestImageData(for: imageAsset, options: options, resultHandler: { (imageData, dataUTI, orientation, info) in
-                            if let originalImageData = imageData {
-                                self.sendImageFileMessage(imageData: originalImageData, imageName: imageName, mimeType: mimeType)
-                            }
-                        })
-                    }
-                    else {
-                        var count = 0
-                        let reqOptions = PHImageRequestOptions()
-                        reqOptions.isSynchronous = true
-                        reqOptions.isNetworkAccessAllowed = true
-                        reqOptions.deliveryMode = .highQualityFormat
-                        PHImageManager.default().requestImage(for: imageAsset, targetSize: PHImageManagerMaximumSize, contentMode: PHImageContentMode.default, options: reqOptions, resultHandler: { (result, info) in
-                            count += 1
-                            if result != nil {
-                                guard let imageData = result?.jpegData(compressionQuality: 1.0) else { return }
-                                self.sendImageFileMessage(imageData: imageData, imageName: imageName, mimeType: mimeType)
-                            }
-                        })
-                    }
+                    let imageData = try! Data.init(contentsOf: imagePath)
+                    self.sendImageFileMessage(imageData: imageData, imageName: imageName, mimeType: mimeType)
                 }
                 else {
                     guard let originalImage = info[UIImagePickerController.InfoKey.originalImage] as? UIImage else { return }

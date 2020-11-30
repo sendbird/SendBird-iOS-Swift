@@ -85,6 +85,7 @@ typedef NS_ENUM(NSInteger, SBDErrorCode) {
     SBDErrorAppIdNotValid = 400304,
     SBDErrorAuthUserIdTooLong = 400305,
     SBDErrorAuthPlanQuotaExceeded = 400306,
+    SBDErrorSessionKeyExpired = 400309,
     
     SBDErrorInvalidApiToken = 400401,
     SBDErrorParameterMissing = 400402,
@@ -116,6 +117,10 @@ typedef NS_ENUM(NSInteger, SBDErrorCode) {
     SBDErrorFileUploadTimeout = 800250,
     SBDErrorTimerWasExpired = 800301,
     SBDErrorTimerWasAlreadyDone = 800302,
+    SBDErrorPendingError = 800400,
+    SBDErrorPassedInvalidAccessToken = 800500,
+    SBDErrorSessionKeyRefreshSucceeded = 800501,
+    SBDErrorSessionKeyRefreshFailed = 800502,
     
     // WS Error
     SBDErrorSocketLoginRequired = 900010,
@@ -687,6 +692,16 @@ typedef NS_ENUM(NSUInteger, SBDMessageSearchQueryOrder) {
 typedef NS_ENUM(NSUInteger, SBDReactionEventAction) {
     SBDReactionEventActionAdd = 0,
     SBDReactionEventActionDelete = 1,
+};
+
+/**
+ The order type for member list query.
+
+ @since 3.0.198
+*/
+typedef NS_ENUM(NSUInteger, SBDMemberListOrder) {
+    SBDMemberListOrderNicknameAlphabetical = 0,
+    SBDMemberListOrderOperatorThenMemberNicknameAlphabetical = 1,
 };
 
 #endif /* SBDTypes_h */
