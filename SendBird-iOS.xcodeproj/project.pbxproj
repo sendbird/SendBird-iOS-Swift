@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		0AF4317DF9C9015AD6E42D75 /* Pods_DeliveryReceiptNotificationService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = EC474A8A3507C0ECB1034EBD /* Pods_DeliveryReceiptNotificationService.framework */; };
+		39EC730075F26D7C77B881AB /* Pods_SendBird_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E74235117496DD04ABFD9B06 /* Pods_SendBird_iOS.framework */; };
 		520FF86822E6869100A9D7F4 /* GroupChannel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 520FF86722E6869100A9D7F4 /* GroupChannel.storyboard */; };
 		520FF86A22E6869F00A9D7F4 /* OpenChannel.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 520FF86922E6869F00A9D7F4 /* OpenChannel.storyboard */; };
 		520FF86C22E686A900A9D7F4 /* Settings.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 520FF86B22E686A900A9D7F4 /* Settings.storyboard */; };
@@ -21,7 +21,6 @@
 		52E3D35922E6D8820099D67D /* ImageUtil.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D35822E6D8820099D67D /* ImageUtil.swift */; };
 		52E3D35B22E6D8E00099D67D /* GroupChannelIncomingMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D35A22E6D8E00099D67D /* GroupChannelIncomingMessageTableViewCell.swift */; };
 		52E3D35F22E6FCBD0099D67D /* GroupChannelOutgoingMessageTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 52E3D35E22E6FCBC0099D67D /* GroupChannelOutgoingMessageTableViewCell.swift */; };
-		875BF66943D4A22B9064F1B1 /* Pods_SendBird_iOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1D2F8289F5E5EFDE1D2C9038 /* Pods_SendBird_iOS.framework */; };
 		A92B79E6230F964A008C522A /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A92B79E5230F964A008C522A /* SceneDelegate.swift */; };
 		A94CC22823669E7500608E27 /* ConnectionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A94CC22723669E7500608E27 /* ConnectionManager.swift */; };
 		A9EB20102314ED7300FC3FC8 /* SelectedUserCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A9EB200F2314ED7300FC3FC8 /* SelectedUserCollectionViewCell.xib */; };
@@ -132,6 +131,7 @@
 		E2D0C15221935A580080A5F3 /* GroupChannelIncomingAudioFileMessageTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = E2D0C15021935A580080A5F3 /* GroupChannelIncomingAudioFileMessageTableViewCell.xib */; };
 		E2FE95112489362800169552 /* NotificationService.swift in Sources */ = {isa = PBXBuildFile; fileRef = E2FE95102489362800169552 /* NotificationService.swift */; };
 		E2FE95152489362800169552 /* DeliveryReceiptNotificationService.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = E2FE950E2489362800169552 /* DeliveryReceiptNotificationService.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		F7CAD43BC458CEB5765F5E45 /* Pods_DeliveryReceiptNotificationService.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 0A3067F7E0904DBEE3B6A6F5 /* Pods_DeliveryReceiptNotificationService.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -159,10 +159,9 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
-		1D2F8289F5E5EFDE1D2C9038 /* Pods_SendBird_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SendBird_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		242DF2B66EC1C23C02CBA3ED /* Pods-DeliveryReceiptNotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeliveryReceiptNotificationService.release.xcconfig"; path = "Pods/Target Support Files/Pods-DeliveryReceiptNotificationService/Pods-DeliveryReceiptNotificationService.release.xcconfig"; sourceTree = "<group>"; };
-		2E6C95EE3B9E1E3E5316ABBC /* Pods-SendBird-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SendBird-iOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS.release.xcconfig"; sourceTree = "<group>"; };
-		4AE17B58DD188A15F84A0409 /* Pods-SendBird-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SendBird-iOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		0A3067F7E0904DBEE3B6A6F5 /* Pods_DeliveryReceiptNotificationService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DeliveryReceiptNotificationService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		0F32A7A4B27192CF7FA6E610 /* Pods-SendBird-iOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SendBird-iOS.debug.xcconfig"; path = "Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS.debug.xcconfig"; sourceTree = "<group>"; };
+		199A4D77F74617683A42756B /* Pods-DeliveryReceiptNotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeliveryReceiptNotificationService.debug.xcconfig"; path = "Target Support Files/Pods-DeliveryReceiptNotificationService/Pods-DeliveryReceiptNotificationService.debug.xcconfig"; sourceTree = "<group>"; };
 		520FF86722E6869100A9D7F4 /* GroupChannel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = GroupChannel.storyboard; sourceTree = "<group>"; };
 		520FF86922E6869F00A9D7F4 /* OpenChannel.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = OpenChannel.storyboard; sourceTree = "<group>"; };
 		520FF86B22E686A900A9D7F4 /* Settings.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = Settings.storyboard; sourceTree = "<group>"; };
@@ -181,7 +180,7 @@
 		A9EB200F2314ED7300FC3FC8 /* SelectedUserCollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = SelectedUserCollectionViewCell.xib; sourceTree = "<group>"; };
 		A9EB20112314EDF000FC3FC8 /* SelectedUserCollectioViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SelectedUserCollectioViewCell.swift; sourceTree = "<group>"; };
 		A9FBF70D22FCFB10000E146B /* SplitViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplitViewController.swift; sourceTree = "<group>"; };
-		B708CB176B8FEB1D3572B68F /* Pods-DeliveryReceiptNotificationService.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeliveryReceiptNotificationService.debug.xcconfig"; path = "Pods/Target Support Files/Pods-DeliveryReceiptNotificationService/Pods-DeliveryReceiptNotificationService.debug.xcconfig"; sourceTree = "<group>"; };
+		BC6948679CA30C1A3C8C1AC0 /* Pods-SendBird-iOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-SendBird-iOS.release.xcconfig"; path = "Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS.release.xcconfig"; sourceTree = "<group>"; };
 		E21C53E32195DB7900782B60 /* GroupChannelSettingsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GroupChannelSettingsViewController.swift; sourceTree = "<group>"; };
 		E21CDFC12165619000839683 /* SendBird-iOS.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "SendBird-iOS.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		E21CDFC42165619000839683 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -293,7 +292,8 @@
 		E2FE95102489362800169552 /* NotificationService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationService.swift; sourceTree = "<group>"; };
 		E2FE95122489362800169552 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		E2FE951A24893A1200169552 /* DeliveryReceiptNotificationService.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = DeliveryReceiptNotificationService.entitlements; sourceTree = "<group>"; };
-		EC474A8A3507C0ECB1034EBD /* Pods_DeliveryReceiptNotificationService.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_DeliveryReceiptNotificationService.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E74235117496DD04ABFD9B06 /* Pods_SendBird_iOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_SendBird_iOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		FCF180898B1D2FA2F8691159 /* Pods-DeliveryReceiptNotificationService.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-DeliveryReceiptNotificationService.release.xcconfig"; path = "Target Support Files/Pods-DeliveryReceiptNotificationService/Pods-DeliveryReceiptNotificationService.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -301,7 +301,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				875BF66943D4A22B9064F1B1 /* Pods_SendBird_iOS.framework in Frameworks */,
+				39EC730075F26D7C77B881AB /* Pods_SendBird_iOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -309,13 +309,22 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0AF4317DF9C9015AD6E42D75 /* Pods_DeliveryReceiptNotificationService.framework in Frameworks */,
+				F7CAD43BC458CEB5765F5E45 /* Pods_DeliveryReceiptNotificationService.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		40CF346EDD6451FCDE486346 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				0A3067F7E0904DBEE3B6A6F5 /* Pods_DeliveryReceiptNotificationService.framework */,
+				E74235117496DD04ABFD9B06 /* Pods_SendBird_iOS.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		5215271822E018EB00F2F011 /* ViewCells */ = {
 			isa = PBXGroup;
 			children = (
@@ -327,34 +336,14 @@
 			path = ViewCells;
 			sourceTree = "<group>";
 		};
-		62D50C290F9081E9FB190D9F /* Pods */ = {
-			isa = PBXGroup;
-			children = (
-				4AE17B58DD188A15F84A0409 /* Pods-SendBird-iOS.debug.xcconfig */,
-				2E6C95EE3B9E1E3E5316ABBC /* Pods-SendBird-iOS.release.xcconfig */,
-				B708CB176B8FEB1D3572B68F /* Pods-DeliveryReceiptNotificationService.debug.xcconfig */,
-				242DF2B66EC1C23C02CBA3ED /* Pods-DeliveryReceiptNotificationService.release.xcconfig */,
-			);
-			name = Pods;
-			sourceTree = "<group>";
-		};
-		DDAA521D90BDFBA7AA74D1FA /* Frameworks */ = {
-			isa = PBXGroup;
-			children = (
-				1D2F8289F5E5EFDE1D2C9038 /* Pods_SendBird_iOS.framework */,
-				EC474A8A3507C0ECB1034EBD /* Pods_DeliveryReceiptNotificationService.framework */,
-			);
-			name = Frameworks;
-			sourceTree = "<group>";
-		};
 		E21CDFB82165619000839683 = {
 			isa = PBXGroup;
 			children = (
 				E21CDFC32165619000839683 /* SendBird-iOS */,
 				E2FE950F2489362800169552 /* DeliveryReceiptNotificationService */,
 				E21CDFC22165619000839683 /* Products */,
-				62D50C290F9081E9FB190D9F /* Pods */,
-				DDAA521D90BDFBA7AA74D1FA /* Frameworks */,
+				FBB5C065540BBB77B18A666F /* Pods */,
+				40CF346EDD6451FCDE486346 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -738,6 +727,18 @@
 			path = DeliveryReceiptNotificationService;
 			sourceTree = "<group>";
 		};
+		FBB5C065540BBB77B18A666F /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				199A4D77F74617683A42756B /* Pods-DeliveryReceiptNotificationService.debug.xcconfig */,
+				FCF180898B1D2FA2F8691159 /* Pods-DeliveryReceiptNotificationService.release.xcconfig */,
+				0F32A7A4B27192CF7FA6E610 /* Pods-SendBird-iOS.debug.xcconfig */,
+				BC6948679CA30C1A3C8C1AC0 /* Pods-SendBird-iOS.release.xcconfig */,
+			);
+			name = Pods;
+			path = Pods;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -745,12 +746,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E21CDFD32165619100839683 /* Build configuration list for PBXNativeTarget "SendBird-iOS" */;
 			buildPhases = (
-				C1666900EFFF3239F9C5C037 /* [CP] Check Pods Manifest.lock */,
+				0A3CEF17AF4A7D4AC0F8FC24 /* [CP] Check Pods Manifest.lock */,
 				E21CDFBD2165619000839683 /* Sources */,
 				E21CDFBE2165619000839683 /* Frameworks */,
 				E21CDFBF2165619000839683 /* Resources */,
-				57774F9CC0D03BA2A16C5DCD /* [CP] Embed Pods Frameworks */,
 				E2FE95192489362800169552 /* Embed App Extensions */,
+				3FE28F36DA02F3AB355AF890 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
@@ -766,7 +767,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = E2FE95162489362800169552 /* Build configuration list for PBXNativeTarget "DeliveryReceiptNotificationService" */;
 			buildPhases = (
-				5B4C8C3C99660BC68AD3BB3B /* [CP] Check Pods Manifest.lock */,
+				180A5A79C36ED99309ED3591 /* [CP] Check Pods Manifest.lock */,
 				E2FE950A2489362800169552 /* Sources */,
 				E2FE950B2489362800169552 /* Frameworks */,
 				E2FE950C2489362800169552 /* Resources */,
@@ -871,24 +872,29 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		57774F9CC0D03BA2A16C5DCD /* [CP] Embed Pods Frameworks */ = {
+		0A3CEF17AF4A7D4AC0F8FC24 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Embed Pods Frameworks";
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
 			outputFileListPaths = (
-				"${PODS_ROOT}/Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-SendBird-iOS-checkManifestLockResult.txt",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS-frameworks.sh\"\n";
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		5B4C8C3C99660BC68AD3BB3B /* [CP] Check Pods Manifest.lock */ = {
+		180A5A79C36ED99309ED3591 /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -910,22 +916,21 @@
 			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
 			showEnvVarsInLog = 0;
 		};
-		C1666900EFFF3239F9C5C037 /* [CP] Check Pods Manifest.lock */ = {
+		3FE28F36DA02F3AB355AF890 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS-frameworks-${CONFIGURATION}-input-files.xcfilelist",
 			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-SendBird-iOS-checkManifestLockResult.txt",
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS-frameworks-${CONFIGURATION}-output-files.xcfilelist",
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
 /* End PBXShellScriptBuildPhase section */
@@ -1190,7 +1195,7 @@
 		};
 		E21CDFD42165619100839683 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 4AE17B58DD188A15F84A0409 /* Pods-SendBird-iOS.debug.xcconfig */;
+			baseConfigurationReference = 0F32A7A4B27192CF7FA6E610 /* Pods-SendBird-iOS.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1214,7 +1219,7 @@
 		};
 		E21CDFD52165619100839683 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 2E6C95EE3B9E1E3E5316ABBC /* Pods-SendBird-iOS.release.xcconfig */;
+			baseConfigurationReference = BC6948679CA30C1A3C8C1AC0 /* Pods-SendBird-iOS.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = "$(inherited)";
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
@@ -1237,7 +1242,7 @@
 		};
 		E2FE95172489362800169552 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = B708CB176B8FEB1D3572B68F /* Pods-DeliveryReceiptNotificationService.debug.xcconfig */;
+			baseConfigurationReference = 199A4D77F74617683A42756B /* Pods-DeliveryReceiptNotificationService.debug.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_ENTITLEMENTS = DeliveryReceiptNotificationService/DeliveryReceiptNotificationService.entitlements;
@@ -1261,7 +1266,7 @@
 		};
 		E2FE95182489362800169552 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 242DF2B66EC1C23C02CBA3ED /* Pods-DeliveryReceiptNotificationService.release.xcconfig */;
+			baseConfigurationReference = FCF180898B1D2FA2F8691159 /* Pods-DeliveryReceiptNotificationService.release.xcconfig */;
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = NO;
 				CODE_SIGN_ENTITLEMENTS = DeliveryReceiptNotificationService/DeliveryReceiptNotificationService.entitlements;
