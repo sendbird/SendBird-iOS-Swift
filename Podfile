@@ -6,7 +6,7 @@ target 'DeliveryReceiptNotificationService' do
   use_frameworks!
 
   # Pods for DeliveryReceiptNotificationService
-  pod 'SendBirdSDK'
+  pod 'SendBirdSDK', '~> 3.1.28'
 end
 
 target 'SendBird-iOS' do
@@ -14,7 +14,7 @@ target 'SendBird-iOS' do
   use_frameworks!
 
   # Pods for SendBird-iOS
-  pod 'SendBirdSDK'
+  pod 'SendBirdSDK', '~> 3.1.28'
   pod 'AlamofireImage', '~> 3.4'
   pod 'RSKImageCropper'
   pod 'NYTPhotoViewer', '~> 1.1.0'
