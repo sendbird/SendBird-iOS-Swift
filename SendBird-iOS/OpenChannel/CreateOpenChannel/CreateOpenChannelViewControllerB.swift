@@ -60,6 +60,13 @@ class CreateOpenChannelViewControllerB: UIViewController, SelectOperatorsDelegat
         operatorIds.append((SBDMain.getCurrentUser()?.userId)!)
         let channelUrl = self.channelUrl
         
+        /*
+        * #################### SECURITY TIPS ####################
+        * Before launching, you should review "Allow creating open channels from SDK" under ⚙️ Sendbird Dashboard -> Settings -> Security.
+        * It's turned on at first to simplify running samples and implementing your first code.
+        * Most apps will want to disable "Allow creating open channels from SDK" as that could cause unwanted operations
+        * #################### SECURITY TIPS ####################
+        */
         SBDOpenChannel.createChannel(withName: self.channelName, channelUrl: channelUrl, coverImage: self.coverImageData!, coverImageName: "cover_image.jpg", data: nil, operatorUserIds: operatorIds, customType: nil, progressHandler: nil) { (channel, error) in
             if let error = error {
                 self.activityIndicatorView.isHidden = true

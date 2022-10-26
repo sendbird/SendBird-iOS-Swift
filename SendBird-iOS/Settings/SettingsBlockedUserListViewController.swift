@@ -10,6 +10,13 @@ import UIKit
 import SendBirdSDK
 import AlamofireImage
 
+/*
+ * #################### SECURITY TIPS ####################
+ * Before launching, you should review "Allow retrieving user list from SDK" under ⚙️ Sendbird Dashboard ->Settings -> Security.
+ * It's turned on at first to simplify running samples and implementing your first code.
+ * Most apps will want to disable "Allow retrieving user list from SDK" as that could possibly expose user information
+ * #################### SECURITY TIPS ####################
+ */
 class SettingsBlockedUserListViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, NotificationDelegate {
     @IBOutlet weak var tableView: UITableView!
     @IBOutlet weak var emptyLabel: UILabel!
