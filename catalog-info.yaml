@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: Chat iOS v3 Base Sample
+  description: Public Base Sample for Chat iOS v3
+  annotations:
+    github.com/project-slug: sendbird/SendBird-iOS-Swift
+spec:
+  type: sample
+  lifecycle: production
+  owner: dep-client-platform
+  system: sendbird-chat
+
