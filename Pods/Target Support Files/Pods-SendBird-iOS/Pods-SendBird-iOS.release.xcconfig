@@ -1,12 +1,15 @@
 ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES
-FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire" "${PODS_CONFIGURATION_BUILD_DIR}/AlamofireImage" "${PODS_CONFIGURATION_BUILD_DIR}/FLAnimatedImage" "${PODS_CONFIGURATION_BUILD_DIR}/NYTPhotoViewer" "${PODS_CONFIGURATION_BUILD_DIR}/RSKImageCropper" "${PODS_ROOT}/SendBirdSDK"
+CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = NO
+FRAMEWORK_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire" "${PODS_CONFIGURATION_BUILD_DIR}/AlamofireImage" "${PODS_CONFIGURATION_BUILD_DIR}/FLAnimatedImage" "${PODS_CONFIGURATION_BUILD_DIR}/NYTPhotoViewer" "${PODS_CONFIGURATION_BUILD_DIR}/RSKImageCropper" "${PODS_ROOT}/SendBirdSDK/Sources" "${PODS_XCFRAMEWORKS_BUILD_DIR}/SendBirdSDK"
 GCC_PREPROCESSOR_DEFINITIONS = $(inherited) COCOAPODS=1 ANIMATED_GIF_SUPPORT=1
 HEADER_SEARCH_PATHS = $(inherited) "${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/AlamofireImage/AlamofireImage.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/FLAnimatedImage/FLAnimatedImage.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/NYTPhotoViewer/NYTPhotoViewer.framework/Headers" "${PODS_CONFIGURATION_BUILD_DIR}/RSKImageCropper/RSKImageCropper.framework/Headers"
-LD_RUNPATH_SEARCH_PATHS = $(inherited) '@executable_path/Frameworks' '@loader_path/Frameworks'
+LD_RUNPATH_SEARCH_PATHS = $(inherited) /usr/lib/swift '@executable_path/Frameworks' '@loader_path/Frameworks'
+LIBRARY_SEARCH_PATHS = $(inherited) "${DT_TOOLCHAIN_DIR}/usr/lib/swift/${PLATFORM_NAME}" /usr/lib/swift
 OTHER_LDFLAGS = $(inherited) -l"icucore" -framework "Alamofire" -framework "AlamofireImage" -framework "CFNetwork" -framework "CoreFoundation" -framework "CoreGraphics" -framework "FLAnimatedImage" -framework "Foundation" -framework "ImageIO" -framework "MobileCoreServices" -framework "NYTPhotoViewer" -framework "QuartzCore" -framework "RSKImageCropper" -framework "Security" -framework "SendBirdSDK" -framework "SystemConfiguration" -framework "UIKit"
 OTHER_SWIFT_FLAGS = $(inherited) -D COCOAPODS
 PODS_BUILD_DIR = ${BUILD_DIR}
 PODS_CONFIGURATION_BUILD_DIR = ${PODS_BUILD_DIR}/$(CONFIGURATION)$(EFFECTIVE_PLATFORM_NAME)
 PODS_PODFILE_DIR_PATH = ${SRCROOT}/.
 PODS_ROOT = ${SRCROOT}/Pods
+PODS_XCFRAMEWORKS_BUILD_DIR = $(PODS_CONFIGURATION_BUILD_DIR)/XCFrameworkIntermediates
 USE_RECURSIVE_SCRIPT_INPUTS_IN_SCRIPT_PHASES = YES
