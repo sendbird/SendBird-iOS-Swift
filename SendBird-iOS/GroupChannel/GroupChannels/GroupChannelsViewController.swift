@@ -31,7 +31,7 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         self.title = "Group Channels"
         self.navigationController?.title = "Group"
         self.navigationItem.largeTitleDisplayMode = .automatic
-        
+                
         let createChannelBarButton = UIBarButtonItem.init(image: UIImage(named: "img_btn_create_group_channel_blue"), style: .plain, target: self, action: #selector(GroupChannelsViewController.clickCreateGroupChannel(_:)))
         
         self.navigationItem.rightBarButtonItem = createChannelBarButton
@@ -170,7 +170,7 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
     }
     
     func buildTypingIndicatorLabel(channel: SBDGroupChannel) -> String {
-        let typingMembers = channel.getTypingMembers()
+        let typingMembers = channel.getTypingUsers()
         if typingMembers == nil || typingMembers?.count == 0 {
             return ""
         }
@@ -316,8 +316,9 @@ class GroupChannelsViewController: UIViewController, UITableViewDelegate, UITabl
         case .off:
             cell.notiOffIconImageView.isHidden = false
             break
+        @unknown default:
+            cell.notiOffIconImageView.isHidden = true
         }
-
         
         DispatchQueue.main.async {
             var members: [SBDUser] = []

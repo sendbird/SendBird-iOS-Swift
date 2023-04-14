@@ -227,7 +227,16 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
         if self.hasPrevious == false { return }
         
         guard let channel = self.channel else { return }
-        channel.getPreviousMessages(byTimestamp: timestamp, limit: 30, reverse: !initial, messageType: .all, customType: nil) { (msgs, error) in
+        
+        let params = SBDMessageListParams()
+
+        params.previousResultSize = 30
+        params.reverse = !initial
+        params.customType = nil
+        params.messageType = .all
+        
+        channel.getMessagesByTimestamp(timestamp, params: params) { (msgs, error) in
+        
             if error != nil {
                 self.isLoading = false
                 
@@ -241,39 +250,43 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
             }
             
             if initial {
-                channel.markAsRead()
-                
-                if let delegate = self.delegate {
-                    if delegate.responds(to: #selector(GroupChannelsUpdateListDelegate.updateGroupChannelList)) {
-                        delegate.updateGroupChannelList!()
+                channel.markAsRead(){ error in
+                    guard error == nil else {
+                        // Handle error.
+                        return
                     }
-                    
-                    if messages.count > 0 {
-                        DispatchQueue.main.async {
-                            self.messages.removeAll()
-                            
-                            for message in messages {
-                                self.messages.append(message)
+                    if let delegate = self.delegate {
+                        if delegate.responds(to: #selector(GroupChannelsUpdateListDelegate.updateGroupChannelList)) {
+                            delegate.updateGroupChannelList!()
+                        }
+                        
+                        if messages.count > 0 {
+                            DispatchQueue.main.async {
+                                self.messages.removeAll()
                                 
-                                if self.minMessageTimestamp > message.createdAt {
-                                    self.minMessageTimestamp = message.createdAt
-                                }
-                            }
-                            
-                            if self.resendableMessages.count > 0 {
-                                for message in self.resendableMessages.values {
+                                for message in messages {
                                     self.messages.append(message)
+                                    
+                                    if self.minMessageTimestamp > message.createdAt {
+                                        self.minMessageTimestamp = message.createdAt
+                                    }
                                 }
+                                
+                                if self.resendableMessages.count > 0 {
+                                    for message in self.resendableMessages.values {
+                                        self.messages.append(message)
+                                    }
+                                }
+                                
+                                self.initialLoading = true
+                                
+                                self.messageTableView.reloadData()
+                                self.messageTableView.layoutIfNeeded()
+                                
+                                self.messageTableView.scrollToRow(at: IndexPath(row: messages.count-1, section: 0), at: .top, animated: false)
+                                self.initialLoading = false
+                                self.isLoading = false
                             }
-                            
-                            self.initialLoading = true
-                            
-                            self.messageTableView.reloadData()
-                            self.messageTableView.layoutIfNeeded()
-                            
-                            self.messageTableView.scrollToRow(at: IndexPath(row: messages.count-1, section: 0), at: .top, animated: false)
-                            self.initialLoading = false
-                            self.isLoading = false
                         }
                     }
                 }
@@ -1128,23 +1141,28 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
     func channel(_ sender: SBDBaseChannel, didReceive message: SBDBaseMessage) {
         if sender == self.channel {
             guard let channel = self.channel else { return }
-            channel.markAsRead()
-            if let delegate = self.delegate {
-                if delegate.responds(to: #selector(GroupChannelsUpdateListDelegate.updateGroupChannelList)) {
-                    delegate.updateGroupChannelList!()
+            channel.markAsRead(){ error in
+                guard error == nil else {
+                    // Handle error.
+                    return
                 }
-            }
-            
-            DispatchQueue.main.async {
-                self.determineScrollLock()
-                UIView.setAnimationsEnabled(false)
-                self.messages.append(message)
-//                self.messageTableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .none)
-                self.messageTableView.reloadData()
-                self.messageTableView.layoutIfNeeded()
-                self.scrollToBottom(force: false)
-                UIView.setAnimationsEnabled(true)
-            }
+                if let delegate = self.delegate {
+                    if delegate.responds(to: #selector(GroupChannelsUpdateListDelegate.updateGroupChannelList)) {
+                        delegate.updateGroupChannelList!()
+                    }
+                }
+                
+                DispatchQueue.main.async {
+                    self.determineScrollLock()
+                    UIView.setAnimationsEnabled(false)
+                    self.messages.append(message)
+    //                self.messageTableView.insertRows(at: [IndexPath(row: self.messages.count - 1, section: 0)], with: .none)
+                    self.messageTableView.reloadData()
+                    self.messageTableView.layoutIfNeeded()
+                    self.scrollToBottom(force: false)
+                    UIView.setAnimationsEnabled(true)
+                }
+            }            
         }
     }
     
@@ -1443,7 +1461,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func didClickGeneralFileMessage(_ message: SBDFileMessage) {
-        if message.requestId == nil ||  self.resendableFileData[message.requestId] == nil{
+        if message.requestId.isEmpty ||  self.resendableFileData[message.requestId] == nil{
             if let url = URL(string: message.url) {
                 let viewController = WebViewController()
                 viewController.url = url
@@ -1704,7 +1722,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
     }
     
     func didClickImageVideoFileMessage(_ message: SBDFileMessage) {
-        if message.requestId == nil ||  self.resendableFileData[message.requestId] == nil {
+        if message.requestId.isEmpty ||  self.resendableFileData[message.requestId] == nil {
             if message.type.hasPrefix("image") {
                 self.loadingIndicatorView.isHidden = false
                 self.loadingIndicatorView.startAnimating()
@@ -1786,7 +1804,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
                     let baseMessage = self.messages[index]
                     if baseMessage is SBDFileMessage {
                         let fileMessage = baseMessage as! SBDFileMessage
-                        if fileMessage.requestId != nil && fileMessage.requestId == preSendMessageRequest {
+                        if fileMessage.requestId.isEmpty && fileMessage.requestId == preSendMessageRequest {
                             self.determineScrollLock()
                             let indexPath = IndexPath(row: index, section: 0)
                             self.messageTableView.reloadRows(at: [indexPath], with: .none)
@@ -1877,7 +1895,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
                     let baseMessage = self.messages[index]
                     if baseMessage is SBDFileMessage {
                         let fileMessage = baseMessage as! SBDFileMessage
-                        if fileMessage.requestId != nil && fileMessage.requestId == preSendMessageRequest {
+                        if fileMessage.requestId.isEmpty && fileMessage.requestId == preSendMessageRequest {
                             self.determineScrollLock()
                             let indexPath = IndexPath(row: index, section: 0)
                             self.messageTableView.reloadRows(at: [indexPath], with: .none)
@@ -2006,7 +2024,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
                         }
                     }
                 }, completionHandler: { (fileMessage, error) in
-                    guard let message = fileMessage else { return }
+                    guard fileMessage != nil else { return }
                     guard let fileMessageRequestId = fileMessage?.requestId else { return }
                     let preSendMessage = self.preSendMessages[fileMessageRequestId] as? SBDFileMessage
                     self.preSendMessages.removeValue(forKey: fileMessageRequestId)
@@ -2242,7 +2260,7 @@ class GroupChannelChatViewController: UIViewController, UITableViewDelegate, UIT
                         let baseMessage = self.messages[index]
                         if baseMessage is SBDFileMessage {
                             let fileMessage = baseMessage as! SBDFileMessage
-                            if fileMessage.requestId != nil && fileMessage.requestId == preSendMessage!.requestId {
+                            if fileMessage.requestId.isEmpty && fileMessage.requestId == preSendMessage!.requestId {
                                 self.determineScrollLock()
                                 let indexPath = IndexPath(row: index, section: 0)
                                 if self.sendingImageVideoMessage[preSendMessage!.requestId] == false {

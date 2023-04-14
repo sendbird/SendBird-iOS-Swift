@@ -24,7 +24,7 @@ class OpenChannelsViewController: UIViewController, UITableViewDelegate, UITable
     
     override func viewDidLoad() {
         super.viewDidLoad()
-
+        
         // Do any additional setup after loading the view.
         self.title = "Open Channels"
         self.navigationController?.title = "Open"
@@ -52,7 +52,6 @@ class OpenChannelsViewController: UIViewController, UITableViewDelegate, UITable
         self.view.bringSubviewToFront(self.loadingIndicatorView)
         
         self.loadChannelListNextPage(refresh: true, channelNameFilter: self.channelNameFilter)
-
     }
 
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
