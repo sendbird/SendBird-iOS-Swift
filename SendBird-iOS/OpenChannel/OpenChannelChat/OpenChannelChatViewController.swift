@@ -1777,7 +1777,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                         let baseMessage = self.messages[index]
                         if baseMessage is SBDFileMessage {
                             let fileMessage = baseMessage as! SBDFileMessage
-                            if fileMessage.requestId.isEmpty && fileMessage.requestId == preSendMessage!.requestId {
+                            if !fileMessage.requestId.isEmpty && fileMessage.requestId == preSendMessage!.requestId {
                                 self.determineScrollLock()
                                 let indexPath = IndexPath(row: index, section: 0)
                                 if self.sendingImageVideoMessage[preSendMessage!.requestId] == false {
