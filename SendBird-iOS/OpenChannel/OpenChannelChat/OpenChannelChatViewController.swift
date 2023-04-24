@@ -205,7 +205,14 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
             return
         }
         
-        channel.getPreviousMessages(byTimestamp: timestamp, limit: 30, reverse: !initial, messageType: .all, customType: nil, completionHandler: { (msgs, error) in
+        let params = SBDMessageListParams()
+
+        params.previousResultSize = 30
+        params.reverse = !initial
+        params.customType = nil
+        params.messageType = .all
+        
+        channel.getMessagesByTimestamp(timestamp, params: params, completionHandler: { (msgs, error) in
             if error != nil {
                 self.isLoading = false
                 
@@ -1543,7 +1550,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                         }
                     }
                 }, completionHandler: { (fileMessage, error) in
-                    guard let message = fileMessage else { return }
+                    guard fileMessage != nil else { return }
                     guard let fileMessageRequestId = fileMessage?.requestId else { return }
                     let preSendMessage = self.preSendMessages[fileMessageRequestId] as? SBDFileMessage
                     self.preSendMessages.removeValue(forKey: fileMessageRequestId)
@@ -1770,7 +1777,7 @@ class OpenChannelChatViewController: UIViewController, UITableViewDelegate, UITa
                         let baseMessage = self.messages[index]
                         if baseMessage is SBDFileMessage {
                             let fileMessage = baseMessage as! SBDFileMessage
-                            if fileMessage.requestId != nil && fileMessage.requestId == preSendMessage!.requestId {
+                            if !fileMessage.requestId.isEmpty && fileMessage.requestId == preSendMessage!.requestId {
                                 self.determineScrollLock()
                                 let indexPath = IndexPath(row: index, section: 0)
                                 if self.sendingImageVideoMessage[preSendMessage!.requestId] == false {

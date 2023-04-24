@@ -1,8 +1,7 @@
 ${PODS_ROOT}/Target Support Files/Pods-SendBird-iOS/Pods-SendBird-iOS-frameworks.sh
-${PODS_ROOT}/SendBirdSDK/SendBirdSDK.framework
-${PODS_ROOT}/SendBirdSDK/SendBirdSDK.framework.dSYM
 ${BUILT_PRODUCTS_DIR}/Alamofire/Alamofire.framework
 ${BUILT_PRODUCTS_DIR}/AlamofireImage/AlamofireImage.framework
 ${BUILT_PRODUCTS_DIR}/FLAnimatedImage/FLAnimatedImage.framework
 ${BUILT_PRODUCTS_DIR}/NYTPhotoViewer/NYTPhotoViewer.framework
 ${BUILT_PRODUCTS_DIR}/RSKImageCropper/RSKImageCropper.framework
+${PODS_XCFRAMEWORKS_BUILD_DIR}/SendBirdSDK/SendBirdSDK.framework/SendBirdSDK

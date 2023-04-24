@@ -1,7 +1,7 @@
 //
 // RSKInternalUtility.m
 //
-// Copyright (c) 2015-present Ruslan Skorb, http://ruslanskorb.com/
+// Copyright (c) 2015-present Ruslan Skorb, https://ruslanskorb.com
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -37,9 +37,14 @@ NSString * RSKLocalizedString(NSString *key, NSString *comment)
     
     static dispatch_once_t onceToken;
     dispatch_once(&onceToken, ^{
-        NSBundle *bundleForClass = [NSBundle bundleForClass:[self class]];
-        NSString *stringsBundlePath = [bundleForClass pathForResource:@"RSKImageCropperStrings" ofType:@"bundle"];
-        bundle = [NSBundle bundleWithPath:stringsBundlePath] ?: bundleForClass;
+        NSBundle *resourcesBundle;
+#ifdef SWIFTPM_MODULE_BUNDLE
+        resourcesBundle = SWIFTPM_MODULE_BUNDLE;
+#else
+        resourcesBundle = [NSBundle bundleForClass:[self class]];
+#endif
+        NSString *stringsBundlePath = [resourcesBundle pathForResource:@"RSKImageCropperStrings" ofType:@"bundle"];
+        bundle = [NSBundle bundleWithPath:stringsBundlePath] ?: resourcesBundle;
     });
     
     return bundle;

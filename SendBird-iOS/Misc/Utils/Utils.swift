@@ -168,7 +168,7 @@ class Utils: NSObject {
     }
     
     static func buildTypingIndicatorLabel(channel: SBDGroupChannel) -> String {
-        if let typingMembers = channel.getTypingMembers() {
+        if let typingMembers = channel.getTypingUsers() {
             if typingMembers.count == 0 {
                 return ""
             }
